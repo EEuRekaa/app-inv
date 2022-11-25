@@ -22,7 +22,7 @@ elseif ($_SESSION['level']=="petugas") {
 
     <link rel="stylesheet" href="../css/style.css">
 </head>
-<body class="bg-sky-700">    
+<body>    
         <form action="send.php" method="post">            
             <div class="flex items-center justify-center h-screen w-screen">
                 <div class="w-4/12 border border-gray-200 rounded p-10 shadow-lg">
@@ -39,7 +39,7 @@ elseif ($_SESSION['level']=="petugas") {
                         <button type="submit" name="login" class="w-full px-6 py-2.5 bg-sky-400 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:text-sky-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-sky-600 active:shadow-lg transition duration-150 ease-in-out">Sign In</button>                                             
                     </div>
                     <p class="text-gray-800 mt-6 text-center">Not a member? <a href="../register/index.php" class="text-blue-600 hover:text-sky-300 focus:text-sky-600 transition duration-200 ease-in-out">Sign Up</a></p>
-                    <p class="text-gray-800 mt-6 text-center"><a href="forget.php" class="text-blue-600 hover:text-sky-300 focus:text-sky-600 transition duration-200 ease-in-out">Sign Up</a></p>
+                    <p class="text-gray-800 mt-6 text-center"><a href="forget.php" class="text-blue-600 hover:text-sky-300 focus:text-sky-600 transition duration-200 ease-in-out">Forgot Password</a></p>
                 </div>   
             </div>         
         </form>                    
