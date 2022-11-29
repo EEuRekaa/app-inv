@@ -1,0 +1,90 @@
+:root{
+    --primaryColor : #002939;
+    --secondaryColor : #DDC190;
+
+    --mainFont: 'Open Sans', sans-serif;
+    --headingFont: 'Merriweather', serif;
+}
+
+*{
+    box-sizing: border-box !important;
+}
+
+body{
+    font-family: var(--mainFont);
+}
+
+.heading{
+    font-family: var(--headingFont);
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.subheading{
+    font-weight: 300;
+}
+
+.navbar-brand{
+    font-family: var(--headingFont);
+    font-weight: 900;
+}
+
+.navbar {
+    background-color: var(--primaryColor) !important; 
+}
+
+.navbar-brand span{
+    color: var(--secondaryColor);
+}
+
+.nav-link{
+    font-family: var(--headingFont);
+}
+
+.nav-link.active{
+    font-weight: 700;
+    color: var(--secondaryColor) !important;
+}
+
+.icon-home{
+    font-size: 1.8rem;
+    color: var(--secondaryColor);
+}
+
+.home{
+    background-color: var(--primaryColor);
+    height: 650px;
+    padding-top: 10rem;
+}
+
+.home .heading{
+    color: var(--secondaryColor);
+}
+
+.btn-home .btn-buat{
+    background-color: var(--secondaryColor);
+    font-family: var(--headingFont);
+    font-weight: 700;
+}
+
+.btn-home .btn-iyh{
+    border: 2px solid var(--secondaryColor);
+    color: var(--secondaryColor);
+    font-family: var(--headingFont);
+    font-weight: 700;
+}
+
+@media screen and (min-width: 768px){
+    .home{
+        padding-top: 14rem;
+    }
+    .home .heading{
+        font-size: 36px;
+    }
+}
+
+@media screen and (min-width: 992px) {
+    .home .konten-kiri{
+        padding-bottom: 200px;
+    }
+}

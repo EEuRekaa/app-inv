@@ -28,8 +28,8 @@ elseif ($_SESSION['level']=="petugas") {
                 <div class="w-4/12 border border-gray-200 rounded p-10 shadow-lg">
                 <h5 class="text-center mb-4">SIGN IN</h5>
                     <div class="mb-4">
-                        <label for="" class="block text-gray-700 text-base font-bold mb-2">Username</label>                
-                        <input type="text" name="username" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-800 leading-tight focus:outline-none focus:shadow-outline" required>
+                        <label for="" class="block text-gray-700 text-base font-bold mb-2">Email</label>                
+                        <input type="email" name="email" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-800 leading-tight focus:outline-none focus:shadow-outline" required>
                     </div>          
                     <div class="mb-4">
                         <label for="" class="block text-gray-700 text-base font-bold mb-2">Password</label>

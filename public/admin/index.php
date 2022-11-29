@@ -1,114 +1,182 @@
-<?php
+﻿<?php
 
-session_start();
-if($_SESSION['level']=="") {
-    header("Location: ../admin/index.php");
-}
+   session_start();
 
-elseif ($_SESSION['level']=="user") {
-    header("Location: ../user/index.php");
-}
+   if (!isset($_SESSION['SESSION_EMAIL'])) {
+      header("Location: ../A_admin_login/admin_login.php");
+      die();
+   }
 
+   include '../../config/connect.php';
+
+   $query = mysqli_query($conn, "SELECT * FROM admin_account WHERE email = '{$_SESSION['SESSION_EMAIL']}'");
+
+   if (mysqli_num_rows($query) > 0) {
+      $row = mysqli_fetch_assoc($query);
+   }
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-
-    <link rel="stylesheet" href="../css/style.css">
-</head>
-<body>
-    <nav class="bg-white border-gray-200 px-2 sm:px-4 py-2.5 rounded dark:bg-gray-900">
-        <div class="container flex flex-wrap items-center justify-between mx-auto">
-            <a href="https://flowbite.com/" class="flex items-center">
-                <img src="https://flowbite.com/docs/images/logo.svg" class="h-6 mr-3 sm:h-9" alt="Flowbite Logo" />
-                <span class="self-center text-xl font-semibold whitespace-nowrap dark:text-white">Kurang Tw</span>
+   <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+      <meta name="description" content="Smarthr - Bootstrap Admin Template">
+      <meta name="keywords" content="admin, estimates, bootstrap, business, corporate, creative, management, minimal, modern, accounts, invoice, html5, responsive, CRM, Projects">
+      <meta name="author" content="Dreamguys - Bootstrap Admin Template">
+      <meta name="robots" content="noindex, nofollow">
+      <title>Admin</title>
+      <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.png">
+      <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+      <link rel="stylesheet" href="assets/css/font-awesome.min.css">
+      <link rel="stylesheet" href="assets/css/line-awesome.min.css">
+      <link rel="stylesheet" href="assets/plugins/morris/morris.css">
+      <link rel="stylesheet" href="assets/css/style.css">
+      <!--[if lt IE 9]>
+      <script src="assets/js/html5shiv.min.js"></script>
+      <script src="assets/js/respond.min.js"></script>
+      <![endif]-->
+   </head>
+   <body>
+      <div class="main-wrapper">
+         <div class="header">
+            <div class="header-left">
+               <a href="index.html" class="logo">
+               <img src="assets/img/logo.png" width="40" height="40" alt="">
+               </a>
+            </div>
+            <a id="toggle_btn" href="javascript:void(0);">
+            <span class="bar-icon">
+            <span></span>
+            <span></span>
+            <span></span>
+            </span>
             </a>
-            <button data-collapse-toggle="navbar-default" type="button" class="inline-flex items-center p-2 ml-3 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="navbar-default" aria-expanded="false">
-            <span class="sr-only">Open main menu</span>
-            <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path></svg>
-            </button>
-            <div class="hidden w-full md:block md:w-auto" id="navbar-default">
-            <ul class="flex flex-col p-4 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
-                <li>
-                <a href="#" class="block py-2 pl-3 pr-4 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white" aria-current="page">Home</a>
-                </li>
-                <li>
-                <a href="#" class="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">About</a>
-                </li>
-                <li>
-                <a href="#" class="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Services</a>
-                </li>
-                <li>
-                <a href="#" class="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Pricing</a>
-                </li>
-                <li>
-                <a href="#" class="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Contact</a>
-                </li>
+            <div class="page-title-box">
+               <h3>Admin Dashboard</h3>
+            </div>
+            <a id="mobile_btn" class="mobile_btn" href="#sidebar"><i class="fa fa-bars"></i></a>
+            <ul class="nav user-menu">
+               <li class="nav-item">
+                  <div class="top-nav-search">
+                  </div>
+               </li>
+               <li class="nav-item dropdown has-arrow main-drop">
+                  <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
+                  <span class="user-img"><img src="assets/img/user.jpg" alt=""></span>
+                  <span><?php echo $row['username'] ?></span>
+                  </a>
+                  <div class="dropdown-menu">
+                     <a class="dropdown-item" href="../admin/logout.php">Logout</a>
+                  </div>
+               </li>
             </ul>
+            <div class="dropdown mobile-user-menu">
+               <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
+               <div class="dropdown-menu dropdown-menu-right">                    
+                  <a class="dropdown-item" href="../admin/logout.php">Logout</a>
+               </div>
             </div>
-        </div>
-    </nav>
-    <h1>yeah</h1>
-    <a href="logout.php"><button>logout</button></a>
-    
-    
+         </div>
+         <div class="sidebar" id="sidebar">
+            <div class="sidebar-inner slimscroll">
+               <div id="sidebar-menu" class="sidebar-menu">
+                  <ul>
+                     <li class="menu-title">
+                        <span>Main</span>
+                     </li>
+                     <li class="submenu">
+                        <a href="#"><i class="la la-dashboard"></i> <span> Dashboard</span> <span class="menu-arrow"></span></a>
+                        <ul style="display: none;">
+                           <li><a class="active" href="index.html">Admin Dashboard</a></li>
+                        </ul>
+                     </li>
+                     <li class="submenu">
+                        <a href="#"><i class="la la-columns"></i> <span> User </span> <span class="menu-arrow"></span></a>
+                        <ul style="display: none;">
+                           <li><a href="tablee.php"> Data User </a></li>
+                           <li><a href="tableadmin.php"> Data Admin </a></li>
+                        </ul>
+                        <a href="#"><i class="la la-columns"></i> <span> Tema </span> <span class="menu-arrow"></span></a>
+                        <ul style="display: none;">
+                           <li><a href="tabletema.php"> Data Tema </a></li>
+                           <li><a href="addtema.php"> Tambah Tema </a></li>
+                        </ul>
+                     </li>
+                  </ul>
+               </div>
+            </div>
+         </div>
+         <div class="page-wrapper">
+            <div class="content container-fluid">
+               <div class="page-header">
+                  <div class="row">
+                     <div class="col-sm-12">
+                        <h3 class="page-title">Welcome Admin <?php echo $row['username'] ?></h3>
+                        <ul class="breadcrumb">
+                           <li class="breadcrumb-item active">Dashboard</li>
+                        </ul>
+                     </div>
+                  </div>
+               </div>
+               <div class="row">
+                  <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
+                     <div class="card dash-widget">
+                        <div class="card-body">
+                           <span class="dash-widget-icon"><i class="fa fa-plus"></i></span>
+                           <div class="dash-widget-info">
+                              <h3>112</h3>
+                              <span>Undangan dibuat</span>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
+                     <div class="card dash-widget">
+                        <div class="card-body">
+                           <span class="dash-widget-icon"><i class="fa fa-image"></i></span>
+                           <div class="dash-widget-info">
+                              <h3>3</h3>
+                              <span>Tema</span>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
+                     <div class="card dash-widget">
+                        <div class="card-body">
+                           <span class="dash-widget-icon"><i class="fa fa-users"></i></span>
+                           <div class="dash-widget-info">
+                              <h3>44</h3>
+                              <span>Pengguna</span>
+                           </div>
+                        </div>
+                     </div>
+                  </div>                  
+                  <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
+                     <div class="card dash-widget">
+                        <div class="card-body">
+                           <span class="dash-widget-icon"><i class="fa fa-user"></i></span>
+                           <div class="dash-widget-info">
+                              <h3>2</h3>
+                              <span>Admin</span>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
 
-    <div class="flex flex-col">
-    <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
-        <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
-            <div class="overflow-hidden">
-                <table class="min-w-full border text-center">
-                <thead class="border-b">
-                    <tr>
-                    <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 border-r">
-                        #
-                    </th>
-                    <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 border-r">
-                        First
-                    </th>
-                    <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 border-r">
-                        Last
-                    </th>
-                    <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4">
-                        Handle
-                    </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr class="border-b">
-                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 border-r">1</td>
-                        <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap border-r">
-                            Mark
-                        </td>
-                        <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap border-r">
-                            Otto
-                        </td>
-                        <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                            @mdo
-                        </td>
-                        </tr>
-                        <tr class="bg-white border-b">
-                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 border-r">2</td>
-                        <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap border-r">
-                            Jacob
-                        </td>
-                        <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap border-r">
-                            Thornton
-                        </td>
-                        <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                            @fat
-                        </td>
-                    </tr>                    
-                </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-</div>
-</body>
+      
+      <script data-cfasync="false" src="../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="assets/js/jquery-3.5.1.min.js"></script>
+      <script src="assets/js/popper.min.js"></script>
+      <script src="assets/js/bootstrap.min.js"></script>
+      <script src="assets/js/jquery.slimscroll.min.js"></script>
+      <script src="assets/plugins/morris/morris.min.js"></script>
+      <script src="assets/plugins/raphael/raphael.min.js"></script>
+      <script src="assets/js/chart.js"></script>
+      <script src="assets/js/app.js"></script>
+   </body>
 </html>

@@ -2,13 +2,6 @@
 
 error_reporting(0);
 session_start();
-if($_SESSION['level']=="admin") {
-    header("Location: ../admin/index.php");
-}
-
-elseif ($_SESSION['level']=="user") {
-    header("Location: ../user/index.php");
-}
 
 ?>  
 
