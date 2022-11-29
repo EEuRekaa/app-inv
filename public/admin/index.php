@@ -41,7 +41,7 @@
       <div class="main-wrapper">
          <div class="header">
             <div class="header-left">
-               <a href="index.html" class="logo">
+               <a href="index.php" class="logo">
                <img src="assets/img/logo.png" width="40" height="40" alt="">
                </a>
             </div>
@@ -88,7 +88,7 @@
                      <li class="submenu">
                         <a href="#"><i class="la la-dashboard"></i> <span> Dashboard</span> <span class="menu-arrow"></span></a>
                         <ul style="display: none;">
-                           <li><a class="active" href="index.html">Admin Dashboard</a></li>
+                           <li><a class="active" href="index.php">Admin Dashboard</a></li>
                         </ul>
                      </li>
                      <li class="submenu">

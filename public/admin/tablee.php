@@ -25,7 +25,7 @@
       <meta name="keywords" content="admin, estimates, bootstrap, business, corporate, creative, management, minimal, modern, accounts, invoice, html5, responsive, CRM, Projects">
       <meta name="author" content="Dreamguys - Bootstrap Admin Template">
       <meta name="robots" content="noindex, nofollow">
-      <title>Offer Approvals - HRMS admin template</title>
+      <title>Admin</title>
       <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.png">
       <link rel="stylesheet" href="assets/css/bootstrap.min.css">
       <link rel="stylesheet" href="assets/css/font-awesome.min.css">
@@ -43,7 +43,7 @@
       <div class="main-wrapper">
          <div class="header">
             <div class="header-left">
-               <a href="index.html" class="logo">
+               <a href="index.php" class="logo">
                <img src="assets/img/logo.png" width="40" height="40" alt="">
                </a>
             </div>
@@ -90,7 +90,7 @@
                      <li class="submenu">
                         <a href="#"><i class="la la-dashboard"></i> <span> Dashboard</span> <span class="menu-arrow"></span></a>
                         <ul style="display: none;">
-                           <li><a class="active" href="index.html">Admin Dashboard</a></li>
+                           <li><a class="active" href="index.php">Admin Dashboard</a></li>
                         </ul>
                      </li>
                      <li class="submenu">
@@ -127,10 +127,8 @@
                   <div class="col-sm-12">
                      <div class="card mb-0">
                         <div class="card-header">
-                           <h4 class="card-title mb-0">Data User</h4>
-                           <p class="card-text">
-                              Create, Read, Update, Delete.
-                           </p>
+                           <h4 class="card-title mb-0 text-right"><a href="./adduser.php" class="btn btn-info"><i class="la la-plus-circle"></i> Tambahkan Data User</a></h4>
+                                                   
                         </div>
                         <div class="card-body">
                            <div class="table-responsive">
@@ -158,10 +156,34 @@
                                        <td><?php echo $no++;?></td>
                                        <td><?php echo $data['username']?></td>
                                        <td><?php echo $data['email']?></td>
-                                       <td class="text-center">
-                                          <a href="./adduser.php"><button class="btn btn-outline-info">ADD</button></a>
+                                       <td class="text-center">                                          
                                           <a href="form-add.php?id_user=<?php echo $data['id_user'];?>"><button class="btn btn-outline-primary">EDIT</button></a>
-                                          <a href="delete_user.php?id_user=<?php echo $data['id_user'];?>"><button class="btn btn-outline-danger">DELETE</button></a>
+                                          
+                                          <!-- Modal -->
+                                          <button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#exampleModal">DELETE</button>
+
+                                          
+                                          <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                             <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                   <div class="modal-header">
+                                                   <h4 class="modal-title" id="exampleModalLabel">Hapus Data User</h4>
+                                                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                      <span aria-hidden="true">&times;</span>
+                                                   </button>
+                                                   </div>
+                                                   <div class="modal-body">
+                                                   <h4>Anda yakin ingin menghapus data user ini?</h4>
+                                                   </div>
+                                                   <div class="modal-footer">
+                                                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                                                   <a href="delete_user.php?id_user=<?php echo $data['id_user'];?>"><button type="button" class="btn btn-primary">Konfirmasi</button></a>
+                                                   </div>
+                                                </div>
+                                             </div>
+                                          </div>
+                                          <!-- MODAL -->
+
                                        </td>
                                     </tr>
                                  <?php } ?>

@@ -6,9 +6,8 @@ $id_user = $_GET['id_user'];
 
 $username = $_POST['username'];
 $email = $_POST['email'];
-$password = md5($_POST['password']);
 
-$query = "UPDATE user_account SET `id_user`='".$id_user."', `username`='".$username."', `email`='".$email."', `password`='".$password."' WHERE `id_user`='".$id_user."' ";
+$query = "UPDATE user_account SET `id_user`='".$id_user."', `username`='".$username."', `email`='".$email."' WHERE `id_user`='".$id_user."' ";
 
 $sql = mysqli_query($conn, $query);
 

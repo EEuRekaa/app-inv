@@ -1,15 +1,21 @@
 <?php
-   
+
    session_start();
 
    if (!isset($_SESSION['SESSION_EMAIL'])) {
       header("Location: ../A_admin_login/admin_login.php");
       die();
-   }   
+   }
+
+ 
 
    include '../../config/connect.php';
-   $pesan = "";
-   
+
+   $query = mysqli_query($conn, "SELECT * FROM admin_account WHERE email = '{$_SESSION['SESSION_EMAIL']}'");
+
+   if (mysqli_num_rows($query) > 0) {
+      $row = mysqli_fetch_assoc($query);
+   }
 ?>
 
 <!DOCTYPE html>
@@ -21,7 +27,7 @@
       <meta name="keywords" content="admin, estimates, bootstrap, business, corporate, creative, management, minimal, modern, accounts, invoice, html5, responsive, CRM, Projects">
       <meta name="author" content="Dreamguys - Bootstrap Admin Template">
       <meta name="robots" content="noindex, nofollow">
-      <title>Form Basic Input - HRMS admin template</title>
+      <title>Admin</title>
       <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.png">
       <link rel="stylesheet" href="assets/css/bootstrap.min.css">
       <link rel="stylesheet" href="assets/css/font-awesome.min.css">
@@ -39,7 +45,7 @@
       
       ?>
       <div class="main-wrapper">
-         <div class="header">
+      <div class="header">
             <div class="header-left">
                <a href="index.php" class="logo">
                <img src="assets/img/logo.png" width="40" height="40" alt="">
@@ -112,10 +118,10 @@
                <div class="page-header">
                   <div class="row">
                      <div class="col">
-                        <h3 class="page-title">Tambahkan User</h3>
+                        <h3 class="page-title">Edit Data User</h3>
                         <ul class="breadcrumb">
-                           <li class="breadcrumb-item"><a href="tablee.php">User</a></li>
-                           <li class="breadcrumb-item active">Tambahkan User</li>
+                           <li class="breadcrumb-item"><a href="tablee.php">Data User</a></li>
+                           <li class="breadcrumb-item active">Edit Data User</li>
                         </ul>
                      </div>
                   </div>
@@ -124,13 +130,12 @@
                   <div class="col-lg-12">
                      <div class="card">
                         <div class="card-header">
-                           <h4 class="card-title mb-0">Tambah User</h4>
+                           <h4 class="card-title mb-0">Edit Data User</h4>
                         </div>
                         <div class="card-body">
 
                         <?php
                      
-                        echo $pesan;    
                         
                         if (isset($_GET['id_user'])) {
                            $id_user = $_GET['id_user'];
@@ -148,7 +153,6 @@
                            $id_user = $hasil['id_user'];
                            $username = $hasil['username'];
                            $email = $hasil['email'];
-                           $password = $hasil['password'];
                         
                         ?>
                            <form action="edit_update.php?id_user=<?php echo $id_user ?>" method="POST">
@@ -163,15 +167,32 @@
                                  <div class="col-md-10">
                                  <input class="form-control" type="email" placeholder="Email" name="email" required value="<?php echo $email ?>">
                                  </div>
-                              </div>
-                              <div class="form-group row">
-                                 <label class="col-form-label col-md-2">Password</label>
-                                 <div class="col-md-10">
-                                 <input class="form-control" type="password" placeholder="Password" name="password" required value="<?php echo $password ?>">
-                                 </div>
-                              </div>                              
+                              </div>                           
                               <div class="form-group text-center">
-                              <button class="btn btn-primary account-btn" name="submit" type="submit">Tambahkan</button>
+                              <!-- Modal -->
+                              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Edit Data</button>
+
+                                          
+                                          <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                             <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                   <div class="modal-header">
+                                                   <h4 class="modal-title" id="exampleModalLabel">Edit Data User</h4>
+                                                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                      <span aria-hidden="true">&times;</span>
+                                                   </button>
+                                                   </div>
+                                                   <div class="modal-body">
+                                                   <h4>Anda yakin ingin mengubah data user ini?</h4>
+                                                   </div>
+                                                   <div class="modal-footer">
+                                                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                                                   <button type="submit" name="submit" class="btn btn-primary">Konfirmasi</button>
+                                                   </div>
+                                                </div>
+                                             </div>
+                                          </div>
+                                          <!-- MODAL -->
                               </div>
                            </form>
                            <?php } ?>

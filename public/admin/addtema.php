@@ -1,3 +1,21 @@
+<?php
+
+   session_start();
+
+   if (!isset($_SESSION['SESSION_EMAIL'])) {
+      header("Location: ../A_admin_login/admin_login.php");
+      die();
+   }
+
+   include '../../config/connect.php';
+
+   $query = mysqli_query($conn, "SELECT * FROM admin_account WHERE email = '{$_SESSION['SESSION_EMAIL']}'");
+
+   if (mysqli_num_rows($query) > 0) {
+      $row = mysqli_fetch_assoc($query);
+   }
+?>
+
 <!DOCTYPE html>
 <html lang="en">
    <head>
@@ -7,7 +25,7 @@
       <meta name="keywords" content="admin, estimates, bootstrap, business, corporate, creative, management, minimal, modern, accounts, invoice, html5, responsive, CRM, Projects">
       <meta name="author" content="Dreamguys - Bootstrap Admin Template">
       <meta name="robots" content="noindex, nofollow">
-      <title>Form Basic Input - HRMS admin template</title>
+      <title>Admin</title>
       <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.png">
       <link rel="stylesheet" href="assets/css/bootstrap.min.css">
       <link rel="stylesheet" href="assets/css/font-awesome.min.css">
@@ -42,11 +60,14 @@
                   <div class="top-nav-search">
                   </div>
                </li>
-               <li class="nav-item dropdown main-drop">
+               <li class="nav-item dropdown has-arrow main-drop">
                   <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
-                  <span class="user-img"><img src="assets/img/profiles/avatar-21.jpg" alt="">
-                  <span>Admin</span>
+                  <span class="user-img"><img src="assets/img/user.jpg" alt=""></span>
+                  <span><?php echo $row['username'] ?></span>
                   </a>
+                  <div class="dropdown-menu">
+                     <a class="dropdown-item" href="../admin/logout.php">Logout</a>
+                  </div>
                </li>
             </ul>
          </div>
@@ -67,7 +88,7 @@
                         <a href="#"><i class="la la-columns"></i> <span> User </span> <span class="menu-arrow"></span></a>
                         <ul style="display: none;">
                            <li><a href="tablee.php"> Data User </a></li>
-                           <li><a href="form-add.php"> Tambahkan User </a></li>
+                           <li><a href="tableadmin.php"> Data Admin </a></li>
                         </ul>
                         <a href="#"><i class="la la-columns"></i> <span> Tema </span> <span class="menu-arrow"></span></a>
                         <ul style="display: none;">

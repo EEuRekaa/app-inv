@@ -1,14 +1,19 @@
 <?php
 
-session_start();
-if($_SESSION['level']=="") {
-    header("Location: ../admin/index.php");
-}
+   session_start();
 
-elseif ($_SESSION['level']=="user") {
-    header("Location: ../user/index.php");
-}
+   if (!isset($_SESSION['SESSION_EMAIL'])) {
+      header("Location: ../A_admin_login/admin_login.php");
+      die();
+   }
 
+   include '../../config/connect.php';
+
+   $query = mysqli_query($conn, "SELECT * FROM admin_account WHERE email = '{$_SESSION['SESSION_EMAIL']}'");
+
+   if (mysqli_num_rows($query) > 0) {
+      $row = mysqli_fetch_assoc($query);
+   }
 ?>
 
 <!DOCTYPE html>
