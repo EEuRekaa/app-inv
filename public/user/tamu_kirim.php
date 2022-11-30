@@ -1,18 +1,45 @@
 <?php 
+    session_start();
+
+      if (!isset($_SESSION['SESSION_EMAIL'])) {
+        header("Location: ./user_login.php");
+        die();
+     }
+
+
+     $id_tamu2 = $_GET['id_ultah'];
+   
    use PHPMailer\PHPMailer\PHPMailer;
    use PHPMailer\PHPMailer\SMTP;
    use PHPMailer\PHPMailer\Exception;
    
    require '../../vendor/autoload.php';
-   
-   
-   
+         
    include '../../config/connect.php';
+
+   
+
+   $query = mysqli_query($conn, "SELECT * FROM user_account WHERE email = '{$_SESSION['SESSION_EMAIL']}'");
+    
+   if (mysqli_num_rows($query) > 0) {
+      $gege = mysqli_fetch_assoc($query);
+   }  
+    
+
    $pesan = "";
-
-   $email = $_POST['email_tamu'];
-
+   
+   if (isset($_POST['submit']) ) {
+    $namatamu = mysqli_real_escape_string($conn, $_POST['nama_tamu']);
+    $emailtamu = mysqli_real_escape_string($conn, $_POST['email_tamu']);        
+   
+        $insert = mysqli_query($conn, "UPDATE `tb_tamu` SET `id_undangan`='$id_tamu2',`nama_tamu`='$emailtamu',`email_tamu`='$emailtamu' WHERE id_tamu = '25'");
+        
+        ;
+   
+        if ($insert) {
+   
    $mail = new PHPMailer(true);
+   
    try {
       //Server settings
       $mail->isSMTP();                                            //Send using SMTP
@@ -25,22 +52,26 @@
    
       //Recipients
       $mail->setFrom('INVATE@invate.my.id');
-      $mail->addAddress($email);
+      $mail->addAddress($emailtamu);
    
       //Content
       $mail->isHTML(true);                                  //Set email format to HTML
       $mail->Subject = 'Undangan';
       $mail->Body    = '<p style="text-align: center;">Click link untuk melihat undangan</p>
       
-      <b><a href="http://localhost/app-inv/public/tema1/index.php?namatamuhehe='.$namatamu.'&id_undangan='.$id_ultah.'"> http://localhost/app-inv/public/tema1/index.php?namatamuhehe='.$namatamu.'&id_undangan='.$id_ultah.'</a></b>';
+      <b><a href="http://localhost/app-inv/public/tema1/index.php?namatamuhehe='.$namatamu.'&id_undangan='.$id_tamu2 .'"> http://localhost/app-inv/public/tema1/index.php?namatamuhehe='.$namatamu.'&id_undangan='.$id_tamu2 .'</a></b>';
    
       $mail->send();
       echo '';
    } catch (Exception $e) {
       echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
    }
-         
-   
+      echo "</div>";
+      $pesan = "<div class='alert alert-info'>Undangan dikirim ke email tamu.</div>";
+   } else {
+      $pesan = "<script>HAHAHAHAHAAH</script>";
+   }
+   }
    
 ?>
 <!DOCTYPE html>
@@ -68,15 +99,25 @@
                      <p class="account-subtitle">_______</p>
                      <?php
                         echo $pesan;
+
+                        $query2 = mysqli_query($conn, "SELECT * FROM tb_tamu WHERE id_tamu = '$id_tamu2'");
+
+                     if (mysqli_num_rows($query2) > 0) {
+                        $wkwk = mysqli_fetch_assoc($query2);
+                     }
                         
                         ?>
                      <form action="" method="POST">
+                     <div class="form-group">
+                           <label>Nama Tamu</label>
+                           <input class="form-control" type="text" placeholder="Nama Tamu" name="nama_tamu" required >
+                        </div>
                         <div class="form-group">
                            <label>Email</label>
-                           <input class="form-control" type="email" placeholder="Email Tamu" name="email_tamu" required value="">
+                           <input class="form-control" type="email" placeholder="Email Tamu" name="email_tamu" required >
                         </div>
                         <div class="form-group text-center">
-                           <button class="btn btn-primary account-btn" name="submit" type="submit">SEND</button>
+                           <button class="btn btn-primary account-btn" name="submit" type="submit">Kirim</button>
                         </div>
                      </form>
                   </div>

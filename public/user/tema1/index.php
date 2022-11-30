@@ -2,18 +2,28 @@
 
 session_start();
 
-if (isset($_GET['namatamuhehe'])) {
+include '../../../config/connect.php';
 
-include '../../config/connect.php';
+if (!isset($_SESSION['SESSION_EMAIL'])) {
+    header("Location: ./user_login.php");
+    die();
+ }
 
-$namatamu = $_GET['namatamuhehe'];
-
-$query = mysqli_query($conn, "SELECT * FROM udn_ultah WHERE nama_tamu = '$namatamu'");
-
+    $query = mysqli_query($conn, "SELECT * FROM user_account WHERE email = '{$_SESSION['SESSION_EMAIL']}'");
+    
    if (mysqli_num_rows($query) > 0) {
       $gege = mysqli_fetch_assoc($query);
    }
-}   
+
+   $id_ultah = $_GET['id_ultah2'];
+    $query2 = mysqli_query($conn, "SELECT * FROM udn_ultah WHERE id_ultah = '{$id_ultah}'");
+    
+   if (mysqli_num_rows($query2) > 0) {
+      $gege2 = mysqli_fetch_assoc($query2);
+   }
+   
+
+
 ?>
 
 <!DOCTYPE html>
@@ -23,7 +33,7 @@ $query = mysqli_query($conn, "SELECT * FROM udn_ultah WHERE nama_tamu = '$namata
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>Stylish Portfolio - Start Bootstrap Template</title>
+        <title>Undangan</title>
         <!-- Favicon-->
         <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
         <!-- Font Awesome icons (free version)-->
@@ -36,7 +46,50 @@ $query = mysqli_query($conn, "SELECT * FROM udn_ultah WHERE nama_tamu = '$namata
         <link href="css/styles.css" rel="stylesheet" />
     </head>
     <body id="page-top">
-        HHOHO <p><?php echo $namatamu?></p>
-        <p><?php echo $gege['email_tamu'] ?></p>
+       
+        
+        <!-- Header-->
+        <header class="masthead d-flex align-items-center">
+            <div class="container px-4 px-lg-5 text-center">
+                <h1 class="mb-1">Ulang tahun bang</h1>
+                <h2 class="mb-5"><em><?php echo $gege['username'] ?></em></h2>
+                
+            </div>
+        </header>
+        <!-- About-->
+        
+        <!-- Services-->
+        <section class="content-section bg-primary text-white text-center" id="services">
+            <div class="container px-4 px-lg-5">
+                <div class="content-section-heading">
+                    <h2 class="text-secondary mb-0"><?php echo $gege2['judul_acara'] ?></h2>
+                    <h3 class="mb-5"><?php echo $gege2['deskripsi_acara'] ?></h3>
+                </div>
+                
+            </div>
+        </section>
+        <!-- Callout-->
+        <section class="callout">
+            <div class="container px-4 px-lg-5 text-center">
+                <h2 class="mx-auto mb-5"><?php echo $gege2['hari'] ?></h2>
+                <h2 class="mx-auto mb-5"><?php echo $gege2['tanggal'] ?></h2>
+                <h2 class="mx-auto mb-5"><?php echo $gege2['jam'] ?></h2>
+            </div>
+        </section>
+        <!-- Portfolio-->
+        
+        <!-- Call to Action-->
+        <section class="content-section bg-primary text-white">
+            <div class="container px-4 px-lg-5 text-center">
+                <h2 class="mb-4">Tempat : <?php echo $gege2['tempat'] ?></h2>
+                <h2 class="mb-4">Susunan Acara : <?php echo $gege2['susunan_acara'] ?></h2>
+            </div>
+        
+        <!-- Scroll to Top Button-->
+        <a class="scroll-to-top rounded" href="#page-top"><i class="fas fa-angle-up"></i></a>
+        <!-- Bootstrap core JS-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Core theme JS-->
+        <script src="js/scripts.js"></script>
     </body>
 </html>

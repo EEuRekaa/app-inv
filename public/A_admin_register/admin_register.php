@@ -38,13 +38,13 @@
                $mail->isSMTP();                                            //Send using SMTP
                $mail->Host       = 'smtp-relay.sendinblue.com';                     //Set the SMTP server to send through
                $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
-               $mail->Username   = 'anonymoyan@tutanota.com';                     //SMTP username
-               $mail->Password   = 'xsmtpsib-1011b000e4813ba86e48f16a64f0d61afd31c15cd360e6072b5e5df94a2f65a3-UzsE3Ch6QtIRybJ4';                               //SMTP password
-               $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            //Enable implicit TLS encryption
-               $mail->Port       = 465;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
-            
-               //Recipients
-               $mail->setFrom('INVATE@foragikitsune.my.id', 'INVATE');
+               $mail->Username   = 'rendering.fps88@gmail.com';                     //SMTP username
+      $mail->Password   = 'xsmtpsib-336c0255d8f4ee646dea2f8c0c02f943f0d8bf23228a4580a5ec8c28ef264efa-NM0bfakQ7w2mnVvS';                               //SMTP password
+      $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            //Enable implicit TLS encryption
+      $mail->Port       = 465;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
+   
+      //Recipients
+      $mail->setFrom('INVATE@invate.my.id');
                $mail->addAddress($email);
 
                //Content

@@ -1,25 +1,13 @@
 <?php
-   session_start();
-
-   
-   if (!isset($_SESSION['SESSION_EMAIL'])) {
-      header("Location: ./user_login.php");
-      die();
-   }
+ 
+session_start();
    
    
-   require '../../config/connect.php';
-
-   $query = mysqli_query($conn, "SELECT * FROM user_account WHERE email = '{$_SESSION['SESSION_EMAIL']}'");
-   
-   if (mysqli_num_rows($query) > 0) {
-      $row = mysqli_fetch_assoc($query);
-   }
+   require 'connect.php';
    
 
-   $pesan = "";
-   
    if (isset($_POST['submit'])) {  
+
       $judul_acara = mysqli_real_escape_string($conn, $_POST['judul_acara']);        
       $deskripsi_acara = mysqli_real_escape_string($conn, $_POST['deskripsi_acara']);        
       $hari = mysqli_real_escape_string($conn, $_POST['hari']);        
@@ -28,7 +16,9 @@
       $tempat = mysqli_real_escape_string($conn, $_POST['tempat']);        
       $susunan_acara = mysqli_real_escape_string($conn, $_POST['susunan_acara']);        
      
-      $insert = "INSERT INTO `udn_ultah`(`id_ultah`, `id_user`, `judul_acara`, `deskripsi_acara`, `hari`, `tanggal`, `jam`, `tempat`, `susunan_acara`) VALUES ('', '{$row['id_user']}','$judul_acara','$deskripsi_acara','$hari','$tanggal','$jam','$tempat','$susunan_acara')";
+          $insert = "INSERT INTO `udn_ultah`(`id_ultah`, `judul_acara`, `deskripsi_acara`, `hari`, `tanggal`, `jam`, `tempat`, `susunan_acara`) VALUES ('','$judul_acara','$deskripsi_acara','$hari','$tanggal','$jam','$tempat','$susunan_acara')";
+
+          
 
           mysqli_query($conn, $insert);
           echo "<script>alert('awokaowkoawk')</script>";
@@ -38,30 +28,17 @@
    
    
    ?>
-<!DOCTYPE html>
-<html lang="en">
+
+   <!DOCTYPE html>
+   <html lang="en">
    <head>
-      <meta charset="UTF-8">
-      <meta http-equiv="X-UA-Compatible" content="IE=edge">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>Document</title>
-      <link rel="stylesheet" href="assets/css/bootstrap.min.css">
-      <link rel="stylesheet" href="assets/css/font-awesome.min.css">
-      <link rel="stylesheet" href="assets/css/line-awesome.min.css">
-      <link rel="stylesheet" href="assets/css/style.css">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
    </head>
    <body>
-      <h1>Welcome <?php echo $row['username'] ?></h1>
-      <?php
-         echo $pesan;
-         
-         ?>
-
-      <form action="" method="POST" autocomplete="off">
-         <div class="form-group">
-            <label for="">Id Anda</label>
-            <input type="text" class="form-control" id="" name="id_user" value="<?php echo $row['id_user'] ?>" disabled>            
-         </div>
+   <form action="" method="POST">
          <div class="form-group">
             <label for="">Judul Acara</label>
             <input type="text" class="form-control" id="" name="judul_acara">            
@@ -98,17 +75,8 @@
             <label for="">Susunan Acara</label>
             <input type="text" class="form-control" id="" name="susunan_acara">            
          </div>
-         <button type="submit" name="submit" class="btn btn-primary">Submit</button>
+         <button type="submit" class="btn btn-primary" name="submit">Submit</button>
       </form>
-      <a class="" href="./logout.php">Logout</a>
-      <a href="./data_undangan.php">Tables</a>
-      <a href="./data_tamu.php">Data Tamu</a>
-
-
-      <script src="assets/js/jquery-3.5.1.min.js"></script>
-      <script src="assets/js/popper.min.js"></script>
-      <script src="assets/js/bootstrap.min.js"></script>
-      <script src="assets/js/jquery.slimscroll.min.js"></script>
-      <script src="assets/js/app.js"></script>
    </body>
-</html>
+   </html>
+
