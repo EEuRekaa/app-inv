@@ -31,7 +31,7 @@
       $insert = "INSERT INTO `udn_ultah`(`id_ultah`, `id_user`, `judul_acara`, `deskripsi_acara`, `hari`, `tanggal`, `jam`, `tempat`, `susunan_acara`) VALUES ('', '{$row['id_user']}','$judul_acara','$deskripsi_acara','$hari','$tanggal','$jam','$tempat','$susunan_acara')";
 
           mysqli_query($conn, $insert);
-          echo "<script>alert('awokaowkoawk')</script>";
+          echo "<script>alert('Berhasil di tambahkan')</script>";
          
       }
       

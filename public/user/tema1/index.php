@@ -51,7 +51,7 @@ if (!isset($_SESSION['SESSION_EMAIL'])) {
         <!-- Header-->
         <header class="masthead d-flex align-items-center">
             <div class="container px-4 px-lg-5 text-center">
-                <h1 class="mb-1">Ulang tahun bang</h1>
+                <h1 class="mb-1">Happy Birthday!</h1>
                 <h2 class="mb-5"><em><?php echo $gege['username'] ?></em></h2>
                 
             </div>
@@ -81,10 +81,23 @@ if (!isset($_SESSION['SESSION_EMAIL'])) {
         <!-- Call to Action-->
         <section class="content-section bg-primary text-white">
             <div class="container px-4 px-lg-5 text-center">
-                <h2 class="mb-4">Tempat : <?php echo $gege2['tempat'] ?></h2>
-                <h2 class="mb-4">Susunan Acara : <?php echo $gege2['susunan_acara'] ?></h2>
+                <h2 class="mb-4">Tempat</h2>
+                <h2 class="mb-4"><?php echo $gege2['tempat'] ?></h2><br><br>
+                <h2 class="mb-4">Susunan Acara</h2>
+                <h2 class="mb-4"><?php echo $gege2['susunan_acara'] ?></h2>
             </div>
-        
+        </section>
+        <div class="map" id="contact">
+            <iframe src="https://maps.google.com/maps?f=q&amp;source=s_q&amp;hl=en&amp;geocode=&amp;q=Twitter,+Inc.,+Market+Street,+San+Francisco,+CA&amp;aq=0&amp;oq=twitter&amp;sll=28.659344,-81.187888&amp;sspn=0.128789,0.264187&amp;ie=UTF8&amp;hq=Twitter,+Inc.,+Market+Street,+San+Francisco,+CA&amp;t=m&amp;z=15&amp;iwloc=A&amp;output=embed"></iframe>
+            <br />
+            <small><a href="https://maps.google.com/maps?f=q&amp;source=embed&amp;hl=en&amp;geocode=&amp;q=Twitter,+Inc.,+Market+Street,+San+Francisco,+CA&amp;aq=0&amp;oq=twitter&amp;sll=28.659344,-81.187888&amp;sspn=0.128789,0.264187&amp;ie=UTF8&amp;hq=Twitter,+Inc.,+Market+Street,+San+Francisco,+CA&amp;t=m&amp;z=15&amp;iwloc=A"></a></small>
+        </div>
+        <section class="content-section bg-primary text-white">
+            <div class="container px-4 px-lg-5 text-center">
+                <h2 class="mb-4">Dateng yh plis</h2>
+                
+            </div>
+        </section>
         <!-- Scroll to Top Button-->
         <a class="scroll-to-top rounded" href="#page-top"><i class="fas fa-angle-up"></i></a>
         <!-- Bootstrap core JS-->

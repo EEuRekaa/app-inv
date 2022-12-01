@@ -1,3 +1,25 @@
+<?php
+
+session_start();
+
+   
+   if (!isset($_SESSION['SESSION_EMAIL'])) {
+      header("Location: ../user_login.php");
+      die();
+   }
+   
+   
+   require '../../../config/connect.php';
+
+   $query = mysqli_query($conn, "SELECT * FROM user_account WHERE email = '{$_SESSION['SESSION_EMAIL']}'");
+   
+   if (mysqli_num_rows($query) > 0) {
+      $row = mysqli_fetch_assoc($query);
+   }
+
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -7,18 +29,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="header.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-        crossorigin="anonymous"></script>
+    <link rel="shortcut icon" type="image/x-icon" href="../../user/assets/img/favicon.png">
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+      <link rel="stylesheet" href="assets/css/font-awesome.min.css">
+      <link rel="stylesheet" href="assets/css/line-awesome.min.css">
+      <link rel="stylesheet" href="assets/css/style.css">
+    
+    <style>
+        
+
+        .h {
+            width: 50%;
+            height: 7px;
+            border: 0 none;
+            margin-right: auto;
+            margin-left: auto;
+            margin-bottom: 5px;
+            background-color: #ddc190;
+        }
+    </style>
 
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #002939">
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top" style="background-color: #002939">
         <div class="container">
-            <a class="navbar-brand" href="home.php" style="color: white;"><span
+            <a class="navbar-brand" href="../home/home.php" style="color: white;"><span
                     style="color: #ddc190;">IN</span>VATE</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
@@ -29,10 +65,10 @@
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 </ul>
                 <form class="d-flex">
-                    <div class="">
-                        <a href="" class="me-2 text-decoration-none" style="color: white;">Login</a>
-                        <button type="button" class="btn"
-                            style="background-color: #ddc190; color: #002939;">Sign-up</button>
+                <div>
+                        <a href="" class="me-2 text-decoration-none fa fa-user-circle" style="font-size: 19px; color: #ddc190;">  <?php echo $row['username'] ?></a>
+                        <a href="../logout.php"><button type="button" class="btn"
+                            style="background-color: #ddc190; color: #002939; font-weight: bold;">Logout</button></a>
                     </div>
                 </form>
             </div>
@@ -40,21 +76,30 @@
     </nav>
 
 
-    
+
 
     <hr class="h">
 
     <div class="container">
-        <header class="d-flex justify-content-center py-2">
+        <header class="d-flex justify-content-center py-2 pt-5">
             <ul class="nav nav-pills mb-5">
-                <li class="nav-item mx-3"><a href="home.php" class="nav-link" style="color: #002939;">Home</a></li>
-                <li class="nav-item mx-3"><a href="catalog.php" class="nav-link" style="color: #002939;">Catalog</a>
+                <li class="nav-item mx-1">
+                    <a href="../home/home.php" class="nav-link" style="color: #ddc190;">Home</a>
                 </li>
-                <li class="nav-item mx-3"><a href="theme.php" class="nav-link" style="color: #002939;">Theme</a></li>
-                <li class="nav-item mx-3"><a href="#" class="nav-link" style="color: #002939;">Shere</a></li>
+                <li class="nav-item mx-1">
+                    <a href="../catalog/catalog.php" class="nav-link" style="color: #ddc190;">Catalog</a>
+                </li>
+                <li class="nav-item mx-1">
+                    <a href="../theme/theme.php" class="nav-link" style="color: #ddc190;">Kelola Data</a>
+                </li>
             </ul>
         </header>
     </div>
+    <script src="assets/js/jquery-3.5.1.min.js"></script>
+      <script src="assets/js/popper.min.js"></script>
+      <script src="assets/js/bootstrap.min.js"></script>
+      <script src="assets/js/jquery.slimscroll.min.js"></script>
+      <script src="assets/js/app.js"></script>
 </body>
 
 </html>

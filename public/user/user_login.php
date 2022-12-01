@@ -3,7 +3,7 @@
    session_start();
    
    if (isset($_SESSION['SESSION_EMAIL'])) {
-      header("Location: ./index.php");
+      header("Location: ./home/home.php");
       die();
    }
 
@@ -35,7 +35,7 @@
 
          if (empty($row['v_code'])) {
             $_SESSION['SESSION_EMAIL'] = $email;
-            header("Location: ./index.php");
+            header("Location: ./home/home.php");
          } else {
             $pesan = "<div class='alert alert-info'>Verifikasi email anda terlebih dahulu.</div>";
          }

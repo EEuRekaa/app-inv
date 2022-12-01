@@ -2,7 +2,7 @@
     session_start();
 
       if (!isset($_SESSION['SESSION_EMAIL'])) {
-        header("Location: ./user_login.php");
+        header("Location: ../user_login.php");
         die();
      }
 
@@ -23,6 +23,12 @@
     
    if (mysqli_num_rows($query) > 0) {
       $gege = mysqli_fetch_assoc($query);
+   } 
+   
+   $query2 = mysqli_query($conn, "SELECT * FROM id_tamu WHERE id_user = '{$_SESSION['SESSION_EMAIL']}'");
+    
+   if (mysqli_num_rows($query2) > 0) {
+      $gege2 = mysqli_fetch_assoc($query2);
    }  
     
 
@@ -32,9 +38,9 @@
     $namatamu = mysqli_real_escape_string($conn, $_POST['nama_tamu']);
     $emailtamu = mysqli_real_escape_string($conn, $_POST['email_tamu']);        
    
-        $insert = mysqli_query($conn, "UPDATE `tb_tamu` SET `id_undangan`='$id_tamu2',`nama_tamu`='$emailtamu',`email_tamu`='$emailtamu' WHERE id_tamu = '25'");
+        $insert = mysqli_query($conn, "UPDATE `tb_tamu` SET `id_undangan`='$id_tamu2',`nama_tamu`='$emailtamu',`email_tamu`='$emailtamu' WHERE id_tamu = '$id_tamu'");
+         
         
-        ;
    
         if ($insert) {
    
@@ -44,9 +50,14 @@
       //Server settings
       $mail->isSMTP();                                            //Send using SMTP
       $mail->Host       = 'smtp-relay.sendinblue.com';                     //Set the SMTP server to send through
-      $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
-      $mail->Username   = 'rendering.fps88@gmail.com';                     //SMTP username
-      $mail->Password   = 'xsmtpsib-336c0255d8f4ee646dea2f8c0c02f943f0d8bf23228a4580a5ec8c28ef264efa-NM0bfakQ7w2mnVvS';                               //SMTP password
+               $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
+               $mail->Username   = 'rendering.fps88@gmail.com';                     //SMTP username
+      $mail->Password   = 'xsmtpsib-336c0255d8f4ee646dea2f8c0c02f943f0d8bf23228a4580a5ec8c28ef264efa-akA9GmJn4HOyV7x2';                               //SMTP password
+      $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            //Enable implicit TLS encryption
+      $mail->Port       = 465;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
+   
+      //Recipients
+      $mail->setFrom('INVATE@invate.my.id');                            //SMTP password
       $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            //Enable implicit TLS encryption
       $mail->Port       = 465;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
    
@@ -59,7 +70,7 @@
       $mail->Subject = 'Undangan';
       $mail->Body    = '<p style="text-align: center;">Click link untuk melihat undangan</p>
       
-      <b><a href="http://localhost/app-inv/public/tema1/index.php?namatamuhehe='.$namatamu.'&id_undangan='.$id_tamu2 .'"> http://localhost/app-inv/public/tema1/index.php?namatamuhehe='.$namatamu.'&id_undangan='.$id_tamu2 .'</a></b>';
+      <b style="text-align: center;><a style="text-align: href="http://localhost/app-inv/public/tema1/index.php?namatamuhehe='.$namatamu.'&id_undangan='.$id_tamu2 .'"> http://localhost/app-inv/public/tema1/index.php?namatamuhehe='.$namatamu.'&id_undangan='.$id_tamu2 .'</a></b>';
    
       $mail->send();
       echo '';
@@ -111,6 +122,10 @@
                      <div class="form-group">
                            <label>Nama Tamu</label>
                            <input class="form-control" type="text" placeholder="Nama Tamu" name="nama_tamu" required >
+                        </div>
+                     <div class="form-group">
+                           <label>Nama Tamu</label>
+                           <input class="form-control" type="text" placeholder="Nama Tamu" name="nama_tamu" disabled value="<?php echo $query2['']?>">
                         </div>
                         <div class="form-group">
                            <label>Email</label>
