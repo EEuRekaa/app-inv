@@ -28,6 +28,7 @@ session_start();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
     <link rel="stylesheet" href="home.css">
+    <link rel="stylesheet" href="fab.css">
     <link rel="shortcut icon" type="image/x-icon" href="../../user/assets/img/favicon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -54,7 +55,6 @@ session_start();
     <?php @include 'header.php'; ?>
 
     <br>
-
     <div class="">
         <div class="container">
             <div class="row">
@@ -67,7 +67,7 @@ session_start();
                     <p>Undang orang-orang terdekat dalam momen kebahagiaan kamu dengan cara yang unik dan
                         menarik. Coba sekarang juga, GRATIS.</p>
                     <p class="lead">
-                        <a class="btn btn-sm" style="background-color: #ddc190; color: #002939;" href=".././theme/theme.php"
+                        <a class="btn btn-sm" style="background-color: #ddc190; color: #002939;" href=".././catalog/catalog.php"
                             role="button">Buat Sekarang</a>
                     </p>
                 </div>
@@ -125,8 +125,6 @@ session_start();
             </div>
         </div> -->
         </div>
-
-        <br><br><br>
     </div>
 
     <?php @include 'footer.php'; ?>

@@ -12,6 +12,7 @@
       require '../../../config/connect.php';
 
       $id_ultah2 = $_GET['id_ultah'];
+      $tema = $_GET['id_tema'];
       
    
       $query = mysqli_query($conn, "SELECT * FROM user_account WHERE email = '{$_SESSION['SESSION_EMAIL']}'");
@@ -44,11 +45,11 @@
       </style>
    </head>
    <body style="background: #002939; color: #ffffff">
-      <?php @include 'header.php'; ?>
+   <?php @include 'header.php'; ?>
       <br>
       <div class="">
          <div class="container">
-            <h2 class="text-center" style="color: #ddc190;">Data Tamu</h2>
+            <h2 class="text-center" style="color: #ddc190;">Kirim Undangan ke tamu</h2>
          </div>
       </div>
       <br><br>
@@ -59,7 +60,7 @@
             <div class="col-sm-12">
                <div class="card mb-0">
                   <div class="card-header">
-                     <h4 class="card-title mb-0 text-right"><a href="./tambah_tamu.php" class="btn btn-info"><i class="la la-plus-circle"></i> Tambahkan Data Tamu</a></h4>
+                     <h4 class="card-title mb-0 text-right"><a href="./tamu_tablesend.php" class="btn btn-info"><i class="la la-plus-circle"></i> Tambahkan Data Tamu</a></h4>
                   </div>
                   <div class="card-body">
                      <div class="table-responsive">
@@ -82,30 +83,9 @@
                                  <td><?php echo $data['nama_tamu']?></td>
                                  <td><?php echo $data['email_tamu']?></td>
                                  <td class="text-center">
-                                    <a href="tamu_kirim.php?id_tamu=<?php echo $data['id_tamu']?>&id_undangan=<?php echo $id_ultah2 ?>"><button class="btn btn-outline-primary">Kirim Undangan</button></a>
-                                    <a href="edit_tamu.php?id_tamu=<?php echo $data['id_tamu'];?>"><button class="btn btn-outline-warning">EDIT</button></a>
-                                    <!-- Modal -->
-                                    <button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#exampleModal">DELETE</button>
-                                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                       <div class="modal-dialog">
-                                          <div class="modal-content">
-                                             <div class="modal-header">
-                                                <h4 class="modal-title" id="exampleModalLabel">Hapus Data Tamu</h4>
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                                </button>
-                                             </div>
-                                             <div class="modal-body">
-                                                <h4>Anda yakin ingin menghapus <?php echo $data['nama_tamu']?>?</h4>
-                                             </div>
-                                             <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-                                                <a href="tamu_delete.php?id_tamu=<?php echo $data['id_tamu'];?>"><button type="button" class="btn btn-primary">Konfirmasi</button></a>
-                                             </div>
-                                          </div>
-                                       </div>
-                                    </div>
-                                    <!-- MODAL -->
+                                    <a href="tamu_kirim.php?id_tamu=<?php echo $data['id_tamu']?>&id_undangan=<?php echo $id_ultah2 ?>&id_tema=<?php echo $tema ?>"><button class="btn btn-outline-primary">Kirim Undangan</button></a>
+                                    
+                                    
                                  </td>
                               </tr>
                               <?php } ?>
@@ -117,6 +97,7 @@
             </div>
          </div>
       </div>
+      
       <hr>
       <?php @include 'footer.php'; ?>
    </body>

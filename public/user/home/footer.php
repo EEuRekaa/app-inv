@@ -58,16 +58,16 @@ session_start();
                             <div class="footer-pad">
                                 <h4 class="header-list">Services</h4>
                                 <ul class="list-unstyled">
-                                    <li><a href="#" class="footer-list">Tengs to bootstrap</a></li>
+                                    <li><a href="#" class="footer-list">Undangan</a></li>
                                 </ul>
                             </div>
                         </div>
                         <div class="col-md-3 col-sm-6">
                             <!--Column1-->
                             <div class="footer-pad">
-                                <h4 class="header-list">Lokasi</h4>
+                                <h4 class="header-list">Location</h4>
                                 <ul class="list-unstyled">
-                                    <li><a href="#" class="footer-list">Dimana?</a></li>
+                                    <li><a href="https://goo.gl/maps/grXcGQbc3o5Wrevd7" target="_blank" class="footer-list">Jl. Soekarno Hatta No.9, Jatimulyo, Kec. Lowokwaru, Kota Malang, Jawa Timur 65141</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -98,7 +98,7 @@ session_start();
                     </div><br><br>
                     <div class="row">
                         <div class="col-md-12 copy footer-pad">
-                            <p class="text-center" style="color: #ddc190; font-size: 14px;">&copy; Copyright 2022 - Company Name. All rights reserved.</p>
+                            <p class="text-center" style="color: #ddc190; font-size: 14px;">&copy; Copyright 2022 - INVATE. All rights reserved.</p>
                         </div>
                     </div>
 

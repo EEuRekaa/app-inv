@@ -27,15 +27,17 @@ session_start();
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Invate</title>
     <link rel="stylesheet" href="header.css">
-    <link rel="shortcut icon" type="image/x-icon" href="../../user/assets/img/favicon.png">
+    <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.png">
     <link rel="stylesheet" href="assets/css/bootstrap.min.css">
       <link rel="stylesheet" href="assets/css/font-awesome.min.css">
       <link rel="stylesheet" href="assets/css/line-awesome.min.css">
       <link rel="stylesheet" href="assets/css/style.css">
+      <link rel="stylesheet" href="../home/fab.css">
+    
     <style>
-       
+    
 
         .h {
             width: 50%;
@@ -54,9 +56,10 @@ session_start();
 
 <body>
     
-    <nav class="navbar navbar-expand-lg navbar-light fixed-top" style="background-color: #002939">
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top" style="background-color: #002939">
         <div class="container">
-            <a class="navbar-brand" href="home.php" style="color: white;"><span
+            <a href=""><img src="../assets/img/favicon.png" class="d-inline-block align-bottom" alt=""></a>                
+            <a class="navbar-brand ml-2 mt-2" href="home.php" style="color: white; font-size: 26px; font-weight:bold;"><span
                     style="color: #ddc190;">IN</span>VATE</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
@@ -67,8 +70,8 @@ session_start();
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 </ul>
                 <form class="d-flex">
-                    <div>
-                        <a href="" class="me-2 text-decoration-none fa fa-user-circle" style="font-size: 19px; color: #ddc190;">  <?php echo $row['username'] ?></a>
+                <div>
+                        <a href="" class="text-decoration-none px-3 mt-5" style="font-size: 20px; color: #ddc190; font-weight: bold;"> <span>Hi <?php echo $row['username'] ?></span></a>
                         <a href="../logout.php"><button type="button" class="btn"
                         style="background-color: #ddc190; color: #002939; font-weight: bold;">Logout</button></a>
                     </div>
@@ -81,7 +84,7 @@ session_start();
 
     <div class="container">
         <header class="d-flex justify-content-center py-2 pt-5">
-            <ul class="nav nav-pills mb-5">
+            <ul class="nav nav-pills mb-5" style="font-size: 18px;">
                 <li class="nav-item mx-1">
                     <a href=".././home/home.php" class="nav-link" style="color: #ddc190;">Home</a>
                 </li>
@@ -89,11 +92,28 @@ session_start();
                     <a href="../catalog/catalog.php" class="nav-link" style="color: #ddc190;">Catalog</a>
                 </li>
                 <li class="nav-item mx-1">
-                    <a href="../theme/theme.php" class="nav-link" style="color: #ddc190;">Kelola Data</a>
+                    <a href="theme.php" class="nav-link" style="color: #ddc190;">Kelola Data</a>
                 </li>
             </ul>
         </header>
     </div>
+    <div class="fab">
+        <i class="fa fa-close fa-2x1 text-dark"></i>
+    </div>
+
+    <div class="box">
+        <a href="../scan.php" target="_blank" class="item awok1"><i class="fa fa-qrcode fa-2xl text-white"></i></a>
+        <a href="" class="item awok2"><i class="fa fa-qrcode"></i></a>
+        <a href="" class="item awok3"><i class="fa fa-qrcode"></i></a>
+        <a href="" class="item awok4"><i class="fa fa-qrcode"></i></a>
+    </div>
+
+    <script>
+        document.querySelector('.fab').addEventListener('click', function(e){
+            document.querySelector('.box').classList.toggle('box-active')
+            document.querySelector('.fab').classList.toggle('fab-active')
+        })
+    </script>
     <script src="assets/js/jquery-3.5.1.min.js"></script>
       <script src="assets/js/popper.min.js"></script>
       <script src="assets/js/bootstrap.min.js"></script>

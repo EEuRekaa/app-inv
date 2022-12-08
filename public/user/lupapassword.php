@@ -3,7 +3,7 @@
     session_start();
 
     if (isset($_SESSION['SESSION_EMAIL'])) {
-        header("Location: index.php");
+        header("Location: ./home/home.php");
         die();       
     }
 
@@ -36,7 +36,7 @@
       $mail->Host       = 'smtp-relay.sendinblue.com';                     //Set the SMTP server to send through
       $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
       $mail->Username   = 'rendering.fps88@gmail.com';                     //SMTP username
-      $mail->Password   = 'xsmtpsib-336c0255d8f4ee646dea2f8c0c02f943f0d8bf23228a4580a5ec8c28ef264efa-akA9GmJn4HOyV7x2';                               //SMTP password
+      $mail->Password   = 'xsmtpsib-336c0255d8f4ee646dea2f8c0c02f943f0d8bf23228a4580a5ec8c28ef264efa-IN3DtZr6gwya0TPS';                               //SMTP password
       $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            //Enable implicit TLS encryption
       $mail->Port       = 465;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
    
@@ -46,8 +46,24 @@
 
                 //Content
                 $mail->isHTML(true);                                  //Set email format to HTML
-                $mail->Subject = 'Reset Password Invate';
-                $mail->Body    = 'Click link untuk verifikasi<b><a href="http://localhost/app-inv/public/user/ubahpassword.php?reset='.$v_code.'">  http://localhost/app-inv/public/user/ubahpassword.php?reset='.$v_code.'</a></b>';
+                $mail->Subject = 'Reset Password';
+               $mail->Body    = '
+
+
+                  <body class="bg-light">
+  <div class="container">
+    <div class="card p-6 p-lg-10 space-y-4">
+      <p>
+      Click link untuk reset password 
+        
+      </p>
+    </div>
+    <div class="text-muted text-center my-6">
+    <b style="text-align: center;><a style="text-align: center; text-decoration: italy;" href="http://localhost/app-inv/public/user/ubahpassword.php?reset='.$v_code.'"> http://localhost/app-inv/public/user/ubahpassword.php?reset='.$v_code.'</a></b>
+    </div>
+  </div>
+</body>
+';
 
                 $mail->send();
                 echo 'Message has been sent';

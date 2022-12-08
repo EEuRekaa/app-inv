@@ -18,24 +18,23 @@
    
    $pesan = "";
    
-   if (isset($_POST['submit'])) {  
-      $nama_tamu = mysqli_real_escape_string($conn, $_POST['nama_tamu']);        
-      $email_tamu = mysqli_real_escape_string($conn, $_POST['email_tamu']);  
-      
-      if (mysqli_num_rows(mysqli_query($conn, "SELECT * FROM tb_tamu WHERE email_tamu='$email_tamu'"))) {
-        echo "<script>alert('Email {$email_tamu} sudah digunakan')</script>";   
-      
-          
-         
-      } else {
-         $insert = "INSERT INTO `tb_tamu`(`id_tamu`, `id_undangan`, `id_user`, `nama_tamu`, `email_tamu`) VALUES ('','','{$row['id_user']}','$nama_tamu','$email_tamu')";
+   $id_tamu = $_GET['id_tamu'];
+   if (isset($_POST['submit'])) {
+   # code...
    
-          mysqli_query($conn, $insert);
-          echo "<script>alert('Berhasil ditambahkan')</script>";
-        
-      }
+   $namatamu = $_POST['nama_tamu'];
+   $emailtamu = $_POST['email_tamu'];
+   
+   $query = "UPDATE tb_tamu SET `nama_tamu`='".$namatamu."', `email_tamu`='".$emailtamu."' WHERE `id_tamu`='".$id_tamu."' ";
+   
+   $sql = mysqli_query($conn, $query);
+   
+   if ($sql) {
+   $pesan = "<div class='alert alert-info'>Data berhasil diubah. <a href='tamu_tablesend.php'> kembali ke datfar tamu.</a></div>";
+   }else {
+   $pesan = "<div class='alert alert-danger'>Data gagal diubah.</div>";
    }
-      
+   }
    
    
    ?>
@@ -63,80 +62,73 @@
    </head>
    <body style="background: #002939; color: #ffffff">
       <?php @include 'header.php'; ?>
-      <br>
-      <div class="">
-         <div class="container">
-            <h2 class="text-center" style="color: #ddc190;">Edit Tamu</h2>
+      <div class="main-wrapper">
+         <div class="account-content">
+            <div class="container">
+               <div class="account-box">
+                  <div class="account-wrapper">
+                     <h3 class="account-title">INVATE</h3>
+                     <p class="account-subtitle">Ubah Data Tamu</p>
+                     <?php 
+                        echo $pesan;
+                        
+                        
+                        
+                        $query = "SELECT * FROM `tb_tamu` WHERE `id_tamu`='$id_tamu'";
+                        $sql = mysqli_query($conn, $query);
+                        while ($hasil = mysqli_fetch_array($sql)){
+                         $id_tamu = $hasil['id_tamu'];
+                         $nama_tamu = $hasil['nama_tamu'];
+                         $emailtamu = $hasil['email_tamu'];
+                        ?>
+                     <form action="" method="POST">
+                        <div class="form-group">
+                           <label>Nama Tamu</label>
+                           <input class="form-control" type="text" name="id_user" value="<?php echo $row['id_user'] ?>" readonly>
+                        </div>
+                        <div class="form-group">
+                           <label>Nama Tamu</label>
+                           <input class="form-control" type="text" name="nama_tamu" value="<?php echo $nama_tamu ?>" >
+                        </div>
+                        <div class="form-group">
+                           <label>Email Tamu</label>
+                           <input class="form-control" type="email" name="email_tamu" placeholder="Email"  value="<?php echo $emailtamu ?>">
+                        </div>
+                        <div class="form-group text-center">
+                           <!-- Modal -->
+                           <button type="button" class="btn btn-primary account-btn" data-toggle="modal" data-target="#exampleModal">Ubah Data</button>
+                           <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                              <div class="modal-dialog">
+                                 <div class="modal-content">
+                                    <div class="modal-header">
+                                       <h4 class="modal-title" id="exampleModalLabel">Edit Data User</h4>
+                                       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                       <span aria-hidden="true">&times;</span>
+                                       </button>
+                                    </div>
+                                    <div class="modal-body">
+                                       <h4>Anda yakin ingin mengubah data <?php echo $hasil['nama_tamu']?> ?</h4>
+                                    </div>
+                                    <div class="modal-footer">
+                                       <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                                       <button type="submit" name="submit" class="btn btn-primary">Konfirmasi</button>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                           <!-- MODAL -->
+                        </div>
+                        <div class="account-footer">
+                           <p><a href="./tamu_tablesend.php">Kembali</a></p>
+                        </div>
+                     </form>
+                     <?php } ?>
+                  </div>
+               </div>
+            </div>
          </div>
       </div>
       <br><br>
-      <div class="container px-4 py-5" id="">
-         <?php
-            echo $pesan;
-            
-            if (isset($_GET['id_tamu'])) {
-             $id_tamu = $_GET['id_tamu'];
-            
-             if (empty($id_tamu)) {
-                echo "ID tidak ada";
-             }
-            }else {
-             die("id tidak ada");
-            }
-            
-            $query = "SELECT * FROM `tb_tamu` WHERE `id_tamu`='$id_tamu'";
-            $sql = mysqli_query($conn, $query);
-            while ($hasil = mysqli_fetch_array($sql)){
-             $id_tamu = $hasil['id_tamu'];
-             $nama_tamu = $hasil['nama_tamu'];
-             $emailtamu = $hasil['email_tamu'];
-            
-            ?>
-         <form action="tamu_update.php?id_tamu=<?php echo $id_tamu ?>" method="POST">
-            <div class="mb-3">
-               <label for="exampleInputEmail1" class="form-label">Id Tamu</label>
-               <input type="text" class="form-control" id="" name="id_user" value="<?php echo $row['id_user'] ?>" disabled>
-               <br>
-            </div>
-            <div class="mb-3">
-               <label for="exampleInputEmail1" class="form-label">Nama Tamu</label>
-               <input type="text" class="form-control" name="nama_tamu" required value="<?php echo $nama_tamu ?>">
-               <br>
-            </div>
-            <div class="mb-3">
-               <label for="exampleInputEmail1" class="form-label">Email Tamu</label>
-               <input type="email" class="form-control" name="email_tamu" required value="<?php echo $emailtamu ?>">
-               <br>
-            </div>
-            <button type="submit" name="submit" class="btn btn-primary">Edit</button>
-            <!-- Button trigger modal -->
-            <!-- Modal -->
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Edit Data</button>
-
-                                          
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-   <div class="modal-dialog">
-      <div class="modal-content">
-         <div class="modal-header">
-         <h4 class="modal-title" id="exampleModalLabel">Edit Data User</h4>
-         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-         </button>
-         </div>
-         <div class="modal-body">
-         <h4>Anda yakin ingin mengubah data <?php echo $hasil['nama_tamu']?> ini?</h4>
-         </div>
-         <div class="modal-footer">
-         <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-         <button type="submit" name="submit" class="btn btn-primary">Konfirmasi</button>
-         </div>
-      </div>
-   </div>
-</div>
-<!-- MODAL -->
-         </form>
-         <?php } ?>
-      </div>
       <hr>
       <?php @include 'footer.php'; ?>
    </body>

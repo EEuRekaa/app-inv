@@ -51,25 +51,23 @@ session_start();
 
     <br>
 
-    <div class="">
+    
         <div class="container">
-            <h2 class="text-center" style="color: #ddc190;">Kelola Data Undangan Kamu</h2>
+            <h1 class="display-6 text-center" style="color: #ddc190;">Kelola Data Undangan Kamu</h1>
         </div>
-    </div>
 
-    <br><br>
 
     <div class="container px-4 py-5" id="">
-    <h3 class="pb-2 border-bottom" style="color: ddc190;"></h3>
-    <div class="row g-4 py-5 row-cols-1 row-cols-lg-3">
+    <hr>
+    <div class="row g-4 py-5 row-cols-1 row-cols-lg-3">      
       <div class="col d-flex align-items-start">
         <div class="">
-          <svg class="bi" width="1em" height="1em"><use xlink:href="#toggles2"/></svg>
+          <svg class="bi" width="1em" height="1em"><use xlink:href="#cpu-fill"/></svg>
         </div>
         <div>
           <h2>Buat Undangan</h2>
-          <p>Undang teman kamu!</p>
-          <a href="#" class="btn" style="background-color: #ddc190; color: #002939; font-weight: bold;">
+          <p>Buat undangan di sini.</p>
+          <a href=".././catalog/catalog.php" class="btn" style="background-color: #ddc190; color: #002939; font-weight: bold;">
             Buat
           </a>
         </div>
@@ -81,7 +79,7 @@ session_start();
         <div>
           <h2>Lihat Daftar Tamu</h2>
           <p>Kelola daftar tamu kamu.</p>
-          <a href="./table_tamu.php" class="btn" style="background-color: #ddc190; color: #002939; font-weight: bold;">
+          <a href="./tamu_tablesend.php" class="btn" style="background-color: #ddc190; color: #002939; font-weight: bold;">
             Lihat
           </a>
         </div>

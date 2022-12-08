@@ -1,21 +1,19 @@
 <?php
-
    session_start();
-
+   
    if (!isset($_SESSION['SESSION_EMAIL'])) {
       header("Location: ../A_admin_login/admin_login.php");
       die();
    }
-
+   
    include '../../config/connect.php';
-
+   
    $query = mysqli_query($conn, "SELECT * FROM admin_account WHERE email = '{$_SESSION['SESSION_EMAIL']}'");
-
+   
    if (mysqli_num_rows($query) > 0) {
       $row = mysqli_fetch_assoc($query);
    }
-?>
-
+   ?>
 <!DOCTYPE html>
 <html lang="en">
    <head>
@@ -94,15 +92,19 @@
                         </ul>
                      </li>
                      <li class="submenu">
-                        <a href="#"><i class="la la-columns"></i> <span> User </span> <span class="menu-arrow"></span></a>
+                        <a href="#"><i class="la la-user"></i> <span> User </span> <span class="menu-arrow"></span></a>
                         <ul style="display: none;">
                            <li><a href="tablee.php"> Data User </a></li>
                            <li><a href="tableadmin.php"> Data Admin </a></li>
                         </ul>
-                        <a href="#"><i class="la la-columns"></i> <span> Tema </span> <span class="menu-arrow"></span></a>
+                        <a href="#"><i class="la la-image"></i> <span> Tema </span> <span class="menu-arrow"></span></a>
                         <ul style="display: none;">
                            <li><a href="tabletema.php"> Data Tema </a></li>
-                           <li><a href="addtema.php"> Tambah Tema </a></li>
+                           <li><a href="tema_add.php"> Tambah Tema </a></li>
+                        </ul>
+                        <a href="#"><i class="la la-book"></i> <span> Undangan </span> <span class="menu-arrow"></span></a>
+                        <ul style="display: none;">
+                           <li><a href="data_undangan.php"> Data Undangan </a></li>
                         </ul>
                      </li>
                   </ul>
@@ -128,7 +130,6 @@
                      <div class="card mb-0">
                         <div class="card-header">
                            <h4 class="card-title mb-0 text-right"><a href="./adduser.php" class="btn btn-info"><i class="la la-plus-circle"></i> Tambahkan Data User</a></h4>
-                                                   
                         </div>
                         <div class="card-body">
                            <div class="table-responsive">
@@ -142,51 +143,57 @@
                                     </tr>
                                  </thead>
                                  <tbody>
-                                 <?php
-                            
-                                 include "../../config/connect.php";
-
-                                 $no="1";
-                                 $query = mysqli_query($conn, "SELECT * FROM user_account ORDER BY id_user DESC");
-                                 while ($data=mysqli_fetch_array($query)) {                 
-                                 
-                                 
-                                 ?>
+                                    <?php
+                                       include "../../config/connect.php";
+                                       
+                                       $no="1";
+                                       $query = mysqli_query($conn, "SELECT * FROM user_account ORDER BY id_user desc");
+                                       while ($data=mysqli_fetch_array($query)) {                 
+                                       
+                                       
+                                       ?>
                                     <tr>
                                        <td><?php echo $no++;?></td>
                                        <td><?php echo $data['username']?></td>
                                        <td><?php echo $data['email']?></td>
-                                       <td class="text-center">                                          
-                                          <a href="form-add.php?id_user=<?php echo $data['id_user'];?>"><button class="btn btn-outline-primary">EDIT</button></a>
-                                          
+                                       <td class="text-center">
+                                          <a href="form-add.php?id_user=<?php echo $data['id_user'];?>">
+                                             <button class="btn btn-outline-warning">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                                   <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                                                   <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+                                                </svg>
+                                             </button>
+                                          </a>
                                           <!-- Modal -->
-                                          <button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#exampleModal">DELETE</button>
-
-                                          
+                                          <button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#exampleModal">
+                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
+                                                <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"/>
+                                             </svg>
+                                          </button>
                                           <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                              <div class="modal-dialog">
                                                 <div class="modal-content">
                                                    <div class="modal-header">
-                                                   <h4 class="modal-title" id="exampleModalLabel">Hapus Data User</h4>
-                                                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                      <h4 class="modal-title" id="exampleModalLabel">Hapus Data User</h4>
+                                                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                       <span aria-hidden="true">&times;</span>
-                                                   </button>
+                                                      </button>
                                                    </div>
                                                    <div class="modal-body">
-                                                   <h4>Anda yakin ingin menghapus data user ini?</h4>
+                                                      <h4>Anda yakin ingin menghapus data user ini?</h4>
                                                    </div>
                                                    <div class="modal-footer">
-                                                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-                                                   <a href="delete_user.php?id_user=<?php echo $data['id_user'];?>"><button type="button" class="btn btn-primary">Konfirmasi</button></a>
+                                                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                                                      <a href="delete_user.php?id_user=<?php echo $data['id_user'];?>"><button type="button" class="btn btn-primary">Konfirmasi</button></a>
                                                    </div>
                                                 </div>
                                              </div>
                                           </div>
                                           <!-- MODAL -->
-
                                        </td>
                                     </tr>
-                                 <?php } ?>
+                                    <?php } ?>
                                  </tbody>
                               </table>
                            </div>
@@ -194,8 +201,8 @@
                      </div>
                   </div>
                </div>
-            </div>        
-         </div>         
+            </div>
+         </div>
       </div>
       <script src="assets/js/jquery-3.5.1.min.js"></script>
       <script src="assets/js/popper.min.js"></script>

@@ -1,21 +1,19 @@
 ﻿<?php
-
    session_start();
-
+   
    if (!isset($_SESSION['SESSION_EMAIL'])) {
       header("Location: ../A_admin_login/admin_login.php");
       die();
    }
-
+   
    include '../../config/connect.php';
-
+   
    $query = mysqli_query($conn, "SELECT * FROM admin_account WHERE email = '{$_SESSION['SESSION_EMAIL']}'");
-
+   
    if (mysqli_num_rows($query) > 0) {
       $row = mysqli_fetch_assoc($query);
    }
-?>
-
+   ?>
 <!DOCTYPE html>
 <html lang="en">
    <head>
@@ -92,15 +90,19 @@
                         </ul>
                      </li>
                      <li class="submenu">
-                        <a href="#"><i class="la la-columns"></i> <span> User </span> <span class="menu-arrow"></span></a>
+                        <a href="#"><i class="la la-user"></i> <span> User </span> <span class="menu-arrow"></span></a>
                         <ul style="display: none;">
                            <li><a href="tablee.php"> Data User </a></li>
                            <li><a href="tableadmin.php"> Data Admin </a></li>
                         </ul>
-                        <a href="#"><i class="la la-columns"></i> <span> Tema </span> <span class="menu-arrow"></span></a>
+                        <a href="#"><i class="la la-image"></i> <span> Tema </span> <span class="menu-arrow"></span></a>
                         <ul style="display: none;">
                            <li><a href="tabletema.php"> Data Tema </a></li>
-                           <li><a href="addtema.php"> Tambah Tema </a></li>
+                           <li><a href="tema_add.php"> Tambah Tema </a></li>
+                        </ul>
+                        <a href="#"><i class="la la-book"></i> <span> Undangan </span> <span class="menu-arrow"></span></a>
+                        <ul style="display: none;">
+                           <li><a href="data_undangan.php"> Data Undangan </a></li>
                         </ul>
                      </li>
                   </ul>
@@ -125,7 +127,16 @@
                         <div class="card-body">
                            <span class="dash-widget-icon"><i class="fa fa-plus"></i></span>
                            <div class="dash-widget-info">
-                              <h3>112</h3>
+                              <h3><?php 
+                                 $query = mysqli_query($conn, "SELECT COUNT(1) FROM tb_ultah ");
+                                 
+                                 if (mysqli_num_rows($query) > 0) {
+                                    $row = mysqli_fetch_array($query);
+                                 }
+                                 
+                                 $total = $row[0];
+                                 echo $total; ?>
+                              </h3>
                               <span>Undangan dibuat</span>
                            </div>
                         </div>
@@ -136,7 +147,17 @@
                         <div class="card-body">
                            <span class="dash-widget-icon"><i class="fa fa-image"></i></span>
                            <div class="dash-widget-info">
-                              <h3>3</h3>
+                              <h3>
+                                 <?php 
+                                    $query = mysqli_query($conn, "SELECT COUNT(1) FROM tema ");
+                                    
+                                    if (mysqli_num_rows($query) > 0) {
+                                       $row = mysqli_fetch_array($query);
+                                    }
+                                    
+                                    $total = $row[0];
+                                    echo $total; ?>
+                              </h3>
                               <span>Tema</span>
                            </div>
                         </div>
@@ -147,18 +168,38 @@
                         <div class="card-body">
                            <span class="dash-widget-icon"><i class="fa fa-users"></i></span>
                            <div class="dash-widget-info">
-                              <h3>44</h3>
+                              <h3>
+                                 <?php 
+                                    $query = mysqli_query($conn, "SELECT COUNT(1) FROM user_account ");
+                                    
+                                    if (mysqli_num_rows($query) > 0) {
+                                       $row = mysqli_fetch_array($query);
+                                    }
+                                    
+                                    $total = $row[0];
+                                    echo $total; ?>
+                              </h3>
                               <span>Pengguna</span>
                            </div>
                         </div>
                      </div>
-                  </div>                  
+                  </div>
                   <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
                      <div class="card dash-widget">
                         <div class="card-body">
                            <span class="dash-widget-icon"><i class="fa fa-user"></i></span>
                            <div class="dash-widget-info">
-                              <h3>2</h3>
+                              <h3>
+                                 <?php 
+                                    $query = mysqli_query($conn, "SELECT COUNT(1) FROM admin_account ");
+                                    
+                                    if (mysqli_num_rows($query) > 0) {
+                                       $row = mysqli_fetch_array($query);
+                                    }
+                                    
+                                    $total = $row[0];
+                                    echo $total; ?>
+                              </h3>
                               <span>Admin</span>
                            </div>
                         </div>
@@ -168,8 +209,6 @@
             </div>
          </div>
       </div>
-
-      
       <script data-cfasync="false" src="../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="assets/js/jquery-3.5.1.min.js"></script>
       <script src="assets/js/popper.min.js"></script>
       <script src="assets/js/bootstrap.min.js"></script>

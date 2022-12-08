@@ -1,23 +1,21 @@
 <?php
-
    session_start();
-
+   
    if (!isset($_SESSION['SESSION_EMAIL'])) {
       header("Location: ../A_admin_login/admin_login.php");
       die();
    }
-
- 
-
+   
+   
+   
    include '../../config/connect.php';
-
+   
    $query = mysqli_query($conn, "SELECT * FROM admin_account WHERE email = '{$_SESSION['SESSION_EMAIL']}'");
-
+   
    if (mysqli_num_rows($query) > 0) {
       $row = mysqli_fetch_assoc($query);
    }
-?>
-
+   ?>
 <!DOCTYPE html>
 <html lang="en">
    <head>
@@ -36,16 +34,15 @@
    </head>
    <body>
       <?php 
-      
-      $query = mysqli_query($conn, "SELECT * FROM admin_account WHERE email = '{$_SESSION['SESSION_EMAIL']}'");
-
-      if (mysqli_num_rows($query) > 0) {
-         $row = mysqli_fetch_assoc($query);
-      }
-      
-      ?>
+         $query = mysqli_query($conn, "SELECT * FROM admin_account WHERE email = '{$_SESSION['SESSION_EMAIL']}'");
+         
+         if (mysqli_num_rows($query) > 0) {
+            $row = mysqli_fetch_assoc($query);
+         }
+         
+         ?>
       <div class="main-wrapper">
-      <div class="header">
+         <div class="header">
             <div class="header-left">
                <a href="index.php" class="logo">
                <img src="assets/img/logo.png" width="40" height="40" alt="">
@@ -98,15 +95,19 @@
                         </ul>
                      </li>
                      <li class="submenu">
-                        <a href="#"><i class="la la-columns"></i> <span> User </span> <span class="menu-arrow"></span></a>
+                        <a href="#"><i class="la la-user"></i> <span> User </span> <span class="menu-arrow"></span></a>
                         <ul style="display: none;">
                            <li><a href="tablee.php"> Data User </a></li>
                            <li><a href="tableadmin.php"> Data Admin </a></li>
                         </ul>
-                        <a href="#"><i class="la la-columns"></i> <span> Tema </span> <span class="menu-arrow"></span></a>
+                        <a href="#"><i class="la la-image"></i> <span> Tema </span> <span class="menu-arrow"></span></a>
                         <ul style="display: none;">
                            <li><a href="tabletema.php"> Data Tema </a></li>
-                           <li><a href="addtema.php"> Tambah Tema </a></li>
+                           <li><a href="tema_add.php"> Tambah Tema </a></li>
+                        </ul>
+                        <a href="#"><i class="la la-book"></i> <span> Undangan </span> <span class="menu-arrow"></span></a>
+                        <ul style="display: none;">
+                           <li><a href="data_undangan.php"> Data Undangan </a></li>
                         </ul>
                      </li>
                   </ul>
@@ -133,28 +134,25 @@
                            <h4 class="card-title mb-0">Edit Data User</h4>
                         </div>
                         <div class="card-body">
-
-                        <?php
-                     
-                        
-                        if (isset($_GET['id_user'])) {
-                           $id_user = $_GET['id_user'];
-
-                           if (empty($id_user)) {
-                              echo "ID tidak ada";
-                           }
-                        }else {
-                           die("id tidak ada");
-                        }
-
-                        $query = "SELECT * FROM `user_account` WHERE `id_user`='$id_user'";
-                        $sql = mysqli_query($conn, $query);
-                        while ($hasil = mysqli_fetch_array($sql)){
-                           $id_user = $hasil['id_user'];
-                           $username = $hasil['username'];
-                           $email = $hasil['email'];
-                        
-                        ?>
+                           <?php
+                              if (isset($_GET['id_user'])) {
+                                 $id_user = $_GET['id_user'];
+                              
+                                 if (empty($id_user)) {
+                                    echo "ID tidak ada";
+                                 }
+                              }else {
+                                 die("id tidak ada");
+                              }
+                              
+                              $query = "SELECT * FROM `user_account` WHERE `id_user`='$id_user'";
+                              $sql = mysqli_query($conn, $query);
+                              while ($hasil = mysqli_fetch_array($sql)){
+                                 $id_user = $hasil['id_user'];
+                                 $username = $hasil['username'];
+                                 $email = $hasil['email'];
+                              
+                              ?>
                            <form action="edit_update.php?id_user=<?php echo $id_user ?>" method="POST">
                               <div class="form-group row">
                                  <label class="col-form-label col-md-2">Username</label>
@@ -165,38 +163,36 @@
                               <div class="form-group row">
                                  <label class="col-form-label col-md-2">Email</label>
                                  <div class="col-md-10">
-                                 <input class="form-control" type="email" placeholder="Email" name="email" required value="<?php echo $email ?>">
+                                    <input class="form-control" type="email" placeholder="Email" name="email" required value="<?php echo $email ?>">
                                  </div>
-                              </div>                           
+                              </div>
                               <div class="form-group text-center">
-                              <!-- Modal -->
-                              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Edit Data</button>
-
-                                          
-                                          <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                             <div class="modal-dialog">
-                                                <div class="modal-content">
-                                                   <div class="modal-header">
-                                                   <h4 class="modal-title" id="exampleModalLabel">Edit Data User</h4>
-                                                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                      <span aria-hidden="true">&times;</span>
-                                                   </button>
-                                                   </div>
-                                                   <div class="modal-body">
-                                                   <h4>Anda yakin ingin mengubah data user ini?</h4>
-                                                   </div>
-                                                   <div class="modal-footer">
-                                                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-                                                   <button type="submit" name="submit" class="btn btn-primary">Konfirmasi</button>
-                                                   </div>
-                                                </div>
-                                             </div>
+                                 <!-- Modal -->
+                                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Edit Data</button>
+                                 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                       <div class="modal-content">
+                                          <div class="modal-header">
+                                             <h4 class="modal-title" id="exampleModalLabel">Edit Data User</h4>
+                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                             <span aria-hidden="true">&times;</span>
+                                             </button>
                                           </div>
-                                          <!-- MODAL -->
+                                          <div class="modal-body">
+                                             <h4>Anda yakin ingin mengubah data user ini?</h4>
+                                          </div>
+                                          <div class="modal-footer">
+                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                                             <button type="submit" name="submit" class="btn btn-primary">Konfirmasi</button>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                                 <!-- MODAL -->
                               </div>
                            </form>
                            <?php } ?>
-                        </div>                     
+                        </div>
                      </div>
                   </div>
                </div>

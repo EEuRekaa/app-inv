@@ -28,7 +28,7 @@
           
          
       } else {
-         $insert = "INSERT INTO `tb_tamu`(`id_tamu`, `id_undangan`, `id_user`, `nama_tamu`, `email_tamu`) VALUES ('','','{$row['id_user']}','$nama_tamu','$email_tamu')";
+         $insert = "INSERT INTO `tb_tamu`(`id_tamu`, `id_user`, `nama_tamu`, `email_tamu`) VALUES ('','{$row['id_user']}','$nama_tamu','$email_tamu')";
 
           mysqli_query($conn, $insert);
           echo "<script>alert('berhasil')</script>";

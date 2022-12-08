@@ -23,15 +23,15 @@
       $email_tamu = mysqli_real_escape_string($conn, $_POST['email_tamu']);  
       
       if (mysqli_num_rows(mysqli_query($conn, "SELECT * FROM tb_tamu WHERE email_tamu='$email_tamu'"))) {
-        echo "<script>alert('Email {$email_tamu} sudah digunakan')</script>";   
+        $pesan = "<div class='alert alert-warning'>Email $email_tamu telah digunakan </div>";   
       
           
          
       } else {
-         $insert = "INSERT INTO `tb_tamu`(`id_tamu`, `id_undangan`, `id_user`, `nama_tamu`, `email_tamu`) VALUES ('','','{$row['id_user']}','$nama_tamu','$email_tamu')";
+         $insert = "INSERT INTO `tb_tamu`(`id_tamu`, `id_user`, `nama_tamu`, `email_tamu`) VALUES ('','{$row['id_user']}','$nama_tamu','$email_tamu')";
 
           mysqli_query($conn, $insert);
-          echo "<script>alert('Berhasil ditambahkan');document.location.href='./table_tamu.php</script>";
+          $pesan = "<div class='alert alert-info'>Berhasil ditambahkan. <a href='tamu_tablesend.php'> Kembali ke daftar tamu.</a></div>";
         
       }
    }
@@ -66,67 +66,67 @@
    <body style="background: #002939; color: #ffffff">
 
     <?php @include 'header.php'; ?>
-
-    <br>
-
-    <div class="">
-        <div class="container">
-            <h2 class="text-center" style="color: #ddc190;">Tambahkan Tamu</h2>
-        </div>
-    </div>
-
-    <br><br>
-
-    <div class="container px-4 py-5" id="">
-    <?php
-         echo $pesan;
-         
-         ?>
-    <form method="POST">
-  <div class="mb-3">
-    <label for="exampleInputEmail1" class="form-label">Id Kamu</label>
-    <input type="text" class="form-control" id="" name="id_user" value="<?php echo $row['id_user'] ?>" disabled>
-    <br>
-  </div>
-  <div class="mb-3">
-    <label for="exampleInputEmail1" class="form-label">Nama Tamu</label>
-    <input type="text" class="form-control" name="nama_tamu" required>
-    <br>
-  </div>
-  <div class="mb-3">
-    <label for="exampleInputEmail1" class="form-label">Email Tamu</label>
-    <input type="email" class="form-control" name="email_tamu" required>
-    <br>
-  </div>
-
-<!-- Modal -->
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Tambahkan</button>
-
-                                          
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-   <div class="modal-dialog">
-      <div class="modal-content">
-         <div class="modal-header">
-         <h4 class="modal-title" id="exampleModalLabel">Edit Data User</h4>
-         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-         </button>
-         </div>
-         <div class="modal-body">
-         <h4>Anda yakin ingin menambah data ini?</h4>
-         </div>
-         <div class="modal-footer">
-         <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-         <button type="submit" name="submit" class="btn btn-primary">Konfirmasi</button>
-         </div>
-      </div>
-   </div>
-</div>
-<!-- MODAL -->
+    
+    
 
 </form>
 <div>
-
+<div class="main-wrapper">
+         <div class="account-content">
+            <div class="container">
+               <div class="account-box">
+                  <div class="account-wrapper">
+                     <h3 class="account-title">INVATE</h3>
+                     <p class="account-subtitle">Tambahkan Tamu</p>
+                     <?php 
+                        echo $pesan;
+                        
+                        
+                       
+                        ?>
+                     <form action="" method="POST">
+                        
+                        <div class="form-group">
+                           <label>Nama Tamu</label>
+                           <input class="form-control" type="text" placeholder="Nama" name="nama_tamu" required >
+                        </div>
+                        <div class="form-group">
+                           <label>Email Tamu</label>
+                           <input class="form-control" type="email" name="email_tamu" placeholder="Email" required>
+                        </div>
+                        <div class="form-group text-center">
+                           <!-- Modal -->
+                           <button type="button" class="btn btn-primary account-btn" data-toggle="modal" data-target="#exampleModal">Tambah Tamu</button>
+                           <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                              <div class="modal-dialog">
+                                 <div class="modal-content">
+                                    <div class="modal-header">
+                                       <h4 class="modal-title" id="exampleModalLabel">Tambahkan Tamu</h4>
+                                       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                       <span aria-hidden="true">&times;</span>
+                                       </button>
+                                    </div>
+                                    <div class="modal-body">
+                                       <h4>Anda yakin ingin menambah data tamu ini?</h4>
+                                    </div>
+                                    <div class="modal-footer">
+                                       <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                                       <button type="submit" name="submit" class="btn btn-primary">Konfirmasi</button>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                           <!-- MODAL -->
+                        </div>
+                        <div class="account-footer">
+                           <p><a href="./tamu_tablesend.php">Kembali</a></p>
+                        </div>
+                     </form>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
 </div>
   </div>
 

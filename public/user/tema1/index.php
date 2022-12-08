@@ -35,7 +35,7 @@ if (!isset($_SESSION['SESSION_EMAIL'])) {
         <meta name="author" content="" />
         <title>Undangan</title>
         <!-- Favicon-->
-        <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+      <link rel="shortcut icon" type="image/x-icon" href="../assets/img/favicon.png">
         <!-- Font Awesome icons (free version)-->
         <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
         <!-- Simple line icons-->
@@ -66,6 +66,7 @@ if (!isset($_SESSION['SESSION_EMAIL'])) {
                     <h3 class="mb-5"><?php echo $gege2['deskripsi_acara'] ?></h3>
                 </div>
                 
+                
             </div>
         </section>
         <!-- Callout-->
@@ -76,6 +77,8 @@ if (!isset($_SESSION['SESSION_EMAIL'])) {
                 <h2 class="mx-auto mb-5"><?php echo $gege2['jam'] ?></h2>
             </div>
         </section>
+
+        <div class="mapouter"><div class="gmap_canvas"><iframe class="gmap_iframe" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?width=600&amp;height=400&amp;hl=en&amp;q=surabaya&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"></iframe><a href="https://piratebay-proxys.com/">Piratebay</a></div><style>.mapouter{position:relative;text-align:right;width:600px;height:400px;}.gmap_canvas {overflow:hidden;background:none!important;width:600px;height:400px;}.gmap_iframe {width:600px!important;height:400px!important;}</style></div>
         <!-- Portfolio-->
         
         <!-- Call to Action-->
