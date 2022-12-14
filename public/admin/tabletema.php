@@ -1,19 +1,22 @@
 <?php
-   session_start();
-   
-   if (!isset($_SESSION['SESSION_EMAIL'])) {
-      header("Location: ../A_admin_login/admin_login.php");
-      die();
-   }
-   
-   include '../../config/connect.php';
-   
-   $query = mysqli_query($conn, "SELECT * FROM admin_account WHERE email = '{$_SESSION['SESSION_EMAIL']}'");
-   
-   if (mysqli_num_rows($query) > 0) {
-      $row = mysqli_fetch_assoc($query);
-   }
-   ?>
+session_start();
+
+if (!isset($_SESSION["SESSION_EMAIL"])) {
+    header("Location: ../A_admin_login/admin_login.php");
+    die();
+}
+
+include "../../config/connect.php";
+
+$query = mysqli_query(
+    $conn,
+    "SELECT * FROM admin_account WHERE email = '{$_SESSION["SESSION_EMAIL"]}'"
+);
+
+if (mysqli_num_rows($query) > 0) {
+    $row = mysqli_fetch_assoc($query);
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
    <head>
@@ -64,7 +67,7 @@
                <li class="nav-item dropdown has-arrow main-drop">
                   <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
                   <span class="user-img"><img src="assets/img/user.jpg" alt=""></span>
-                  <span><?php echo $row['username'] ?></span>
+                  <span><?php echo $row["username"]; ?></span>
                   </a>
                   <div class="dropdown-menu">
                      <a class="dropdown-item" href="../admin/logout.php">Logout</a>
@@ -139,20 +142,30 @@
                                  </thead>
                                  <tbody>
                                     <?php
-                                       include "../../config/connect.php";
-                                       
-                                       $no="1";
-                                       $query = mysqli_query($conn, "SELECT * FROM tema ORDER BY id_tema desc");
-                                       while ($data=mysqli_fetch_array($query)) {                 
-                                       
-                                       
-                                       ?>
+                                    include "../../config/connect.php";
+
+                                    $no = "1";
+                                    $query = mysqli_query(
+                                        $conn,
+                                        "SELECT * FROM tema ORDER BY id_tema desc"
+                                    );
+                                    while (
+                                        $data = mysqli_fetch_array($query)
+                                    ) { ?>
                                     <tr>
-                                       <td><?php echo $no++;?></td>
-                                       <td><?php echo $data['nama_tema']?></td>
-                                       <td><img src="img/<?php echo $data["image"]; ?>" width = 400 title="<?php echo $data['image']; ?>"> </td>
+                                       <td><?php echo $no++; ?></td>
+                                       <td><?php echo $data[
+                                           "nama_tema"
+                                       ]; ?></td>
+                                       <td><img src="img/<?php echo $data[
+                                           "image"
+                                       ]; ?>" width = 400 title="<?php echo $data[
+    "image"
+]; ?>"> </td>
                                        <td class="text-center">
-                                          <a href="tema_edit.php?id_tema=<?php echo $data['id_tema'];?>">
+                                          <a href="tema_edit.php?id_tema=<?php echo $data[
+                                              "id_tema"
+                                          ]; ?>">
                                              <button class="btn btn-outline-warning">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
                                                    <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
@@ -169,7 +182,8 @@
                                           </a>
                                        </td>
                                     </tr>
-                                    <?php } ?>
+                                    <?php }
+                                    ?>
                                  </tbody>
                               </table>
                            </div>

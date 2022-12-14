@@ -1,47 +1,45 @@
 <?php
-   session_start();
+session_start();
 
-   
-   if (!isset($_SESSION['SESSION_EMAIL'])) {
-      header("Location: .././user_login.php");
-      die();
-   }
-   
-   
-   require '../../../config/connect.php';
+if (!isset($_SESSION["SESSION_EMAIL"])) {
+    header("Location: .././user_login.php");
+    die();
+}
 
-   $id_tema = $_GET['id_tema'];
-   $query = mysqli_query($conn, "SELECT * FROM user_account WHERE email = '{$_SESSION['SESSION_EMAIL']}'");
-   
-   if (mysqli_num_rows($query) > 0) {
-      $row = mysqli_fetch_assoc($query);
-   }
+require "../../../config/connect.php";
 
-   $query2 = mysqli_query($conn, "SELECT * FROM tema WHERE id_tema = '$id_tema'");
-   
-   if (mysqli_num_rows($query2) > 0) {
-      $row2 = mysqli_fetch_assoc($query2);
-   }
+$id_tema = $_GET["id_tema"];
+$query = mysqli_query(
+    $conn,
+    "SELECT * FROM user_account WHERE email = '{$_SESSION["SESSION_EMAIL"]}'"
+);
 
-   $pesan = "";
-   
-   if (isset($_POST['submit'])) {         
-      $judul_acara = mysqli_real_escape_string($conn, $_POST['judul_acara']);               
-      $hari = mysqli_real_escape_string($conn, $_POST['hari']);        
-      $tanggal = mysqli_real_escape_string($conn, $_POST['tanggal']);        
-      $jam = mysqli_real_escape_string($conn, $_POST['jam']);        
-      $tempat = mysqli_real_escape_string($conn, $_POST['tempat']);                
-     
-      $insert = "INSERT INTO `tb_ultah`(`id_ultah`, `id_tema`, `id_user`, `judul_acara`, `hari`, `tanggal`, `jam`, `tempat`) VALUES ('', '{$row2['id_tema']}', '{$row['id_user']}','$judul_acara','$hari','$tanggal','$jam','$tempat')";
+if (mysqli_num_rows($query) > 0) {
+    $row = mysqli_fetch_assoc($query);
+}
 
-          mysqli_query($conn, $insert);
-          echo "<script>alert('undangan berhasil dibuat');document.location.href='.././theme/undangan_table.php'</script>/n</script>";
-         
-      }
-      
-   
-   
-   ?>
+$query2 = mysqli_query($conn, "SELECT * FROM tema WHERE id_tema = '$id_tema'");
+
+if (mysqli_num_rows($query2) > 0) {
+    $row2 = mysqli_fetch_assoc($query2);
+}
+
+$pesan = "";
+
+if (isset($_POST["submit"])) {
+    $judul_acara = mysqli_real_escape_string($conn, $_POST["judul_acara"]);
+    $hari = mysqli_real_escape_string($conn, $_POST["hari"]);
+    $tanggal = mysqli_real_escape_string($conn, $_POST["tanggal"]);
+    $jam = mysqli_real_escape_string($conn, $_POST["jam"]);
+    $tempat = mysqli_real_escape_string($conn, $_POST["tempat"]);
+    $detail_tempat = mysqli_real_escape_string($conn, $_POST["detail_tempat"]);
+
+    $insert = "INSERT INTO `tb_ultah`(`id_undangan`, `id_tema`, `id_user`, `judul_acara`, `hari`, `tanggal`, `jam`, `tempat`, `detail_tempat`) VALUES ('', '{$row2["id_tema"]}', '{$row["id_user"]}','$judul_acara','$hari','$tanggal','$jam','$tempat','$detail_tempat')";
+
+    mysqli_query($conn, $insert);
+    echo "<script>alert('undangan berhasil dibuat');document.location.href='.././theme/undangan_table.php'</script>/n</script>";
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -68,7 +66,7 @@
 </head>
    <body style="background: #002939; color: #ffffff">
 
-    <?php @include 'header.php'; ?>
+    <?php @include "header.php"; ?>
 
     <br>
 
@@ -85,15 +83,14 @@
                      <h4 class="card-title mb-0">Buat Undangan</h4>
                   </div>
                   <div class="card-body">
-                     <?php
-                        echo $pesan;
-                        
-                        ?>
+                     <?php echo $pesan; ?>
                      <form action="" method="POST">
                      <div class="form-group row">
                            <label class="col-form-label col-md-2">Nama Tema</label>
                            <div class="col-md-10">
-                              <input class="form-control" type="text" value="<?php echo $row2['nama_tema'] ?>" name="id_tema" disabled>
+                              <input class="form-control" type="text" value="<?php echo $row2[
+                                  "nama_tema"
+                              ]; ?>" name="id_tema" disabled>
                            </div>
                         </div>
                         
@@ -131,9 +128,15 @@
                            </div>
                         </div>
                         <div class="form-group row">
-                           <label class="col-form-label col-md-2">Tempat</label>
+                           <label class="col-form-label col-md-2">Lokasi</label>
                            <div class="col-md-10">
-                              <input class="form-control" type="text"  name="tempat" required>
+                              <input class="form-control" type="text" placeholder="Masukan nama lokasi kamu sesuai dengan Google Map" name="tempat" required>
+                           </div>
+                        </div>
+                        <div class="form-group row">
+                           <label class="col-form-label col-md-2">Detail Lokasi</label>
+                           <div class="col-md-10">
+                              <input class="form-control" type="text" placeholder="Detail Bangunan / Jalan" name="detail_tempat" required>
                            </div>
                         </div>
                         
@@ -180,6 +183,6 @@
     <hr>
 
 
-    <?php @include 'footer.php'; ?>
+    <?php @include "footer.php"; ?>
 </body>
 </html>

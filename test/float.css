@@ -1,88 +1,88 @@
 .fab {
-    position: fixed;
-    bottom: 32px;
-    right: 32px;
-    border-radius: 50%;
-    width: 60px;
-    height: 60px;
-    background: red;
-    box-shadow: 1px 2px 4px grey;
-    z-index: 3;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+  position: fixed;
+  bottom: 32px;
+  right: 32px;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  background: red;
+  box-shadow: 1px 2px 4px grey;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
-.fab:hover{
-    cursor: pointer;
+.fab:hover {
+  cursor: pointer;
 }
 
-.fab i{
-    width: 45%;
-    transform: rotate(45deg);
-    transition: 0.4s;
+.fab i {
+  width: 45%;
+  transform: rotate(45deg);
+  transition: 0.4s;
 }
 
-.box{
-    position: fixed;
-    bottom: 44px;
-    right: 5px;
-    height: 0px;
-    transition-delay: 0.3s;
-    width: 80px;
-    transition: 0.5s cubic-bezier(0.445, 0.05, 0.55, 0.95);
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+.box {
+  position: fixed;
+  bottom: 44px;
+  right: 5px;
+  height: 0px;
+  transition-delay: 0.3s;
+  width: 80px;
+  transition: 0.5s cubic-bezier(0.445, 0.05, 0.55, 0.95);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .item {
-    overflow: hidden;
-    border-radius: 50%;
-    transition: 0.4 ease-in;
-    width: 44px;
-    height: 44px;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 1px 1px 3px grey;
-    border-color: black;
+  overflow: hidden;
+  border-radius: 50%;
+  transition: 0.4 ease-in;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 1px 1px 3px grey;
+  border-color: black;
 }
 
 .awok1 {
-    transition-delay: 0.1s;
-    background: cadetblue;
+  transition-delay: 0.1s;
+  background: cadetblue;
 }
 .awok2 {
-    transition-delay: 0.2s;
-    background: cadetblue;
+  transition-delay: 0.2s;
+  background: cadetblue;
 }
 .awok3 {
-    transition-delay: 0.3s;
-    background: cadetblue;
+  transition-delay: 0.3s;
+  background: cadetblue;
 }
 .awok4 {
-    transition-delay: 0.4s;
-    background: cadetblue;
-    margin-bottom: 69px ;
+  transition-delay: 0.4s;
+  background: cadetblue;
+  margin-bottom: 69px;
 }
 
-.item:hover{
-    cursor: pointer;
+.item:hover {
+  cursor: pointer;
 }
 
-.item:hover i{
-    transform: rotate(360deg);
-    transition: all 0.5;
+.item:hover i {
+  transform: rotate(360deg);
+  transition: all 0.5;
 }
 
 .box-active {
-    height: 290px;
+  height: 290px;
 }
 
-.fab-active i{
-    transform: rotate(270deg);
-    width: 40%;
+.fab-active i {
+  transform: rotate(270deg);
+  width: 40%;
 }

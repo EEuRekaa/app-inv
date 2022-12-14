@@ -1,19 +1,22 @@
 ﻿<?php
-   session_start();
-   
-   if (!isset($_SESSION['SESSION_EMAIL'])) {
-      header("Location: ../A_admin_login/admin_login.php");
-      die();
-   }
-   
-   include '../../config/connect.php';
-   
-   $query = mysqli_query($conn, "SELECT * FROM admin_account WHERE email = '{$_SESSION['SESSION_EMAIL']}'");
-   
-   if (mysqli_num_rows($query) > 0) {
-      $row = mysqli_fetch_assoc($query);
-   }
-   ?>
+session_start();
+
+if (!isset($_SESSION["SESSION_EMAIL"])) {
+    header("Location: ../A_admin_login/admin_login.php");
+    die();
+}
+
+include "../../config/connect.php";
+
+$query = mysqli_query(
+    $conn,
+    "SELECT * FROM admin_account WHERE email = '{$_SESSION["SESSION_EMAIL"]}'"
+);
+
+if (mysqli_num_rows($query) > 0) {
+    $row = mysqli_fetch_assoc($query);
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
    <head>
@@ -62,7 +65,7 @@
                <li class="nav-item dropdown has-arrow main-drop">
                   <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
                   <span class="user-img"><img src="assets/img/user.jpg" alt=""></span>
-                  <span><?php echo $row['username'] ?></span>
+                  <span><?php echo $row["username"]; ?></span>
                   </a>
                   <div class="dropdown-menu">
                      <a class="dropdown-item" href="../admin/logout.php">Logout</a>
@@ -114,7 +117,9 @@
                <div class="page-header">
                   <div class="row">
                      <div class="col-sm-12">
-                        <h3 class="page-title">Welcome Admin <?php echo $row['username'] ?></h3>
+                        <h3 class="page-title">Welcome Admin <?php echo $row[
+                            "username"
+                        ]; ?></h3>
                         <ul class="breadcrumb">
                            <li class="breadcrumb-item active">Dashboard</li>
                         </ul>
@@ -127,15 +132,19 @@
                         <div class="card-body">
                            <span class="dash-widget-icon"><i class="fa fa-plus"></i></span>
                            <div class="dash-widget-info">
-                              <h3><?php 
-                                 $query = mysqli_query($conn, "SELECT COUNT(1) FROM tb_ultah ");
-                                 
-                                 if (mysqli_num_rows($query) > 0) {
-                                    $row = mysqli_fetch_array($query);
-                                 }
-                                 
-                                 $total = $row[0];
-                                 echo $total; ?>
+                              <h3><?php
+                              $query = mysqli_query(
+                                  $conn,
+                                  "SELECT COUNT(1) FROM tb_ultah "
+                              );
+
+                              if (mysqli_num_rows($query) > 0) {
+                                  $row = mysqli_fetch_array($query);
+                              }
+
+                              $total = $row[0];
+                              echo $total;
+                              ?>
                               </h3>
                               <span>Undangan dibuat</span>
                            </div>
@@ -148,15 +157,17 @@
                            <span class="dash-widget-icon"><i class="fa fa-image"></i></span>
                            <div class="dash-widget-info">
                               <h3>
-                                 <?php 
-                                    $query = mysqli_query($conn, "SELECT COUNT(1) FROM tema ");
-                                    
-                                    if (mysqli_num_rows($query) > 0) {
-                                       $row = mysqli_fetch_array($query);
-                                    }
-                                    
-                                    $total = $row[0];
-                                    echo $total; ?>
+                                 <?php
+                                 $query = mysqli_query($conn,"SELECT COUNT(1) FROM tema "
+                                 );
+
+                                 if (mysqli_num_rows($query) > 0) {
+                                     $row = mysqli_fetch_array($query);
+                                 }
+
+                                 $total = $row[0];
+                                 echo $total;
+                                 ?>
                               </h3>
                               <span>Tema</span>
                            </div>
@@ -169,15 +180,16 @@
                            <span class="dash-widget-icon"><i class="fa fa-users"></i></span>
                            <div class="dash-widget-info">
                               <h3>
-                                 <?php 
-                                    $query = mysqli_query($conn, "SELECT COUNT(1) FROM user_account ");
-                                    
-                                    if (mysqli_num_rows($query) > 0) {
-                                       $row = mysqli_fetch_array($query);
-                                    }
-                                    
-                                    $total = $row[0];
-                                    echo $total; ?>
+                                 <?php
+                                 $query = mysqli_query($conn, "SELECT COUNT(1) FROM user_account ");
+
+                                 if (mysqli_num_rows($query) > 0) {
+                                     $row = mysqli_fetch_array($query);
+                                 }
+
+                                 $total = $row[0];
+                                 echo $total;
+                                 ?>
                               </h3>
                               <span>Pengguna</span>
                            </div>
@@ -187,20 +199,24 @@
                   <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
                      <div class="card dash-widget">
                         <div class="card-body">
-                           <span class="dash-widget-icon"><i class="fa fa-user"></i></span>
+                           <span class="dash-widget-icon"><i class="fa fa-users"></i></span>
                            <div class="dash-widget-info">
                               <h3>
-                                 <?php 
-                                    $query = mysqli_query($conn, "SELECT COUNT(1) FROM admin_account ");
-                                    
-                                    if (mysqli_num_rows($query) > 0) {
-                                       $row = mysqli_fetch_array($query);
-                                    }
-                                    
-                                    $total = $row[0];
-                                    echo $total; ?>
+                                 <?php
+                                 $query = mysqli_query(
+                                     $conn,
+                                     "SELECT COUNT(1) FROM tb_tamu "
+                                 );
+
+                                 if (mysqli_num_rows($query) > 0) {
+                                     $row = mysqli_fetch_array($query);
+                                 }
+
+                                 $total = $row[0];
+                                 echo $total;
+                                 ?>
                               </h3>
-                              <span>Admin</span>
+                              <span>Tamu</span>
                            </div>
                         </div>
                      </div>

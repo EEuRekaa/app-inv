@@ -1,27 +1,25 @@
 <?php
-   session_start();
-   
-      
-      if (!isset($_SESSION['SESSION_EMAIL'])) {
-         header("Location: ../user_login.php");
-         die();
-      }
-      
-      
-      
-      require '../../../config/connect.php';
+session_start();
 
-      $id_ultah2 = $_GET['id_ultah'];
-      $tema = $_GET['id_tema'];
-      
-   
-      $query = mysqli_query($conn, "SELECT * FROM user_account WHERE email = '{$_SESSION['SESSION_EMAIL']}'");
-      
-      if (mysqli_num_rows($query) > 0) {
-         $row = mysqli_fetch_assoc($query);
-      }
-   
-   ?>
+if (!isset($_SESSION["SESSION_EMAIL"])) {
+    header("Location: ../user_login.php");
+    die();
+}
+
+require "../../../config/connect.php";
+
+$id_ultah2 = $_GET["id_ultah"];
+$tema = $_GET["id_tema"];
+
+$query = mysqli_query(
+    $conn,
+    "SELECT * FROM user_account WHERE email = '{$_SESSION["SESSION_EMAIL"]}'"
+);
+
+if (mysqli_num_rows($query) > 0) {
+    $row = mysqli_fetch_assoc($query);
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
    <head>
@@ -45,7 +43,7 @@
       </style>
    </head>
    <body style="background: #002939; color: #ffffff">
-   <?php @include 'header.php'; ?>
+   <?php @include "header.php"; ?>
       <br>
       <div class="">
          <div class="container">
@@ -70,25 +68,31 @@
                                  <th>#</th>
                                  <th>Username</th>
                                  <th>Email</th>
-                                 <th>Event</th>
+                                 <th>Action</th>
                               </tr>
                            </thead>
                            <tbody>
-                              <?php 
-                                 $no="1";
-                                 $query = mysqli_query($conn, "SELECT * FROM tb_tamu WHERE id_user='{$row['id_user']}' ORDER BY id_tamu DESC");
-                                 while ($data=mysqli_fetch_array($query)) { ?>
+                              <?php
+                              $no = "1";
+                              $query = mysqli_query(
+                                  $conn,
+                                  "SELECT * FROM tb_tamu WHERE id_user='{$row["id_user"]}' ORDER BY id_tamu DESC"
+                              );
+                              while ($data = mysqli_fetch_array($query)) { ?>
                               <tr>
-                                 <td><?php echo $no++;?></td>
-                                 <td><?php echo $data['nama_tamu']?></td>
-                                 <td><?php echo $data['email_tamu']?></td>
+                                 <td><?php echo $no++; ?></td>
+                                 <td><?php echo $data["nama_tamu"]; ?></td>
+                                 <td><?php echo $data["email_tamu"]; ?></td>
                                  <td class="text-center">
-                                    <a href="tamu_kirim.php?id_tamu=<?php echo $data['id_tamu']?>&id_undangan=<?php echo $id_ultah2 ?>&id_tema=<?php echo $tema ?>"><button class="btn btn-outline-primary">Kirim Undangan</button></a>
+                                    <a href="tamu_kirim.php?id_tamu=<?php echo $data[
+                                        "id_tamu"
+                                    ]; ?>&id_undangan=<?php echo $id_ultah2; ?>&id_tema=<?php echo $tema; ?>"><button class="btn btn-outline-primary">Kirim Undangan</button></a>
                                     
                                     
                                  </td>
                               </tr>
-                              <?php } ?>
+                              <?php }
+                              ?>
                            </tbody>
                         </table>
                      </div>
@@ -99,6 +103,6 @@
       </div>
       
       <hr>
-      <?php @include 'footer.php'; ?>
+      <?php @include "footer.php"; ?>
    </body>
 </html>

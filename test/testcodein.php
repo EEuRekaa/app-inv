@@ -8,13 +8,9 @@
 </head>
 <body>
     <form action="qrcode.php" method="POST">
-        <?php
-        
-        if(isset($_GET['msg']))
-        {
-            echo $_GET['msg'];
-        }
-        ?>
+        <?php if (isset($_GET["msg"])) {
+            echo $_GET["msg"];
+        } ?>
         <div>
             <label for="">code</label>
             <input type="text" name="cname">
@@ -30,18 +26,19 @@
     <th>image</th>
   </tr>
   <?php
-  require_once './config/connect.php';
+  require_once "./config/connect.php";
 
-  $no = '1';
+  $no = "1";
   $query = mysqli_query($conn, "SELECT * FROM test");
-                                 while ($data=mysqli_fetch_array($query)) { ?>
+  while ($data = mysqli_fetch_array($query)) { ?>
 
   <tr>
-    <td><?php echo $no++ ?></td>
-    <td><?php echo $data['code']?></td>
-    <td><img src="<?php echo $data['img']?>" alt=""></td>
+    <td><?php echo $no++; ?></td>
+    <td><?php echo $data["code"]; ?></td>
+    <td><img src="<?php echo $data["img"]; ?>" alt=""></td>
   </tr>
-  <?php } ?>
+  <?php }
+  ?>
 </table>
     
 </body>

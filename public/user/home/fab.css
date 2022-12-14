@@ -1,88 +1,40 @@
-
-.fab {
-    position: fixed;
-    bottom: 32px;
-    right: 32px;
-    border-radius: 50%;
-    width: 60px;
-    height: 60px;
-    background: white;
-    box-shadow: 1px 2px 4px grey;
-    z-index: 3;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+.floating-parent{
+  position: fixed;
+  bottom: 8%;
+  right: 18px;
+  text-align: center;
+  color: #00778b;
+  z-index: 5;
 }
 
-.fab:hover{
-    cursor: pointer;
+.floating-parent .right-button {
+  width: 60px;
+  height: 60px;
+  background: url(../qrcode.PNG);
+  border-radius: 50%;
+  background-color: #00778b;
+  background-repeat: no-repeat;
+  background-size: 30px;
+  background-position: center;
+  float: right;
+  margin: 0 auto;
+  cursor: pointer;
+  box-shadow: 0 -2px 3px -1px #00778b;
 }
 
-.fab img{
-    width: 45%;
-    transform: rotate(45deg);
-    transition: 0.4s;
-}
-
-.box{
-    position: fixed;
-    bottom: 44px;
-    right: 5px;
-    height: 0px;
-    transition-delay: 0.3s;
-    width: 80px;
-    transition: 0.5s cubic-bezier(0.445, 0.05, 0.55, 0.95);
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-}
-
-.item {
-    overflow: hidden;
-    border-radius: 50%;
-    transition: 0.4 ease-in;
-    width: 44px;
-    height: 44px;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 1px 1px 3px grey;
-}
-
-.awok1 {
-    transition-delay: 0.1s;
-    background: #ddc190;
-}
-.awok2 {
-    transition-delay: 0.2s;
-    background: #ddc190;
-}
-.awok3 {
-    transition-delay: 0.3s;
-    background: #ddc190;
-}
-.awok4 {
-    transition-delay: 0.4s;
-    background: #ddc190;
-    margin-bottom: 69px ;
-}
-
-.item:hover{
-    cursor: pointer;
-}
-
-.item:hover i{
-    transform: rotate(360deg);
-    transition: all 0.5;
-}
-
-.box-active {
-    height: 290px;
-}
-
-.fab-active i{
-    transform: rotate(270deg);
-    width: 40%;
+.floating-parent .widgetlabel {
+  position: relative;
+  right: 5px;
+  top: 10px;
+  white-space: nowrap;
+  border: 0px;
+  font-size: 18px;
+  cursor: pointer;
+  border-radius: 16px;
+  padding: 10px 15px 10px 20px;
+  background: rgb(255, 255, 255);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: rgb(0 18 46 / 24%) 0px 6px 32px 0px;
 }

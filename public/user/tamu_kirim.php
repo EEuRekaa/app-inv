@@ -1,89 +1,93 @@
-<?php 
-    session_start();
+<?php
+session_start();
 
-      if (!isset($_SESSION['SESSION_EMAIL'])) {
-        header("Location: ../user_login.php");
-        die();
-     }
+if (!isset($_SESSION["SESSION_EMAIL"])) {
+    header("Location: ../user_login.php");
+    die();
+}
 
+$id_tamu2 = $_GET["id_ultah"];
 
-     $id_tamu2 = $_GET['id_ultah'];
-   
-   use PHPMailer\PHPMailer\PHPMailer;
-   use PHPMailer\PHPMailer\SMTP;
-   use PHPMailer\PHPMailer\Exception;
-   
-   require '../../vendor/autoload.php';
-         
-   include '../../config/connect.php';
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
 
-   
+require "../../vendor/autoload.php";
 
-   $query = mysqli_query($conn, "SELECT * FROM user_account WHERE email = '{$_SESSION['SESSION_EMAIL']}'");
-    
-   if (mysqli_num_rows($query) > 0) {
-      $gege = mysqli_fetch_assoc($query);
-   } 
-   
-   $query2 = mysqli_query($conn, "SELECT * FROM id_tamu WHERE id_user = '{$_SESSION['SESSION_EMAIL']}'");
-    
-   if (mysqli_num_rows($query2) > 0) {
-      $gege2 = mysqli_fetch_assoc($query2);
-   }  
-    
+include "../../config/connect.php";
 
-   $pesan = "";
-   
-   if (isset($_POST['submit']) ) {
-    $namatamu = mysqli_real_escape_string($conn, $_POST['nama_tamu']);
-    $emailtamu = mysqli_real_escape_string($conn, $_POST['email_tamu']);        
-   
-        $insert = mysqli_query($conn, "UPDATE `tb_tamu` SET `id_undangan`='$id_tamu2',`nama_tamu`='$emailtamu',`email_tamu`='$emailtamu' WHERE id_tamu = '$id_tamu'");
-         
-        
-   
-        if ($insert) {
-   
-   $mail = new PHPMailer(true);
-   
-   try {
-      //Server settings
-      $mail->isSMTP();                                            //Send using SMTP
-      $mail->Host       = 'smtp-relay.sendinblue.com';                     //Set the SMTP server to send through
-               $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
-               $mail->Username   = 'rendering.fps88@gmail.com';                     //SMTP username
-      $mail->Password   = 'xsmtpsib-336c0255d8f4ee646dea2f8c0c02f943f0d8bf23228a4580a5ec8c28ef264efa-IN3DtZr6gwya0TPS';                               //SMTP password
-      $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            //Enable implicit TLS encryption
-      $mail->Port       = 465;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
-   
-      //Recipients
-      $mail->setFrom('INVATE@invate.my.id');                            //SMTP password
-      $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            //Enable implicit TLS encryption
-      $mail->Port       = 465;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
-   
-      //Recipients
-      $mail->setFrom('INVATE@invate.my.id');
-      $mail->addAddress($emailtamu);
-   
-      //Content
-      $mail->isHTML(true);                                  //Set email format to HTML
-      $mail->Subject = 'Undangan';
-      $mail->Body    = '<p style="text-align: center;">Click link untuk melihat undangan</p>
+$query = mysqli_query(
+    $conn,
+    "SELECT * FROM user_account WHERE email = '{$_SESSION["SESSION_EMAIL"]}'"
+);
+
+if (mysqli_num_rows($query) > 0) {
+    $gege = mysqli_fetch_assoc($query);
+}
+
+$query2 = mysqli_query(
+    $conn,
+    "SELECT * FROM id_tamu WHERE id_user = '{$_SESSION["SESSION_EMAIL"]}'"
+);
+
+if (mysqli_num_rows($query2) > 0) {
+    $gege2 = mysqli_fetch_assoc($query2);
+}
+
+$pesan = "";
+
+if (isset($_POST["submit"])) {
+    $insert = mysqli_query(
+        $conn,
+        "UPDATE `tb_tamu` SET `id_undangan`='$id_tamu2',`nama_tamu`='$emailtamu',`email_tamu`='$emailtamu' WHERE id_tamu = '$id_tamu'"
+    );
+
+    if ($insert) {
+        $mail = new PHPMailer(true);
+
+        try {
+            //Server settings
+            $mail->isSMTP(); //Send using SMTP
+            $mail->Host = "smtp-relay.sendinblue.com"; //Set the SMTP server to send through
+            $mail->SMTPAuth = true; //Enable SMTP authentication
+            $mail->Username = "rendering.fps88@gmail.com"; //SMTP username
+            $mail->Password =
+                "xsmtpsib-336c0255d8f4ee646dea2f8c0c02f943f0d8bf23228a4580a5ec8c28ef264efa-LKpq4bBskDFaT8Hx"; //SMTP password
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS; //Enable implicit TLS encryption
+            $mail->Port = 465; //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
+
+            //Recipients
+            $mail->setFrom("INVATE@invate.my.id");
+            $mail->addAddress($data["email_tamu"]);
+
+            //Content
+            $mail->isHTML(true); //Set email format to HTML
+            $mail->Subject = "Undangan";
+            $mail->Body =
+                '<p style="text-align: center;">Click link untuk melihat undangan</p>
       
-      <b style="text-align: center;><a style="text-align: href="http://localhost/app-inv/public/tema1/index.php?namatamuhehe='.$namatamu.'&id_undangan='.$id_tamu2 .'"> http://localhost/app-inv/public/tema1/index.php?namatamuhehe='.$namatamu.'&id_undangan='.$id_tamu2 .'</a></b>';
-   
-      $mail->send();
-      echo '';
-   } catch (Exception $e) {
-      echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
-   }
-      echo "</div>";
-      $pesan = "<div class='alert alert-info'>Undangan dikirim ke email tamu.</div>";
-   } else {
-      $pesan = "<script>HAHAHAHAHAAH</script>";
-   }
-   }
-   
+      <b style="text-align: center;><a style="text-align: href="http://localhost/app-inv/public/tema1/index.php?namatamuhehe=' .
+                $namatamu .
+                "&id_undangan=" .
+                $id_tamu2 .
+                '"> http://localhost/app-inv/public/tema1/index.php?namatamuhehe=' .
+                $namatamu .
+                "&id_undangan=" .
+                $id_tamu2 .
+                "</a></b>";
+
+            $mail->send();
+            echo "";
+        } catch (Exception $e) {
+            echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+        }
+        echo "</div>";
+        $pesan =
+            "<div class='alert alert-info'>Undangan dikirim ke email tamu.</div>";
+    } else {
+        $pesan = "<script>HAHAHAHAHAAH</script>";
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -109,15 +113,17 @@
                      <h3 class="account-title">Kirim</h3>
                      <p class="account-subtitle">_______</p>
                      <?php
-                        echo $pesan;
+                     echo $pesan;
 
-                        $query2 = mysqli_query($conn, "SELECT * FROM tb_tamu WHERE id_tamu = '$id_tamu2'");
+                     $query2 = mysqli_query(
+                         $conn,
+                         "SELECT * FROM tb_tamu WHERE id_tamu = '$id_tamu2'"
+                     );
 
                      if (mysqli_num_rows($query2) > 0) {
-                        $wkwk = mysqli_fetch_assoc($query2);
+                         $wkwk = mysqli_fetch_assoc($query2);
                      }
-                        
-                        ?>
+                     ?>
                      <form action="" method="POST">
                      <div class="form-group">
                            <label>Nama Tamu</label>
@@ -125,7 +131,9 @@
                         </div>
                      <div class="form-group">
                            <label>Nama Tamu</label>
-                           <input class="form-control" type="text" placeholder="Nama Tamu" name="nama_tamu" disabled value="<?php echo $query2['']?>">
+                           <input class="form-control" type="text" placeholder="Nama Tamu" name="nama_tamu" disabled value="<?php echo $query2[
+                               ""
+                           ]; ?>">
                         </div>
                         <div class="form-group">
                            <label>Email</label>

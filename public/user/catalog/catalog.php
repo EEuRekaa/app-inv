@@ -1,22 +1,19 @@
 <?php
-   session_start();
-   
-      
-      if (!isset($_SESSION['SESSION_EMAIL'])) {
-         header("Location: ../user_login.php");
-         die();
-      }
-      
-      
-      require '../../../config/connect.php';
-   
-      $query = mysqli_query($conn, "SELECT * FROM user_account WHERE email = '{$_SESSION['SESSION_EMAIL']}'");
-      
-      if (mysqli_num_rows($query) > 0) {
-         $row = mysqli_fetch_assoc($query);
-      }
-   
-   ?>
+session_start();
+
+error_reporting(0); 
+
+require "../../../config/connect.php";
+
+$query = mysqli_query(
+    $conn,
+    "SELECT * FROM user_account WHERE email = '{$_SESSION["SESSION_EMAIL"]}'"
+);
+
+if (mysqli_num_rows($query) > 0) {
+    $row = mysqli_fetch_assoc($query);
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
    <head>
@@ -34,7 +31,8 @@
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
    </head>
    <body>
-      <?php @include 'header.php'; ?>
+      <?php @include "header.php"; ?>
+      
       <br>
       <div class="">
          <div class="container">
@@ -53,8 +51,11 @@
                <div class="card mb-4 shadow-sm border border-dark">
                   <img src="../image/tema1.PNG" alt="">
                   <div class="card-body">
-                     <p class="card-text">Birthday Stylish Portfolio</p>
+                  <a class="btn btn-sm" style="background-color: #ddc190; color: white; border-radius: 30px;"
+                                href="theme.php" role="button">Theme</a>
+                     <p class="card-text py-2">Stylish Portfolio</p>
                      <hr>
+                     <p></p>
                      <div class="d-flex justify-content-between align-items-center">
                         <a class="btn btn-sm"
                            style="background-color: #ddc190; color: black; border-radius: 30px; width: 100%"
@@ -67,8 +68,11 @@
                <div class="card mb-4 shadow-sm border border-dark">
                   <img src="../image/tema3.PNG" alt="">
                   <div class="card-body">
-                     <p class="card-text">Birthday Pink Theme</p>
+                  <a class="btn btn-sm" style="background-color: #ddc190; color: white; border-radius: 30px;"
+                                href="theme.php" role="button">Theme</a>
+                     <p class="card-text py-2">Beauty</p>
                      <hr>
+                     <p></p>
                      <div class="d-flex justify-content-between align-items-center">
                         <a class="btn btn-sm"
                            style="background-color: #ddc190; color: black; border-radius: 30px; width: 100%"
@@ -81,8 +85,11 @@
                <div class="card mb-4 shadow-sm border border-dark">
                   <img src="../image/tema2.PNG" alt="">
                   <div class="card-body">
-                     <p class="card-text">Birthday Simple Dark Theme</p>
+                  <a class="btn btn-sm" style="background-color: #ddc190; color: white; border-radius: 30px;"
+                                href="theme.php" role="button">Theme</a>
+                     <p class="card-text py-2">Simple Dark</p>
                      <hr>
+                     <p></p>
                      <div class="d-flex justify-content-between align-items-center">
                         <a class="btn btn-sm"
                            style="background-color: #ddc190; color: black; border-radius: 30px; width: 100%"
@@ -90,11 +97,17 @@
                      </div>
                   </div>
                </div>
-            </div>                         
-         </div><hr>
-         <br><br>
+            </div>  
+            <a href="" class="text-center text-primary">Lihat semua tema ulang tahun</a>     <br><br><br><br>
+                
+         </div>
+
+        
+         
          </div>
       </div>
-      <?php @include 'footer.php'; ?>
+      
+      
+      <?php @include "footer.php"; ?>
    </body>
 </html>

@@ -1,49 +1,60 @@
 <?php
 
-   session_start();
-   
-   if (isset($_SESSION['SESSION_EMAIL'])) {
-      header("Location: ./home/home.php");
-      die();
-   }
+session_start();
 
-   include '../../config/connect.php';
+if (isset($_SESSION["SESSION_EMAIL"])) {
+    header("Location: ./user_login.php");
+    die();
+}
 
-   $pesan = "";
+include "../../config/connect.php";
 
-   if (isset($_GET['verification'])) {
-      if (mysqli_num_rows(mysqli_query($conn, "SELECT * FROM user_account WHERE v_code='{$_GET['verification']}'")) > 0) {
-         $query = mysqli_query($conn, "UPDATE user_account SET v_code='' WHERE v_code='{$_GET['verification']}'");
+$pesan = "";
 
-         if ($query) {
-            $pesan = "<div class='alert alert-success'>Email telah berhasil diverifikasi</div>";
-         }
+if (isset($_GET["verification"])) {
+    if (
+        mysqli_num_rows(
+            mysqli_query(
+                $conn,
+                "SELECT * FROM user_account WHERE v_code='{$_GET["verification"]}'"
+            )
+        ) > 0
+    ) {
+        $query = mysqli_query(
+            $conn,
+            "UPDATE user_account SET v_code='' WHERE v_code='{$_GET["verification"]}'"
+        );
 
-      } else {
-         header("Location: user_login.php");
-      } 
-   }
-   if (isset($_POST['submit'])) {
-      $email = mysqli_real_escape_string($conn, $_POST['email']);
-      $password = mysqli_real_escape_string($conn, md5($_POST['password']) );
+        if ($query) {
+            $pesan =
+                "<div class='alert alert-success'>Email telah berhasil diverifikasi</div>";
+        }
+    } else {
+        header("Location: user_login.php");
+    }
+}
+if (isset($_POST["submit"])) {
+    $email = mysqli_real_escape_string($conn, $_POST["email"]);
+    $password = mysqli_real_escape_string($conn, md5($_POST["password"]));
 
-      $query2 = "SELECT * FROM user_account WHERE email = '$email' AND password = '$password'";
-      $result = mysqli_query($conn, $query2);
+    $query2 = "SELECT * FROM user_account WHERE email = '$email' AND password = '$password'";
+    $result = mysqli_query($conn, $query2);
 
-      if (mysqli_num_rows($result) === 1) {
-         $row = mysqli_fetch_assoc($result);
+    if (mysqli_num_rows($result) === 1) {
+        $row = mysqli_fetch_assoc($result);
 
-         if (empty($row['v_code'])) {
-            $_SESSION['SESSION_EMAIL'] = $email;
-            header("Location: ./home/home.php");
-         } else {
-            $pesan = "<div class='alert alert-info'>Verifikasi email anda terlebih dahulu.</div>";
-         }
-      } else {
-         $pesan = "<div class='alert alert-danger'>Email atau password salah.</div>";
-      }
-   }
-
+        if (empty($row["v_code"])) {
+            $_SESSION["SESSION_EMAIL"] = $email;
+            header("Location: ./index.php");
+        } else {
+            $pesan =
+                "<div class='alert alert-info'>Verifikasi email anda terlebih dahulu.</div>";
+        }
+    } else {
+        $pesan =
+            "<div class='alert alert-danger'>Email atau password salah.</div>";
+    }
+}
 ?>
 
 <!DOCTYPE html>

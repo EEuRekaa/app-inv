@@ -1,44 +1,45 @@
 <?php
-   session_start();
+session_start();
 
-   
-   if (!isset($_SESSION['SESSION_EMAIL'])) {
-      header("Location: ./user_login.php");
-      die();
-   }
-   
-   
-   require '../../config/connect.php';
+if (!isset($_SESSION["SESSION_EMAIL"])) {
+    header("Location: ./user_login.php");
+    die();
+}
 
-   $query = mysqli_query($conn, "SELECT * FROM user_account WHERE email = '{$_SESSION['SESSION_EMAIL']}'");
-   
-   if (mysqli_num_rows($query) > 0) {
-      $row = mysqli_fetch_assoc($query);
-   }
+require "../../config/connect.php";
 
-   $pesan = "";
-   
-   if (isset($_POST['submit'])) {  
-      $nama_tamu = mysqli_real_escape_string($conn, $_POST['nama_tamu']);        
-      $email_tamu = mysqli_real_escape_string($conn, $_POST['email_tamu']);  
-      
-      if (mysqli_num_rows(mysqli_query($conn, "SELECT * FROM tb_tamu WHERE email_tamu='$email_tamu'"))) {
-         $pesan = "<div class='alert alert-danger'>$email_tamu Email ini sudah digunakan.</div>";   
-      
-          
-         
-      } else {
-         $insert = "INSERT INTO `tb_tamu`(`id_tamu`, `id_user`, `nama_tamu`, `email_tamu`) VALUES ('','{$row['id_user']}','$nama_tamu','$email_tamu')";
+$query = mysqli_query(
+    $conn,
+    "SELECT * FROM user_account WHERE email = '{$_SESSION["SESSION_EMAIL"]}'"
+);
 
-          mysqli_query($conn, $insert);
-          echo "<script>alert('berhasil')</script>";
-        
-      }
-   }
-      
-   
-   
-   ?>
+if (mysqli_num_rows($query) > 0) {
+    $row = mysqli_fetch_assoc($query);
+}
+
+$pesan = "";
+
+if (isset($_POST["submit"])) {
+    $nama_tamu = mysqli_real_escape_string($conn, $_POST["nama_tamu"]);
+    $email_tamu = mysqli_real_escape_string($conn, $_POST["email_tamu"]);
+
+    if (
+        mysqli_num_rows(
+            mysqli_query(
+                $conn,
+                "SELECT * FROM tb_tamu WHERE email_tamu='$email_tamu'"
+            )
+        )
+    ) {
+        $pesan = "<div class='alert alert-danger'>$email_tamu Email ini sudah digunakan.</div>";
+    } else {
+        $insert = "INSERT INTO `tb_tamu`(`id_tamu`, `id_user`, `nama_tamu`, `email_tamu`) VALUES ('','{$row["id_user"]}','$nama_tamu','$email_tamu')";
+
+        mysqli_query($conn, $insert);
+        echo "<script>alert('berhasil')</script>";
+    }
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
    <head>
@@ -52,16 +53,15 @@
       <link rel="stylesheet" href="assets/css/style.css">
    </head>
    <body>
-      <h1>Welcome <?php echo $row['username'] ?></h1>
-      <?php
-         echo $pesan;
-         
-         ?>
+      <h1>Welcome <?php echo $row["username"]; ?></h1>
+      <?php echo $pesan; ?>
 
       <form action="" method="POST" autocomplete="off">
          <div class="form-group">
             <label for="">Id Anda</label>
-            <input type="text" class="form-control" id="" name="id_user" value="<?php echo $row['id_user'] ?>" disabled>            
+            <input type="text" class="form-control" id="" name="id_user" value="<?php echo $row[
+                "id_user"
+            ]; ?>" disabled>            
          </div>
          <div class="form-group">
             <label for="">Nama Tamu</label>

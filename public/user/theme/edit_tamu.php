@@ -1,43 +1,51 @@
 <?php
-   session_start();
-   
-   
-   if (!isset($_SESSION['SESSION_EMAIL'])) {
-      header("Location: .././user_login.php");
-      die();
-   }
-   
-   
-   require '../../../config/connect.php';
-   
-   $query = mysqli_query($conn, "SELECT * FROM user_account WHERE email = '{$_SESSION['SESSION_EMAIL']}'");
-   
-   if (mysqli_num_rows($query) > 0) {
-      $row = mysqli_fetch_assoc($query);
-   }
-   
-   $pesan = "";
-   
-   $id_tamu = $_GET['id_tamu'];
-   if (isset($_POST['submit'])) {
-   # code...
-   
-   $namatamu = $_POST['nama_tamu'];
-   $emailtamu = $_POST['email_tamu'];
-   
-   $query = "UPDATE tb_tamu SET `nama_tamu`='".$namatamu."', `email_tamu`='".$emailtamu."' WHERE `id_tamu`='".$id_tamu."' ";
-   
-   $sql = mysqli_query($conn, $query);
-   
-   if ($sql) {
-   $pesan = "<div class='alert alert-info'>Data berhasil diubah. <a href='tamu_tablesend.php'> kembali ke datfar tamu.</a></div>";
-   }else {
-   $pesan = "<div class='alert alert-danger'>Data gagal diubah.</div>";
-   }
-   }
-   
-   
-   ?>
+session_start();
+
+if (!isset($_SESSION["SESSION_EMAIL"])) {
+    header("Location: .././user_login.php");
+    die();
+}
+
+require "../../../config/connect.php";
+
+$query = mysqli_query(
+    $conn,
+    "SELECT * FROM user_account WHERE email = '{$_SESSION["SESSION_EMAIL"]}'"
+);
+
+if (mysqli_num_rows($query) > 0) {
+    $row = mysqli_fetch_assoc($query);
+}
+
+$pesan = "";
+
+$id_tamu = $_GET["id_tamu"];
+$id_udn = $_GET["id_udn"];
+if (isset($_POST["submit"])) {
+    # code...
+
+    $namatamu = $_POST["nama_tamu"];
+    $emailtamu = $_POST["email_tamu"];
+
+    $query =
+        "UPDATE tb_tamu SET `nama_tamu`='" .
+        $namatamu .
+        "', `email_tamu`='" .
+        $emailtamu .
+        "' WHERE `id_tamu`='" .
+        $id_tamu .
+        "' ";
+
+    $sql = mysqli_query($conn, $query);
+
+    if ($sql) {
+        $pesan =
+            "<div class='alert alert-info'>Data berhasil diubah. <a href='tamu_tablesend.php?id_udn=$id_udn'> kembali ke datfar tamu.</a></div>";
+    } else {
+        $pesan = "<div class='alert alert-danger'>Data gagal diubah.</div>";
+    }
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
    <head>
@@ -61,38 +69,33 @@
       </style>
    </head>
    <body style="background: #002939; color: #ffffff">
-      <?php @include 'header.php'; ?>
+      <?php @include "header.php"; ?>
       <div class="main-wrapper">
          <div class="account-content">
             <div class="container">
                <div class="account-box">
                   <div class="account-wrapper">
-                     <h3 class="account-title">INVATE</h3>
-                     <p class="account-subtitle">Ubah Data Tamu</p>
-                     <?php 
-                        echo $pesan;
-                        
-                        
-                        
-                        $query = "SELECT * FROM `tb_tamu` WHERE `id_tamu`='$id_tamu'";
-                        $sql = mysqli_query($conn, $query);
-                        while ($hasil = mysqli_fetch_array($sql)){
-                         $id_tamu = $hasil['id_tamu'];
-                         $nama_tamu = $hasil['nama_tamu'];
-                         $emailtamu = $hasil['email_tamu'];
-                        ?>
+                     <h3 class="account-title">Ubah Data Tamu</h3>
+                     <p class="account-subtitle"></p>
+                     <?php
+                     echo $pesan;
+
+                     $query = "SELECT * FROM `tb_tamu` WHERE `id_tamu`='$id_tamu'";
+                     $sql = mysqli_query($conn, $query);
+                     while ($hasil = mysqli_fetch_array($sql)) {
+
+                         $id_tamu = $hasil["id_tamu"];
+                         $nama_tamu = $hasil["nama_tamu"];
+                         $emailtamu = $hasil["email_tamu"];
+                         ?>
                      <form action="" method="POST">
                         <div class="form-group">
                            <label>Nama Tamu</label>
-                           <input class="form-control" type="text" name="id_user" value="<?php echo $row['id_user'] ?>" readonly>
-                        </div>
-                        <div class="form-group">
-                           <label>Nama Tamu</label>
-                           <input class="form-control" type="text" name="nama_tamu" value="<?php echo $nama_tamu ?>" >
+                           <input class="form-control" type="text" name="nama_tamu" value="<?php echo $nama_tamu; ?>" >
                         </div>
                         <div class="form-group">
                            <label>Email Tamu</label>
-                           <input class="form-control" type="email" name="email_tamu" placeholder="Email"  value="<?php echo $emailtamu ?>">
+                           <input class="form-control" type="email" name="email_tamu" placeholder="Email"  value="<?php echo $emailtamu; ?>">
                         </div>
                         <div class="form-group text-center">
                            <!-- Modal -->
@@ -107,7 +110,9 @@
                                        </button>
                                     </div>
                                     <div class="modal-body">
-                                       <h4>Anda yakin ingin mengubah data <?php echo $hasil['nama_tamu']?> ?</h4>
+                                       <h4>Anda yakin ingin mengubah data <?php echo $hasil[
+                                           "nama_tamu"
+                                       ]; ?> ?</h4>
                                     </div>
                                     <div class="modal-footer">
                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
@@ -119,10 +124,12 @@
                            <!-- MODAL -->
                         </div>
                         <div class="account-footer">
-                           <p><a href="./tamu_tablesend.php">Kembali</a></p>
+                           <p><a href="./tamu_tablesend.php?id_udn=<?php echo $id_udn?>">Kembali</a></p>
                         </div>
                      </form>
-                     <?php } ?>
+                     <?php
+                     }
+                     ?>
                   </div>
                </div>
             </div>
@@ -130,6 +137,6 @@
       </div>
       <br><br>
       <hr>
-      <?php @include 'footer.php'; ?>
+      <?php @include "footer.php"; ?>
    </body>
 </html>

@@ -1,131 +1,119 @@
 <?php
    session_start();
    
-     if (!isset($_SESSION['SESSION_EMAIL'])) {
+   if (!isset($_SESSION["SESSION_EMAIL"])) {
        header("Location: ../user_login.php");
        die();
-    }
+   }
    
-    require '../vendor/autoload.php';
-    require './phpqrcode/qrlib.php';
-        
-    include '../../../config/connect.php';
+   require "../vendor/autoload.php";
+   require "./phpqrcode/qrlib.php";
    
-    $id_undangan = $_GET['id_undangan'];
-    $id_tamu2 = $_GET['id_tamu'];
-    $tema = $_GET['id_tema'];
+   include "../../../config/connect.php";
+   
+   $id_udn = $_GET["id_udn"];
+   $id_tamu2 = $_GET["id_tamu"];
    
    use PHPMailer\PHPMailer\PHPMailer;
    use PHPMailer\PHPMailer\SMTP;
-   use PHPMailer\PHPMailer\Exception;   
+   use PHPMailer\PHPMailer\Exception;
    
-   
-   
-   
-   $query = mysqli_query($conn, "SELECT * FROM user_account WHERE email = '{$_SESSION['SESSION_EMAIL']}'");
+   $query = mysqli_query($conn, "SELECT * FROM user_account WHERE email = '{$_SESSION["SESSION_EMAIL"]}'");
    
    if (mysqli_num_rows($query) > 0) {
-     $gege = mysqli_fetch_assoc($query);
-   } 
+       $gege = mysqli_fetch_assoc($query);
+   }
    
-   $query2 = mysqli_query($conn, "SELECT * FROM tb_tamu WHERE id_tamu = '$id_tamu2'");
+   $query2 = mysqli_query(
+       $conn,
+       "SELECT * FROM tb_tamu WHERE id_tamu = '$id_tamu2'"
+   );
    
    if (mysqli_num_rows($query2) > 0) {
-     $gege2 = mysqli_fetch_assoc($query2);
-   }  
+       $gege2 = mysqli_fetch_assoc($query2);
+   }
    
-   $query3 = mysqli_query($conn, "SELECT * FROM tb_ultah WHERE id_user = '{$gege['id_user']}' AND id_ultah = '$id_undangan'");
+   $query3 = mysqli_query($conn, "SELECT * FROM tb_ultah WHERE id_user = '{$gege["id_user"]}' AND id_undangan = '$id_udn'");
    
    if (mysqli_num_rows($query3) > 0) {
-     $gege3 = mysqli_fetch_assoc($query3);
-   }  
-
-   $query4 = mysqli_query($conn, "SELECT * FROM tema WHERE id_tema = '$tema'");
-   
-   if (mysqli_num_rows($query4) > 0) {
-     $gege4 = mysqli_fetch_assoc($query4);
-   }  
-   
+       $gege3 = mysqli_fetch_assoc($query3);
+   }
    
    $pesan = "";
    
-   if (isset($_POST['submit']) ) {
-
-      $code = $gege2['nama_tamu'];
-      $path = 'images/';
-      $file = $path.uniqid($code).".png";
-
-      $ecc = 'L';
-      $pixel_size = 10;
-      $frame_size = 10;
-
-         
-       $insert = mysqli_query($conn, "INSERT INTO `detail_tamu`(`id_detail`, `id_tamu`, `id_ultah`, `qr_code`) VALUES ('','$id_tamu2','$id_undangan', '$file')");
-
+   if (isset($_POST["submit"])) {
+       $code = $gege2["nama_tamu"];
+       $path = "images/";
+       $file = $path . uniqid($code) . ".png";
+   
+       $ecc = "L";
+       $pixel_size = 10;
+       $frame_size = 10;
+   
+       $insert = mysqli_query(
+           $conn,
+           "INSERT INTO `detail_tamu`(`id_detail`, `id_tamu`, `id_undangan`, `qr_code`) VALUES ('','$id_tamu2','$id_udn', '$file')"
+       );
+   
        if ($insert) {
-         QRcode::png($code, $file, $ecc, $pixel_size, $frame_size);
+           QRcode::png($code, $file, $ecc, $pixel_size, $frame_size);
    
-   $mail = new PHPMailer(true);
+           $mail = new PHPMailer(true);
    
-   try {
-     //Server settings
-     $mail->isSMTP();                                            //Send using SMTP
-     $mail->Host       = 'smtp-relay.sendinblue.com';                     //Set the SMTP server to send through
-              $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
-              $mail->Username   = 'rendering.fps88@gmail.com';                     //SMTP username
-     $mail->Password   = 'xsmtpsib-336c0255d8f4ee646dea2f8c0c02f943f0d8bf23228a4580a5ec8c28ef264efa-IN3DtZr6gwya0TPS';                               //SMTP password
-     $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            //Enable implicit TLS encryption
-     $mail->Port       = 465;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
+           try {
+               //Server settings
+               $mail->isSMTP(); //Send using SMTP
+               $mail->Host = "smtp-relay.sendinblue.com"; //Set the SMTP server to send through
+               $mail->SMTPAuth = true; //Enable SMTP authentication
+               $mail->Username = "rendering.fps88@gmail.com"; //SMTP username
+               $mail->Password =
+                   "xsmtpsib-336c0255d8f4ee646dea2f8c0c02f943f0d8bf23228a4580a5ec8c28ef264efa-LKpq4bBskDFaT8Hx"; //SMTP password
+               $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS; //Enable implicit TLS encryption
+               $mail->Port = 465;
+               //Recipients
+               $mail->setFrom("INVATE@invate.my.id");
+               $mail->addAddress($gege2["email_tamu"]);
    
-     //Recipients
-     $mail->setFrom('INVATE@invate.my.id');                            //SMTP password
-     $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            //Enable implicit TLS encryption
-     $mail->Port       = 465;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
+               //Content
+               $mail->isHTML(true); //Set email format to HTML
+               $mail->Subject = "Undangan";
+               $mail->Body =
+                   '   
+        
+        
+        
+   <body class="bg-light">
+     <div class="container">
+       <div class="card p-6 p-lg-10 space-y-4">
+         <h1 class="h3 fw-700">
+           Hai ' . $gege2["nama_tamu"] .'
+         </h1>
+         <p>
+           Kamu mendapatkan undangan dari ' . $gege["username"] .' 
    
-     //Recipients
-     $mail->setFrom('INVATE@invate.my.id');
-     $mail->addAddress($gege2['email_tamu']);
+         </p>
+         <p class="btn btn-primary p-3 fw-700">Klik link di bawah untuk melihat undangan kamu   .</p>
+       </div>
+       <div class="text-muted text-center my-6">
+       <b style="text-align: center;><a style="text-align: center;" href="http://localhost/app-inv/public/user/theme/tema_insert/index' . $gege3["id_tema"] .".php?id_tamu=" . $gege2["id_tamu"] . "&id_undangan=" . $id_udn . '"> http://localhost/app-inv/public/user/theme/tema_insert/index' . $gege3["id_tema"] . ".php?id_tamu=" . $gege2["id_tamu"] . "&id_undangan=" . $id_udn . '</a></b>
+       </div>
+     </div>
+   </body>
    
-     //Content
-     $mail->isHTML(true);                                  //Set email format to HTML
-     $mail->Subject = 'Undangan';
-     $mail->Body    = '   
-     
-     
-     
-     <body class="bg-light">
-  <div class="container">
-    <div class="card p-6 p-lg-10 space-y-4">
-      <h1 class="h3 fw-700">
-        Hai '.$gege2['nama_tamu'].'
-      </h1>
-      <p>
-        Kamu mendapatkan undangan dari '.$gege['username'].' 
-
-      </p>
-      <p class="btn btn-primary p-3 fw-700">Klik link di bawah untuk melihat undangan kamu   .</p>
-    </div>
-    <div class="text-muted text-center my-6">
-    <b style="text-align: center;><a style="text-align: center;" href="http://localhost/app-inv/public/user/theme/index'.$gege4['id_tema'].'.php?namatamuhehe='.$gege2['nama_tamu'].'&id_undangan='.$id_undangan.'&qr_code='.$file.'"> http://localhost/app-inv/public/user/theme/index'.$gege4['id_tema'].'.php?namatamuhehe='.$gege2['nama_tamu'].'&id_undangan='.$id_undangan.'&qr_code='.$file.'</a></b>
-    </div>
-  </div>
-</body>
-
-';
-     
+   ';
    
-     $mail->send();
-     echo '';
-   } catch (Exception $e) {
-     echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+               $mail->send();
+               echo "";
+           } catch (Exception $e) {
+               echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+           }
+           echo "</div>";
+           $pesan =
+               "<div class='alert alert-info'>Undangan dikirim ke email tamu. <a href='tamu_tablesend.php?id_udn=$id_udn'>Kembali</a></div>";
+       } else {
+           $pesan = "<script>HAHAHAHAHAAH</script>";
+       }
    }
-     echo "</div>";
-     $pesan = "<div class='alert alert-info'>Undangan dikirim ke email tamu. <a href='undangan_table.php'>Kembali</a></div>";
-   } else {
-     $pesan = "<script>HAHAHAHAHAAH</script>";
-   }
-   }
-   
    ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -150,36 +138,37 @@
       </style>
    </head>
    <body style="background: #002939; color: #ffffff">
-   <?php @include 'header.php'; ?>
+      <?php @include "header.php"; ?>
       </form>
       <div class="account-content">
          <div class="container">
-            
             <div class="account-box">
                <div class="account-wrapper">
-                  <h3 class="account-title">INVATE</h3>
-                  <p class="account-subtitle">Kirim Undangan</p>
-                  <?php
-                     echo $pesan;
-                     
-                     ?>
+                  <h3 class="account-title">Kirim Undangan</h3>
+                  <p class="account-subtitle"></p>
+                  <?php echo $pesan; ?>
                   <form action="" method="POST">
-                     
                      <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label">Nama Tamu</label>
-                        <input type="text" class="form-control"  required value="<?php echo $gege2['nama_tamu'] ?>" disabled>
+                        <input type="text" class="form-control"  required value="<?php echo $gege2[
+                           "nama_tamu"
+                           ]; ?>" disabled>
                         <br>
                      </div>
                      <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label">Email Tamu</label>
-                        <input type="text" class="form-control"  required value="<?php echo $gege2['email_tamu'] ?>" disabled>
+                        <input type="text" class="form-control"  required value="<?php echo $gege2[
+                           "email_tamu"
+                           ]; ?>" disabled>
                         <br>
                      </div>
                      <div class="form-group text-center">
                         <button class="btn btn-primary account-btn" name="submit" type="submit">Kirim</button>
                      </div>
                      <div class="account-footer">
-                     </div>
+                           <p><a href="./tamu_tablesend.php?id_udn=<?php echo $id_udn?>">Kembali</a></p>
+                        </div>
+                     
                   </form>
                </div>
             </div>
@@ -187,6 +176,6 @@
       </div>
       </div>
       <hr>
-      <?php @include 'footer.php'; ?>
+      <?php @include "footer.php"; ?>
    </body>
 </html>

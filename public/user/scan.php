@@ -1,22 +1,22 @@
 <?php
-   session_start();
-   
-      
-      if (!isset($_SESSION['SESSION_EMAIL'])) {
-         header("Location: ./user_login.php");
-         die();
-      }
-      
-      
-      require '../../config/connect.php';
-   
-      $query = mysqli_query($conn, "SELECT * FROM user_account WHERE email = '{$_SESSION['SESSION_EMAIL']}'");
-      
-      if (mysqli_num_rows($query) > 0) {
-         $row = mysqli_fetch_assoc($query);
-      }
-   
-   ?>
+session_start();
+
+if (!isset($_SESSION["SESSION_EMAIL"])) {
+    header("Location: ./user_login.php");
+    die();
+}
+
+require "../../config/connect.php";
+
+$query = mysqli_query(
+    $conn,
+    "SELECT * FROM user_account WHERE email = '{$_SESSION["SESSION_EMAIL"]}'"
+);
+
+if (mysqli_num_rows($query) > 0) {
+    $row = mysqli_fetch_assoc($query);
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
    <head>
@@ -24,7 +24,8 @@
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <title>Scan</title>
-      <link rel="stylesheet" href="catalog.css">
+      <link rel="stylesheet" href="./home/fab.css">
+
       <link rel="shortcut icon" type="image/x-icon" href="./home/assets/img/favicon.png">
       
       <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -36,7 +37,10 @@
       <script defer src="./index.js"></script>
    </head>
    <body>
-      <?php @include 'header.php'; ?>
+      <?php @include "header.php"; ?>
+      <div class="fab">
+        <i class="fa fa-close fa-2x1 text-dark"></i>
+    </div>
       <br>
       <div class="">
          <div class="container">
@@ -56,6 +60,6 @@
          <br><br>
          </div>
       </div>
-      <?php @include 'footer.php'; ?>
+      <?php @include "footer.php"; ?>
    </body>
 </html>

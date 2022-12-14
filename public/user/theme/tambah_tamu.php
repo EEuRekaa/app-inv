@@ -1,44 +1,38 @@
 <?php
-   session_start();
+session_start();
 
-   
-   if (!isset($_SESSION['SESSION_EMAIL'])) {
-      header("Location: .././user_login.php");
-      die();
-   }
-   
-   
-   require '../../../config/connect.php';
+if (!isset($_SESSION["SESSION_EMAIL"])) {
+    header("Location: .././user_login.php");
+    die();
+}
 
-   $query = mysqli_query($conn, "SELECT * FROM user_account WHERE email = '{$_SESSION['SESSION_EMAIL']}'");
-   
-   if (mysqli_num_rows($query) > 0) {
-      $row = mysqli_fetch_assoc($query);
-   }
+require "../../../config/connect.php";
 
-   $pesan = "";
-   
-   if (isset($_POST['submit'])) {  
-      $nama_tamu = mysqli_real_escape_string($conn, $_POST['nama_tamu']);        
-      $email_tamu = mysqli_real_escape_string($conn, $_POST['email_tamu']);  
-      
-      if (mysqli_num_rows(mysqli_query($conn, "SELECT * FROM tb_tamu WHERE email_tamu='$email_tamu'"))) {
-        $pesan = "<div class='alert alert-warning'>Email $email_tamu telah digunakan </div>";   
-      
-          
-         
-      } else {
-         $insert = "INSERT INTO `tb_tamu`(`id_tamu`, `id_user`, `nama_tamu`, `email_tamu`) VALUES ('','{$row['id_user']}','$nama_tamu','$email_tamu')";
+$query = mysqli_query(
+    $conn,
+    "SELECT * FROM user_account WHERE email = '{$_SESSION["SESSION_EMAIL"]}'"
+);
 
-          mysqli_query($conn, $insert);
-          $pesan = "<div class='alert alert-info'>Berhasil ditambahkan. <a href='tamu_tablesend.php'> Kembali ke daftar tamu.</a></div>";
+if (mysqli_num_rows($query) > 0) {
+    $row = mysqli_fetch_assoc($query);
+}
+
+$pesan = "";
+
+$id_udn = $_GET['id_udn'];
+
+if (isset($_POST["submit"])) {
+    $nama_tamu = mysqli_real_escape_string($conn, $_POST["nama_tamu"]);
+    $email_tamu = mysqli_real_escape_string($conn, $_POST["email_tamu"]);
+
         
-      }
-   }
-      
-   
-   
-   ?>
+        $insert = "INSERT INTO `tb_tamu`(`id_tamu`, `nama_tamu`, `email_tamu`, `id_undangan`) VALUES ('','$nama_tamu','$email_tamu','$id_udn')";
+
+        mysqli_query($conn, $insert);
+        $pesan =
+            "<div class='alert alert-info'>Berhasil ditambahkan. <a href='tamu_tablesend.php?id_udn=$id_udn'> Kembali ke daftar tamu.</a></div>";
+    }
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -65,7 +59,7 @@
 </head>
    <body style="background: #002939; color: #ffffff">
 
-    <?php @include 'header.php'; ?>
+    <?php @include "header.php"; ?>
     
     
 
@@ -76,14 +70,8 @@
             <div class="container">
                <div class="account-box">
                   <div class="account-wrapper">
-                     <h3 class="account-title">INVATE</h3>
-                     <p class="account-subtitle">Tambahkan Tamu</p>
-                     <?php 
-                        echo $pesan;
-                        
-                        
-                       
-                        ?>
+                  <h3 class="account-title">Tambahkan Tamu</h3> <br>
+                     <?php echo $pesan; ?>
                      <form action="" method="POST">
                         
                         <div class="form-group">
@@ -133,6 +121,6 @@
     <hr>
 
 
-    <?php @include 'footer.php'; ?>
+    <?php @include "footer.php"; ?>
 </body>
 </html>

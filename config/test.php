@@ -1,33 +1,27 @@
 <?php
- 
+
 session_start();
-   
-   
-   require 'connect.php';
-   
 
-   if (isset($_POST['submit'])) {  
+require "connect.php";
 
-      $judul_acara = mysqli_real_escape_string($conn, $_POST['judul_acara']);        
-      $deskripsi_acara = mysqli_real_escape_string($conn, $_POST['deskripsi_acara']);        
-      $hari = mysqli_real_escape_string($conn, $_POST['hari']);        
-      $tanggal = mysqli_real_escape_string($conn, $_POST['tanggal']);        
-      $jam = mysqli_real_escape_string($conn, $_POST['jam']);        
-      $tempat = mysqli_real_escape_string($conn, $_POST['tempat']);        
-      $susunan_acara = mysqli_real_escape_string($conn, $_POST['susunan_acara']);        
-     
-          $insert = "INSERT INTO `udn_ultah`(`id_ultah`, `judul_acara`, `deskripsi_acara`, `hari`, `tanggal`, `jam`, `tempat`, `susunan_acara`) VALUES ('','$judul_acara','$deskripsi_acara','$hari','$tanggal','$jam','$tempat','$susunan_acara')";
+if (isset($_POST["submit"])) {
+    $judul_acara = mysqli_real_escape_string($conn, $_POST["judul_acara"]);
+    $deskripsi_acara = mysqli_real_escape_string(
+        $conn,
+        $_POST["deskripsi_acara"]
+    );
+    $hari = mysqli_real_escape_string($conn, $_POST["hari"]);
+    $tanggal = mysqli_real_escape_string($conn, $_POST["tanggal"]);
+    $jam = mysqli_real_escape_string($conn, $_POST["jam"]);
+    $tempat = mysqli_real_escape_string($conn, $_POST["tempat"]);
+    $susunan_acara = mysqli_real_escape_string($conn, $_POST["susunan_acara"]);
 
-          
+    $insert = "INSERT INTO `udn_ultah`(`id_ultah`, `judul_acara`, `deskripsi_acara`, `hari`, `tanggal`, `jam`, `tempat`, `susunan_acara`) VALUES ('','$judul_acara','$deskripsi_acara','$hari','$tanggal','$jam','$tempat','$susunan_acara')";
 
-          mysqli_query($conn, $insert);
-          echo "<script>alert('awokaowkoawk')</script>";
-         
-      }
-      
-   
-   
-   ?>
+    mysqli_query($conn, $insert);
+    echo "<script>alert('awokaowkoawk')</script>";
+}
+?>
 
    <!DOCTYPE html>
    <html lang="en">

@@ -4,15 +4,19 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "pretty": "prettier --write \"./**/*.{js,jsx,json,html,css,php}\"",
+    "prettier": "prettier --write \"./**/*.{php}\""
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "prettier": "^2.8.1",
     "tailwindcss": "^3.2.4"
   },
   "dependencies": {
+    "@prettier/plugin-php": "^0.19.2",
     "html5-qrcode": "^2.3.4",
     "instascan": "^1.0.0",
     "sweetalert2": "^11.6.15"

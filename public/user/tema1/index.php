@@ -1,29 +1,32 @@
-<?php 
+<?php
 
 session_start();
 
-include '../../../config/connect.php';
+include "../../../config/connect.php";
 
-if (!isset($_SESSION['SESSION_EMAIL'])) {
+if (!isset($_SESSION["SESSION_EMAIL"])) {
     header("Location: ./user_login.php");
     die();
- }
+}
 
-    $query = mysqli_query($conn, "SELECT * FROM user_account WHERE email = '{$_SESSION['SESSION_EMAIL']}'");
-    
-   if (mysqli_num_rows($query) > 0) {
-      $gege = mysqli_fetch_assoc($query);
-   }
+$query = mysqli_query(
+    $conn,
+    "SELECT * FROM user_account WHERE email = '{$_SESSION["SESSION_EMAIL"]}'"
+);
 
-   $id_ultah = $_GET['id_ultah2'];
-    $query2 = mysqli_query($conn, "SELECT * FROM udn_ultah WHERE id_ultah = '{$id_ultah}'");
-    
-   if (mysqli_num_rows($query2) > 0) {
-      $gege2 = mysqli_fetch_assoc($query2);
-   }
-   
+if (mysqli_num_rows($query) > 0) {
+    $gege = mysqli_fetch_assoc($query);
+}
 
+$id_ultah = $_GET["id_ultah2"];
+$query2 = mysqli_query(
+    $conn,
+    "SELECT * FROM udn_ultah WHERE id_ultah = '{$id_ultah}'"
+);
 
+if (mysqli_num_rows($query2) > 0) {
+    $gege2 = mysqli_fetch_assoc($query2);
+}
 ?>
 
 <!DOCTYPE html>
@@ -52,7 +55,7 @@ if (!isset($_SESSION['SESSION_EMAIL'])) {
         <header class="masthead d-flex align-items-center">
             <div class="container px-4 px-lg-5 text-center">
                 <h1 class="mb-1">Happy Birthday!</h1>
-                <h2 class="mb-5"><em><?php echo $gege['username'] ?></em></h2>
+                <h2 class="mb-5"><em><?php echo $gege["username"]; ?></em></h2>
                 
             </div>
         </header>
@@ -62,8 +65,12 @@ if (!isset($_SESSION['SESSION_EMAIL'])) {
         <section class="content-section bg-primary text-white text-center" id="services">
             <div class="container px-4 px-lg-5">
                 <div class="content-section-heading">
-                    <h2 class="text-secondary mb-0"><?php echo $gege2['judul_acara'] ?></h2>
-                    <h3 class="mb-5"><?php echo $gege2['deskripsi_acara'] ?></h3>
+                    <h2 class="text-secondary mb-0"><?php echo $gege2[
+                        "judul_acara"
+                    ]; ?></h2>
+                    <h3 class="mb-5"><?php echo $gege2[
+                        "deskripsi_acara"
+                    ]; ?></h3>
                 </div>
                 
                 
@@ -72,9 +79,9 @@ if (!isset($_SESSION['SESSION_EMAIL'])) {
         <!-- Callout-->
         <section class="callout">
             <div class="container px-4 px-lg-5 text-center">
-                <h2 class="mx-auto mb-5"><?php echo $gege2['hari'] ?></h2>
-                <h2 class="mx-auto mb-5"><?php echo $gege2['tanggal'] ?></h2>
-                <h2 class="mx-auto mb-5"><?php echo $gege2['jam'] ?></h2>
+                <h2 class="mx-auto mb-5"><?php echo $gege2["hari"]; ?></h2>
+                <h2 class="mx-auto mb-5"><?php echo $gege2["tanggal"]; ?></h2>
+                <h2 class="mx-auto mb-5"><?php echo $gege2["jam"]; ?></h2>
             </div>
         </section>
 
@@ -85,9 +92,9 @@ if (!isset($_SESSION['SESSION_EMAIL'])) {
         <section class="content-section bg-primary text-white">
             <div class="container px-4 px-lg-5 text-center">
                 <h2 class="mb-4">Tempat</h2>
-                <h2 class="mb-4"><?php echo $gege2['tempat'] ?></h2><br><br>
+                <h2 class="mb-4"><?php echo $gege2["tempat"]; ?></h2><br><br>
                 <h2 class="mb-4">Susunan Acara</h2>
-                <h2 class="mb-4"><?php echo $gege2['susunan_acara'] ?></h2>
+                <h2 class="mb-4"><?php echo $gege2["susunan_acara"]; ?></h2>
             </div>
         </section>
         <div class="map" id="contact">

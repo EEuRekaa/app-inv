@@ -1,10 +1,8 @@
-<?php 
+<?php
 
 session_start();
 
-include '../../../../config/connect.php';
-
-
+include "../../../../config/connect.php";
 ?>
 
 <!DOCTYPE html>
@@ -53,10 +51,38 @@ include '../../../../config/connect.php';
     <div class="container">
         <div class="section-content">
             <div class="title-wrap">
+                
                 <h1 class="display-2 mb-4">Hi Tamu</h1>
     <p>
         aku akan mengadakan pesta untuk merayakan ulang tahunku. Acaranya akan berlangsung pada hari (hari), (tanggal). <br>
         Aku harap kamu dapat datang bersama teman-teman lainnya. Sampai jumpa!
+    </p>
+    
+    <div class="py-4">
+    <a class="btn btn-xl btn-light" href="../undangan_tema1.php?id_tema=3">Gunakan Sekarang!</a>
+                <a class="btn btn-xl btn-dark" href="../catalog.php">Kembali ke Catalog</a>
+                </div>
+    
+    <br>
+    
+
+    <h2 class="mb-4">Waktu</h2>
+    <p>
+        Hari
+    </p>
+    <p>
+        Tanggal
+    </p>
+    <p>
+        Jam
+    </p><br>
+
+    <h2 class="mb-4">Lokasi</h2>
+    <p>
+        Masukan lokasi sesuai dengan google map
+    </p>
+    <p>
+        Detail lokasi / gedung / rumah / jalan
     </p>
             </div>
             

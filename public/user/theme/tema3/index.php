@@ -1,3 +1,34 @@
+<?php
+
+session_start();
+
+include "../../../../config/connect.php";
+
+if (!isset($_SESSION["SESSION_EMAIL"])) {
+    header("Location: ../user_login.php");
+    die();
+}
+
+$query = mysqli_query(
+    $conn,
+    "SELECT * FROM user_account WHERE email = '{$_SESSION["SESSION_EMAIL"]}'"
+);
+
+if (mysqli_num_rows($query) > 0) {
+    $gege = mysqli_fetch_assoc($query);
+}
+
+$id_ultah = $_GET["id_udn"];
+$query2 = mysqli_query(
+    $conn,
+    "SELECT * FROM tb_ultah WHERE id_undangan = '{$id_ultah}'"
+);
+
+if (mysqli_num_rows($query2) > 0) {
+    $gege2 = mysqli_fetch_assoc($query2);
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -8,6 +39,8 @@
     <title>Tema 3</title>
     <meta name="description" content="Core HTML Project">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+    <link rel="shortcut icon" type="image/x-icon" href="../assets/img/favicon.png">
     <link rel="stylesheet" href="vendor/bootstrap/bootstrap.min.css">
     <link rel="stylesheet" href="vendor/select2/select2.min.css">
     <link rel="stylesheet" href="vendor/owlcarousel/owl.carousel.min.css">
@@ -44,31 +77,31 @@
             <div class="title-wrap">
                 <h1 class="display-2 mb-4">Hi Tamu</h1>
     <p>
-        aku akan mengadakan pesta untuk merayakan ulang tahunku. Acaranya akan berlangsung pada hari (hari), (tanggal). <br>
+        aku akan mengadakan pesta untuk merayakan ulang tahunku. Acaranya akan berlangsung pada hari <?php echo $gege2['hari']?>, <?php echo $gege2['tanggal']?>. <br>
         Aku harap kamu dapat datang bersama teman-teman lainnya. Sampai jumpa!
+    </p><br>
+
+    <h2 class="mb-4">Waktu</h2>
+    <p>
+    <?php echo $gege2['hari']?>
+    </p>
+    <p>
+    <?php echo $gege2['tanggal']?>
+    </p>
+    <p>
+    <?php echo $gege2['jam']?>
+    </p><br>
+
+    <h2 class="mb-4">Lokasi</h2>
+    <p>
+    <?php echo $gege2['tempat']?>
+    </p>
+    <p>
+    <?php echo $gege2['detail_tempat']?>
     </p>
             </div>
             
-            <div class="row text-center">
-                <div class="col-md-4 col-sm-6 ">
-                    <br>
-                    <h5 class="mb-4">Simple and Clean</h5>
-                    <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-                    <p><a class="btn btn-link" href="#" role="button">View details</a></p>
-                </div>
-                <div class="col-md-4 col-sm-6 ">
-                    <br>
-                    <h5 class="mb-4">Easy to Customize</h5>
-                    <p>Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Vestibulum id ligula porta felis.</p>
-                    <p><a class="btn btn-link" href="#" role="button">View details</a></p>
-                </div>
-                <div class="col-md-4 col-sm-6 ">
-                    <br>
-                    <h5 class="mb-4">Fully Responsive</h5>
-                    <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. </p>
-                    <p><a class="btn btn-link" href="#" role="button">View details</a></p>
-                </div>
-            </div>
+            
         </div>
     </div>
 </section>		
@@ -79,8 +112,9 @@
     </div>
 
     <div class="map" id="contact">
-        <iframe
-            src="https://maps.google.com/maps?f=q&amp;source=s_q&amp;hl=en&amp;geocode=&amp;q=Twitter,+Inc.,+Market+Street,+San+Francisco,+CA&amp;aq=0&amp;oq=twitter&amp;sll=28.659344,-81.187888&amp;sspn=0.128789,0.264187&amp;ie=UTF8&amp;hq=Twitter,+Inc.,+Market+Street,+San+Francisco,+CA&amp;t=m&amp;z=15&amp;iwloc=A&amp;output=embed"></iframe>
+    <iframe width="600" height="500" id="gmap_canvas" src="https://maps.google.com/maps?q=<?php echo $gege2[
+            "tempat"
+        ]; ?>&t=&z=13&ie=UTF8&iwloc=&output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe>
         <br />
     </div>
     <br><br><br>
@@ -90,7 +124,19 @@
         <div class="section-content">
             <div class="title-wrap mb-5">
                 <h2 class="section-title">Susunan Acara</b></h2>
-                <p class="section-sub-title">Acara ente</p>
+                <p class="section-sub-title"><?php
+            $query = mysqli_query(
+                $conn,
+                "SELECT * FROM susunan_acara WHERE id_undangan = $id_ultah"
+            );
+            while ($data = mysqli_fetch_array($query)) { ?>
+                <p class="text-center">
+                    <?php echo $data["susunan_acara"]; ?>
+                    - <?php echo $data["jam"]; ?>
+                </p>
+
+                <?php }
+            ?></p>
             </div>
             <div class="row">
                 <div class="col-md-12 blog-holder">
@@ -101,11 +147,11 @@
                         <div class="col-md-4 blog-item-wrapper">
                             <div class="blog-item">
                                 <div class="blog-img">
-                                    <a href="#"><img src="img/blog-2.jpg" alt=""></a>
+                                    <a href="#"><img src="../../theme/images/NADITYA638d3f7925413.png" alt=""></a>
                                 </div>
                                 <div class="blog-text">
                                     <div class="blog-title">
-                                        <a href="#" class="text-center"><h4>QR Code</h4></a>
+                                        <a href="#" class="text-center"><h4>QR Code tamu</h4></a>
                                     </div>
                                 </div>
                             </div>

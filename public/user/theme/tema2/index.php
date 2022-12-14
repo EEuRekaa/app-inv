@@ -1,29 +1,32 @@
-<?php 
+<?php
 
 session_start();
 
-include '../../../../config/connect.php';
+include "../../../../config/connect.php";
 
-if (!isset($_SESSION['SESSION_EMAIL'])) {
+if (!isset($_SESSION["SESSION_EMAIL"])) {
     header("Location: ../user_login.php");
     die();
- }
+}
 
-    $query = mysqli_query($conn, "SELECT * FROM user_account WHERE email = '{$_SESSION['SESSION_EMAIL']}'");
-    
-   if (mysqli_num_rows($query) > 0) {
-      $gege = mysqli_fetch_assoc($query);
-   }
+$query = mysqli_query(
+    $conn,
+    "SELECT * FROM user_account WHERE email = '{$_SESSION["SESSION_EMAIL"]}'"
+);
 
-   $id_ultah = $_GET['id_ultah2'];
-    $query2 = mysqli_query($conn, "SELECT * FROM tb_ultah WHERE id_ultah = '{$id_ultah}'");
-    
-   if (mysqli_num_rows($query2) > 0) {
-      $gege2 = mysqli_fetch_assoc($query2);
-   }
-   
+if (mysqli_num_rows($query) > 0) {
+    $gege = mysqli_fetch_assoc($query);
+}
 
+$id_ultah = $_GET["id_udn"];
+$query2 = mysqli_query(
+    $conn,
+    "SELECT * FROM tb_ultah WHERE id_undangan = '{$id_ultah}'"
+);
 
+if (mysqli_num_rows($query2) > 0) {
+    $gege2 = mysqli_fetch_assoc($query2);
+}
 ?>
 
 <!doctype html>
@@ -61,8 +64,8 @@ if (!isset($_SESSION['SESSION_EMAIL'])) {
     </div>
     <div class="hero">
         <h2>Happy Birthday</h2>
-        <h1><?php echo $gege2['judul_acara'] ?></h1>
-        <h3> <?php echo $gege2['hari']?>, <?php echo $gege2['tanggal']?>
+        <h1><?php echo $gege2["judul_acara"]; ?></h1>
+        <h3> <?php echo $gege2["hari"]; ?>, <?php echo $gege2["tanggal"]; ?>
         </h3>
     </div>
 
@@ -96,7 +99,7 @@ if (!isset($_SESSION['SESSION_EMAIL'])) {
                 <br>
                 __
                 <br>
-                <?php echo $gege2['judul_acara']?>
+                <?php echo $gege2["judul_acara"]; ?>
             </h2>
         </div>
 
@@ -122,9 +125,12 @@ if (!isset($_SESSION['SESSION_EMAIL'])) {
                     </div>
                     <div class="col-12 col-lg-6">
                         <div class="section_container_akad container">
-                            <h3><?php echo $gege2['hari']?>, <?php echo $gege2['tanggal']?></h3>
-                            <h3>Pukul: <?php echo $gege2['jam']?></h3>
-                            <h4><?php echo $gege2['tempat']?> </h4>
+                            <h3><?php echo $gege2[
+                                "hari"
+                            ]; ?>, <?php echo $gege2["tanggal"]; ?></h3>
+                            <h3>Pukul : <?php echo $gege2["jam"]; ?></h3>
+                            <h4>Lokasi : <?php echo $gege2["tempat"]; ?> </h4>
+                            <h4><?php echo $gege2["detail_tempat"]; ?> </h4>
                             <br>
                             <p class="text-center lead">Merupakan suatu kebahagiaan bagi kami apabila Teman-teman
                                 berkenan untuk hadir untuk memeriahkan acara.
@@ -148,7 +154,9 @@ if (!isset($_SESSION['SESSION_EMAIL'])) {
         </div>
 
         <div class="map" id="contact">
-        <iframe width="600" height="500" id="gmap_canvas" src="https://maps.google.com/maps?q=<?php echo $gege2['tempat'] ?>&t=&z=13&ie=UTF8&iwloc=&output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe>
+        <iframe width="600" height="500" id="gmap_canvas" src="https://maps.google.com/maps?q=<?php echo $gege2[
+            "tempat"
+        ]; ?>&t=&z=13&ie=UTF8&iwloc=&output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe>
             <br />
         </div>
         <br><br><br>
@@ -163,17 +171,19 @@ if (!isset($_SESSION['SESSION_EMAIL'])) {
 
         <div class="jumbotron jumbotron-fluid">
             <div class="container">
-            <?php 
-
-$query = mysqli_query($conn, "SELECT * FROM susunan_acara WHERE id_undangan = $id_ultah");
-while ($data=mysqli_fetch_array($query)) {
-                
-                ?>
+            <?php
+            $query = mysqli_query(
+                $conn,
+                "SELECT * FROM susunan_acara WHERE id_undangan = $id_ultah"
+            );
+            while ($data = mysqli_fetch_array($query)) { ?>
                 <p class="lead text-center">
-                    <?php echo $data['susunan_acara']?>
+                    <?php echo $data["susunan_acara"]; ?>
+                    - <?php echo $data["jam"]; ?>
                 </p>
 
-                <?php } ?>
+                <?php }
+            ?>
             </div>
         </div>
 

@@ -1,21 +1,21 @@
-<?php 
+<?php
 
 session_start();
 
-include '../../../config/connect.php';
+include "../../../config/connect.php";
 
+$namatamu = $_GET["namatamuhehe"];
+$id_undangan = $_GET["id_undangan"];
+$qr_code = $_GET["qr_code"];
 
-$namatamu = $_GET['namatamuhehe'];
-$id_undangan = $_GET['id_undangan'];
-$qr_code = $_GET['qr_code'];
+$query = mysqli_query(
+    $conn,
+    "SELECT * FROM tb_ultah WHERE id_ultah = '{$id_undangan}'"
+);
 
-    $query = mysqli_query($conn, "SELECT * FROM tb_ultah WHERE id_ultah = '{$id_undangan}'");
-    
-   if (mysqli_num_rows($query) > 0) {
-      $gege = mysqli_fetch_assoc($query);
-   }
-
-
+if (mysqli_num_rows($query) > 0) {
+    $gege = mysqli_fetch_assoc($query);
+}
 ?>
 
 <!doctype html>

@@ -1,21 +1,22 @@
 <?php
-   session_start();
-   
-   if (!isset($_SESSION['SESSION_EMAIL'])) {
-      header("Location: ../A_admin_login/admin_login.php");
-      die();
-   }
-   
-   
-   
-   include '../../config/connect.php';
-   
-   $query = mysqli_query($conn, "SELECT * FROM admin_account WHERE email = '{$_SESSION['SESSION_EMAIL']}'");
-   
-   if (mysqli_num_rows($query) > 0) {
-      $row = mysqli_fetch_assoc($query);
-   }
-   ?>
+session_start();
+
+if (!isset($_SESSION["SESSION_EMAIL"])) {
+    header("Location: ../A_admin_login/admin_login.php");
+    die();
+}
+
+include "../../config/connect.php";
+
+$query = mysqli_query(
+    $conn,
+    "SELECT * FROM admin_account WHERE email = '{$_SESSION["SESSION_EMAIL"]}'"
+);
+
+if (mysqli_num_rows($query) > 0) {
+    $row = mysqli_fetch_assoc($query);
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
    <head>
@@ -33,14 +34,16 @@
       <link rel="stylesheet" href="assets/css/style.css">
    </head>
    <body>
-      <?php 
-         $query = mysqli_query($conn, "SELECT * FROM admin_account WHERE email = '{$_SESSION['SESSION_EMAIL']}'");
-         
-         if (mysqli_num_rows($query) > 0) {
-            $row = mysqli_fetch_assoc($query);
-         }
-         
-         ?>
+      <?php
+      $query = mysqli_query(
+          $conn,
+          "SELECT * FROM admin_account WHERE email = '{$_SESSION["SESSION_EMAIL"]}'"
+      );
+
+      if (mysqli_num_rows($query) > 0) {
+          $row = mysqli_fetch_assoc($query);
+      }
+      ?>
       <div class="main-wrapper">
          <div class="header">
             <div class="header-left">
@@ -67,7 +70,7 @@
                <li class="nav-item dropdown has-arrow main-drop">
                   <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
                   <span class="user-img"><img src="assets/img/user.jpg" alt=""></span>
-                  <span><?php echo $row['username'] ?></span>
+                  <span><?php echo $row["username"]; ?></span>
                   </a>
                   <div class="dropdown-menu">
                      <a class="dropdown-item" href="../admin/logout.php">Logout</a>
@@ -135,35 +138,35 @@
                         </div>
                         <div class="card-body">
                            <?php
-                              if (isset($_GET['id_user'])) {
-                                 $id_user = $_GET['id_user'];
-                              
-                                 if (empty($id_user)) {
-                                    echo "ID tidak ada";
-                                 }
-                              }else {
-                                 die("id tidak ada");
-                              }
-                              
-                              $query = "SELECT * FROM `user_account` WHERE `id_user`='$id_user'";
-                              $sql = mysqli_query($conn, $query);
-                              while ($hasil = mysqli_fetch_array($sql)){
-                                 $id_user = $hasil['id_user'];
-                                 $username = $hasil['username'];
-                                 $email = $hasil['email'];
-                              
-                              ?>
-                           <form action="edit_update.php?id_user=<?php echo $id_user ?>" method="POST">
+                           if (isset($_GET["id_user"])) {
+                               $id_user = $_GET["id_user"];
+
+                               if (empty($id_user)) {
+                                   echo "ID tidak ada";
+                               }
+                           } else {
+                               die("id tidak ada");
+                           }
+
+                           $query = "SELECT * FROM `user_account` WHERE `id_user`='$id_user'";
+                           $sql = mysqli_query($conn, $query);
+                           while ($hasil = mysqli_fetch_array($sql)) {
+
+                               $id_user = $hasil["id_user"];
+                               $username = $hasil["username"];
+                               $email = $hasil["email"];
+                               ?>
+                           <form action="edit_update.php?id_user=<?php echo $id_user; ?>" method="POST">
                               <div class="form-group row">
                                  <label class="col-form-label col-md-2">Username</label>
                                  <div class="col-md-10">
-                                    <input class="form-control" type="text" placeholder="Username" name="username" required value="<?php echo $username ?>">
+                                    <input class="form-control" type="text" placeholder="Username" name="username" required value="<?php echo $username; ?>">
                                  </div>
                               </div>
                               <div class="form-group row">
                                  <label class="col-form-label col-md-2">Email</label>
                                  <div class="col-md-10">
-                                    <input class="form-control" type="email" placeholder="Email" name="email" required value="<?php echo $email ?>">
+                                    <input class="form-control" type="email" placeholder="Email" name="email" required value="<?php echo $email; ?>">
                                  </div>
                               </div>
                               <div class="form-group text-center">
@@ -191,7 +194,9 @@
                                  <!-- MODAL -->
                               </div>
                            </form>
-                           <?php } ?>
+                           <?php
+                           }
+                           ?>
                         </div>
                      </div>
                   </div>

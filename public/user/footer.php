@@ -2,21 +2,18 @@
 
 session_start();
 
-   
-   if (!isset($_SESSION['SESSION_EMAIL'])) {
-      header("Location: ./user_login.php");
-      die();
-   }
-   
-   
-   require '../../config/connect.php';
+error_reporting(0); 
 
-   $query = mysqli_query($conn, "SELECT * FROM user_account WHERE email = '{$_SESSION['SESSION_EMAIL']}'");
-   
-   if (mysqli_num_rows($query) > 0) {
-      $row = mysqli_fetch_assoc($query);
-   }
+require "../../config/connect.php";
 
+$query = mysqli_query(
+    $conn,
+    "SELECT * FROM user_account WHERE email = '{$_SESSION["SESSION_EMAIL"]}'"
+);
+
+if (mysqli_num_rows($query) > 0) {
+    $row = mysqli_fetch_assoc($query);
+}
 ?>
 
 

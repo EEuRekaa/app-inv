@@ -1,8 +1,6 @@
 <?php
 
-$text = $_GET['text'];
-
-?>
+$text = $_GET["text"]; ?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -17,7 +15,7 @@ $text = $_GET['text'];
 </head>
 <body>
 
-    <h1><?php echo $text ?></h1>
+    <h1><?php echo $text; ?></h1>
     <div id="qr-reader" style="width: 100%;"></div>
 </body>
 </html>

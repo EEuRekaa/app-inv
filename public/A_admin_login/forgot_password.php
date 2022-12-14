@@ -1,53 +1,63 @@
 <?php
 
-    session_start();
+session_start();
 
-    if (isset($_SESSION['SESSION_EMAIL'])) {
-        header("Location: ../admin/index.php");
-        die();       
-    }
+if (isset($_SESSION["SESSION_EMAIL"])) {
+    header("Location: ../admin/index.php");
+    die();
+}
 
-    use PHPMailer\PHPMailer\PHPMailer;
-    use PHPMailer\PHPMailer\SMTP;
-    use PHPMailer\PHPMailer\Exception;
-    
-    include '../../config/connect.php';
-    require '../../vendor/autoload.php';
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
 
-    $pesan = "";
+include "../../config/connect.php";
+require "../../vendor/autoload.php";
 
-    if (isset($_POST['submit'])) {
-        $email = mysqli_real_escape_string($conn, $_POST['email']);
-        $v_code = mysqli_real_escape_string($conn, md5(rand()));
+$pesan = "";
 
-        if (mysqli_num_rows(mysqli_query($conn, "SELECT * FROM admin_account WHERE email = '{$email}'")) > 0) {
-            
-            $query = mysqli_query($conn, "UPDATE admin_account SET v_code = '{$v_code}' WHERE email = '{$email}'");
+if (isset($_POST["submit"])) {
+    $email = mysqli_real_escape_string($conn, $_POST["email"]);
+    $v_code = mysqli_real_escape_string($conn, md5(rand()));
 
-            if ($query) {            
+    if (
+        mysqli_num_rows(
+            mysqli_query(
+                $conn,
+                "SELECT * FROM admin_account WHERE email = '{$email}'"
+            )
+        ) > 0
+    ) {
+        $query = mysqli_query(
+            $conn,
+            "UPDATE admin_account SET v_code = '{$v_code}' WHERE email = '{$email}'"
+        );
 
-                echo "<div style='display: none;'>";
+        if ($query) {
+            echo "<div style='display: none;'>";
 
-                $mail = new PHPMailer(true);
+            $mail = new PHPMailer(true);
 
-                try {
+            try {
                 //Server settings
-                $mail->isSMTP();                                            //Send using SMTP
-               $mail->Host       = 'smtp-relay.sendinblue.com';                     //Set the SMTP server to send through
-               $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
-               $mail->Username   = 'rendering.fps88@gmail.com';                     //SMTP username
-      $mail->Password   = 'xsmtpsib-336c0255d8f4ee646dea2f8c0c02f943f0d8bf23228a4580a5ec8c28ef264efa-IN3DtZr6gwya0TPS';                               //SMTP password
-      $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            //Enable implicit TLS encryption
-      $mail->Port       = 465;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
-   
-      //Recipients
-      $mail->setFrom('INVATE@invate.my.id');
+                $mail->isSMTP(); //Send using SMTP
+                $mail->Host = "smtp-relay.sendinblue.com"; //Set the SMTP server to send through
+                $mail->SMTPAuth = true; //Enable SMTP authentication
+                $mail->Username = "rendering.fps88@gmail.com"; //SMTP username
+                $mail->Password =
+                    "xsmtpsib-336c0255d8f4ee646dea2f8c0c02f943f0d8bf23228a4580a5ec8c28ef264efa-LKpq4bBskDFaT8Hx"; //SMTP password
+                $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS; //Enable implicit TLS encryption
+                $mail->Port = 465; //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
+
+                //Recipients
+                $mail->setFrom("INVATE@invate.my.id");
                 $mail->addAddress($email);
 
                 //Content
-                $mail->isHTML(true);                                  //Set email format to HTML
-                $mail->Subject = 'Reset Password Invate';
-                $mail->Body    = '
+                $mail->isHTML(true); //Set email format to HTML
+                $mail->Subject = "Reset Password Invate";
+                $mail->Body =
+                    '
                   
                   <body class="bg-light">
   <div class="container">
@@ -58,25 +68,29 @@
       </p>
     </div>
     <div class="text-muted text-center my-6">
-    <b style="text-align: center;><a style="text-align: center; text-decoration: italy;" href="http://localhost/app-inv/public/A_admin_login/resetpassword.php?reset='.$v_code.'">  http://localhost/app-inv/public/A_admin_login/resetpassword.php?reset='.$v_code.'</a></b>
+    <b style="text-align: center;><a style="text-align: center; text-decoration: italy;" href="http://localhost/app-inv/public/A_admin_login/resetpassword.php?reset=' .
+                    $v_code .
+                    '">  http://localhost/app-inv/public/A_admin_login/resetpassword.php?reset=' .
+                    $v_code .
+                    '</a></b>
     </div>
   </div>
 </body>
-';;
+';
 
                 $mail->send();
-                echo 'Message has been sent';
-                } catch (Exception $e) {
+                echo "Message has been sent";
+            } catch (Exception $e) {
                 echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
-                }
-                echo "</div>";   
-                $pesan = "<div class='alert alert-info'>Kami mengirimkan verifikasi ke email anda</div>";
             }
-        } else {
-            $pesan = "<div class='alert alert-danger'>Email $email tidak ditemukan</div>";
+            echo "</div>";
+            $pesan =
+                "<div class='alert alert-info'>Kami mengirimkan verifikasi ke email anda</div>";
         }
+    } else {
+        $pesan = "<div class='alert alert-danger'>Email $email tidak ditemukan</div>";
     }
-
+}
 ?>
 
 <!DOCTYPE html>

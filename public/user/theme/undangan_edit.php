@@ -1,29 +1,26 @@
 <?php
-   session_start();
+session_start();
 
-   
-   if (!isset($_SESSION['SESSION_EMAIL'])) {
-      header("Location: .././user_login.php");
-      die();
-   }
-   
-   
-   require '../../../config/connect.php';
+if (!isset($_SESSION["SESSION_EMAIL"])) {
+    header("Location: .././user_login.php");
+    die();
+}
 
-   $id_ultah = $_GET['id_ultah'];
+require "../../../config/connect.php";
 
-   $query = mysqli_query($conn, "SELECT * FROM user_account WHERE email = '{$_SESSION['SESSION_EMAIL']}'");
-   
-   if (mysqli_num_rows($query) > 0) {
-      $row = mysqli_fetch_assoc($query);
-   }
+$id_udn = $_GET["id_udn"];
 
+$query = mysqli_query(
+    $conn,
+    "SELECT * FROM user_account WHERE email = '{$_SESSION["SESSION_EMAIL"]}'"
+);
 
-   $pesan = "";
-      
-   
-   
-   ?>
+if (mysqli_num_rows($query) > 0) {
+    $row = mysqli_fetch_assoc($query);
+}
+
+$pesan = "";
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -50,59 +47,63 @@
 </head>
    <body style="background: #002939; color: #ffffff">
 
-    <?php @include 'header.php'; ?>
+    <?php @include "header.php"; ?>
 
     <br>
 
     <div class="container">
         <div class="">
-            <h2 class="text-center" style="color: #ddc190;">Buat Undangan</h2><hr>
+            <h2 class="text-center" style="color: #ddc190;">Ubah Isi Undangan</h2><hr>
         </div>
         <br>
         
         <div class="row">
             <div class="col-lg-12">
                <div class="card">
-                  <div class="card-header">
-                     <h4 class="card-title mb-0">Buat Undangan</h4>
+                  <div class="card-header text-right ">
+                     <a href="undangan_table.php" class="btn btn-outline-warning">Kembali</a>
                   </div>
                   <div class="card-body">
                      <?php
-                        echo $pesan;
+                     echo $pesan;
 
-                        if (isset($_GET['id_ultah'])) {
-                            $id_ultah = $_GET['id_ultah'];
- 
-                            if (empty($id_ultah)) {
-                               echo "ID tidak ada";
-                            }
-                         }else {
-                            die("id tidak ada");
+                     if (isset($_GET["id_udn"])) {
+                         $id_udn = $_GET["id_udn"];
+
+                         if (empty($id_udn)) {
+                             echo "ID tidak ada";
                          }
- 
-                         $query = "SELECT tb_ultah.*, tema.* FROM tb_ultah, tema WHERE tema.id_tema = tb_ultah.id_tema AND tb_ultah.id_ultah = $id_ultah";
-                         $sql = mysqli_query($conn, $query);
-                         while ($hasil = mysqli_fetch_array($sql)){
-                            $id_ultah            = $hasil['id_ultah'];
-                            $tema                = $hasil['nama_tema'];
-                            $judul_acara         = $hasil['judul_acara'];              
-                            $hari                = $hasil['hari'];        
-                            $tanggal             = $hasil['tanggal'];        
-                            $jam                 = $hasil['jam'];        
-                            $tempat              = $hasil['tempat'];        
-                        
-                        ?>
-                     <form action="undangan_update.php?id_ultah=<?php echo $id_ultah ?>" method="POST">
+                     } else {
+                         die("id tidak ada");
+                     }
+
+                     $query = "SELECT tb_ultah.*, tema.* FROM tb_ultah, tema WHERE tema.id_tema = tb_ultah.id_tema AND tb_ultah.id_undangan = $id_udn";
+                     $sql = mysqli_query($conn, $query);
+                     while ($hasil = mysqli_fetch_array($sql)) {
+
+                         $id_udn = $hasil["id_undangan"];
+                         $tema = $hasil["nama_tema"];
+                         $judul_acara = $hasil["judul_acara"];
+                         $hari = $hasil["hari"];
+                         $tanggal = $hasil["tanggal"];
+                         $jam = $hasil["jam"];
+                         $tempat = $hasil["tempat"];
+                         ?>
+                     <form action="undangan_update.php?id_udn=<?php echo $id_udn; ?>" method="POST">
                      <div class="form-group row">
                            <label class="col-form-label col-md-2">Nama Tema</label>
                            <div class="col-md-10">
-                              <input class="form-control" type="text" value="<?php echo $hasil['nama_tema'] ?>" name="id_tema" disabled>
+                              <input class="form-control" type="text" value="<?php echo $hasil[
+                                  "nama_tema"
+                              ]; ?>" name="id_tema" disabled>
                            </div>
                         </div>
                         <div class="form-group row">
                            <label class="col-form-label col-md-2">Nama Kamu</label>
                            <div class="col-md-10">
-                              <input class="form-control" type="text"  name="judul_acara" value="<?php echo $hasil['judul_acara'] ?>" required>
+                              <input class="form-control" type="text"  name="judul_acara" value="<?php echo $hasil[
+                                  "judul_acara"
+                              ]; ?>" required>
                            </div>
                         </div>
                         
@@ -123,19 +124,33 @@
                         <div class="form-group row">
                            <label class="col-form-label col-md-2">Tanggal</label>
                            <div class="col-md-10">
-                              <input class="form-control" type="date"  name="tanggal" value="<?php echo $hasil['tanggal'] ?>" required>
+                              <input class="form-control" type="date"  name="tanggal" value="<?php echo $hasil[
+                                  "tanggal"
+                              ]; ?>" required>
                            </div>
                         </div>
                         <div class="form-group row">
                            <label class="col-form-label col-md-2">Jam</label>
                            <div class="col-md-10">
-                              <input class="form-control" type="time" name="jam" value="<?php echo $hasil['jam'] ?>" required>
+                              <input class="form-control" type="time" name="jam" value="<?php echo $hasil[
+                                  "jam"
+                              ]; ?>" required>
                            </div>
                         </div>
                         <div class="form-group row">
-                           <label class="col-form-label col-md-2">Tempat</label>
+                           <label class="col-form-label col-md-2">Lokasi</label>
                            <div class="col-md-10">
-                              <input class="form-control" type="text"  name="tempat" value="<?php echo $hasil['tempat'] ?>" required>
+                              <input class="form-control" type="text"  name="tempat" value="<?php echo $hasil[
+                                  "tempat"
+                              ]; ?>" required>
+                           </div>
+                        </div>
+                        <div class="form-group row">
+                           <label class="col-form-label col-md-2">Detail Lokasi</label>
+                           <div class="col-md-10">
+                              <input class="form-control" type="text"  name="detail_tempat" value="<?php echo $hasil[
+                                  "detail_tempat"
+                              ]; ?>" required>
                            </div>
                         </div>
                         
@@ -165,7 +180,9 @@
                            <!-- MODAL -->
                         </div>
                      </form>
-                     <?php } ?>
+                     <?php
+                     }
+                     ?>
                   </div>
                </div>
             </div>
@@ -183,6 +200,6 @@
     <hr>
 
 
-    <?php @include 'footer.php'; ?>
+    <?php @include "footer.php"; ?>
 </body>
 </html>

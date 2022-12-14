@@ -1,71 +1,63 @@
 <?php
 
-   session_start();
+session_start();
 
-   if (!isset($_SESSION['SESSION_EMAIL'])) {
-      header("Location: ../A_admin_login/admin_login.php");
-      die();
-   }
+if (!isset($_SESSION["SESSION_EMAIL"])) {
+    header("Location: ../A_admin_login/admin_login.php");
+    die();
+}
 
-   include '../../config/connect.php';
+include "../../config/connect.php";
 
-   $query = mysqli_query($conn, "SELECT * FROM admin_account WHERE email = '{$_SESSION['SESSION_EMAIL']}'");
+$query = mysqli_query(
+    $conn,
+    "SELECT * FROM admin_account WHERE email = '{$_SESSION["SESSION_EMAIL"]}'"
+);
 
-   if (mysqli_num_rows($query) > 0) {
-      $row = mysqli_fetch_assoc($query);
-   }
+if (mysqli_num_rows($query) > 0) {
+    $row = mysqli_fetch_assoc($query);
+}
 
-
-
-
-   if(isset($_POST["submit"])){
+if (isset($_POST["submit"])) {
     $name = $_POST["nama_tema"];
-    if($_FILES["image"]["error"] == 4){
-      echo
-      "<script> alert('Image Does Not Exist'); </script>"
-      ;
-    }
-    else{
-      $fileName = $_FILES["image"]["name"];
-      $fileSize = $_FILES["image"]["size"];
-      $tmpName = $_FILES["image"]["tmp_name"];
-  
-      $validImageExtension = ['jpg', 'jpeg', 'png'];
-      $imageExtension = explode('.', $fileName);
-      $imageExtension = strtolower(end($imageExtension));
-      if ( !in_array($imageExtension, $validImageExtension) ){
-        echo
-        "
+    if ($_FILES["image"]["error"] == 4) {
+        echo "<script> alert('Image Does Not Exist'); </script>";
+    } else {
+        $fileName = $_FILES["image"]["name"];
+        $fileSize = $_FILES["image"]["size"];
+        $tmpName = $_FILES["image"]["tmp_name"];
+
+        $validImageExtension = ["jpg", "jpeg", "png"];
+        $imageExtension = explode(".", $fileName);
+        $imageExtension = strtolower(end($imageExtension));
+        if (!in_array($imageExtension, $validImageExtension)) {
+            echo "
         <script>
           alert('Invalid Image Extension');
         </script>
         ";
-      }
-      else if($fileSize > 1000000){
-        echo
-        "
+        } elseif ($fileSize > 1000000) {
+            echo "
         <script>
           alert('Image Size Is Too Large');
         </script>
         ";
-      }
-      else{
-        $newImageName = uniqid();
-        $newImageName .= '.' . $imageExtension;
-  
-        move_uploaded_file($tmpName, 'img/' . $newImageName);
-        $query = "INSERT INTO tema VALUES('', '$name', '$newImageName')";
-        mysqli_query($conn, $query);
-        echo
-        "
+        } else {
+            $newImageName = uniqid();
+            $newImageName .= "." . $imageExtension;
+
+            move_uploaded_file($tmpName, "img/" . $newImageName);
+            $query = "INSERT INTO tema VALUES('', '$name', '$newImageName')";
+            mysqli_query($conn, $query);
+            echo "
         <script>
           alert('Tema berhasil ditambahkan');
           document.location.href = 'tabletema.php';
         </script>
         ";
-      }
+        }
     }
-  }
+}
 ?>
 
 <!DOCTYPE html>
@@ -115,7 +107,7 @@
                <li class="nav-item dropdown has-arrow main-drop">
                   <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
                   <span class="user-img"><img src="assets/img/user.jpg" alt=""></span>
-                  <span><?php echo $row['username'] ?></span>
+                  <span><?php echo $row["username"]; ?></span>
                   </a>
                   <div class="dropdown-menu">
                      <a class="dropdown-item" href="../admin/logout.php">Logout</a>

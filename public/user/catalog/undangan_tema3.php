@@ -1,57 +1,87 @@
 <?php
-   session_start();
+session_start();
 
-   
-   if (!isset($_SESSION['SESSION_EMAIL'])) {
-      header("Location: .././user_login.php");
-      die();
-   }
-   
-   
-   require '../../../config/connect.php';
+if (!isset($_SESSION["SESSION_EMAIL"])) {
+    header("Location: .././user_login.php");
+    die();
+}
 
-   $query = mysqli_query($conn, "SELECT * FROM user_account WHERE email = '{$_SESSION['SESSION_EMAIL']}'");
-   
-   if (mysqli_num_rows($query) > 0) {
-      $row = mysqli_fetch_assoc($query);
-   }
+require "../../../config/connect.php";
 
-   $query2 = mysqli_query($conn, "SELECT * FROM tema WHERE id_tema = '1'");
-   
-   if (mysqli_num_rows($query2) > 0) {
-      $row2 = mysqli_fetch_assoc($query2);
-   }
+$query = mysqli_query(
+    $conn,
+    "SELECT * FROM user_account WHERE email = '{$_SESSION["SESSION_EMAIL"]}'"
+);
 
-   $pesan = "";
-   
-   if (isset($_POST['submit'])) {         
-      $judul_acara = mysqli_real_escape_string($conn, $_POST['judul_acara']);        
-      $deskripsi_acara = mysqli_real_escape_string($conn, $_POST['deskripsi_acara']);        
-      $hari = mysqli_real_escape_string($conn, $_POST['hari']);        
-      $tanggal = mysqli_real_escape_string($conn, $_POST['tanggal']);        
-      $jam = mysqli_real_escape_string($conn, $_POST['jam']);        
-      $tempat = mysqli_real_escape_string($conn, $_POST['tempat']);        
-      $susunan_acara1 = mysqli_real_escape_string($conn, $_POST['susunan_acara1']);        
-      $susunan_acara2 = mysqli_real_escape_string($conn, $_POST['susunan_acara2']);        
-      $susunan_acara3 = mysqli_real_escape_string($conn, $_POST['susunan_acara3']);        
-      $susunan_acara4 = mysqli_real_escape_string($conn, $_POST['susunan_acara4']);        
-      $susunan_acara5 = mysqli_real_escape_string($conn, $_POST['susunan_acara5']);        
-      $susunan_acara6 = mysqli_real_escape_string($conn, $_POST['susunan_acara6']);        
-      $susunan_acara7 = mysqli_real_escape_string($conn, $_POST['susunan_acara7']);        
-      $susunan_acara8 = mysqli_real_escape_string($conn, $_POST['susunan_acara8']);        
-      $susunan_acara9 = mysqli_real_escape_string($conn, $_POST['susunan_acara9']);        
-      $susunan_acara10 = mysqli_real_escape_string($conn, $_POST['susunan_acara10']);        
-     
-      $insert = "INSERT INTO `tb_ultah`(`id_ultah`, `id_tema`, `id_user`, `judul_acara`, `deskripsi_acara`, `hari`, `tanggal`, `jam`, `tempat`, `susunan_acara1`, `susunan_acara2`, `susunan_acara3`, `susunan_acara4`, `susunan_acara5`, `susunan_acara6`, `susunan_acara7`, `susunan_acara8`, `susunan_acara9`, `susunan_acara10`) VALUES ('', '{$row2['id_tema']}', '{$row['id_user']}','$judul_acara','$deskripsi_acara','$hari','$tanggal','$jam','$tempat','$susunan_acara1' ,'$susunan_acara2' ,'$susunan_acara3' ,'$susunan_acara4' ,'$susunan_acara5' ,'$susunan_acara6' ,'$susunan_acara7','$susunan_acara8','$susunan_acara9','$susunan_acara10')";
+if (mysqli_num_rows($query) > 0) {
+    $row = mysqli_fetch_assoc($query);
+}
 
-          mysqli_query($conn, $insert);
-          echo "<script>alert('undangan berhasil dibuat');document.location.href='.././theme/undangan_table.php'</script>/n</script>";
-         
-      }
-      
-   
-   
-   ?>
+$query2 = mysqli_query($conn, "SELECT * FROM tema WHERE id_tema = '1'");
+
+if (mysqli_num_rows($query2) > 0) {
+    $row2 = mysqli_fetch_assoc($query2);
+}
+
+$pesan = "";
+
+if (isset($_POST["submit"])) {
+    $judul_acara = mysqli_real_escape_string($conn, $_POST["judul_acara"]);
+    $deskripsi_acara = mysqli_real_escape_string(
+        $conn,
+        $_POST["deskripsi_acara"]
+    );
+    $hari = mysqli_real_escape_string($conn, $_POST["hari"]);
+    $tanggal = mysqli_real_escape_string($conn, $_POST["tanggal"]);
+    $jam = mysqli_real_escape_string($conn, $_POST["jam"]);
+    $tempat = mysqli_real_escape_string($conn, $_POST["tempat"]);
+    $susunan_acara1 = mysqli_real_escape_string(
+        $conn,
+        $_POST["susunan_acara1"]
+    );
+    $susunan_acara2 = mysqli_real_escape_string(
+        $conn,
+        $_POST["susunan_acara2"]
+    );
+    $susunan_acara3 = mysqli_real_escape_string(
+        $conn,
+        $_POST["susunan_acara3"]
+    );
+    $susunan_acara4 = mysqli_real_escape_string(
+        $conn,
+        $_POST["susunan_acara4"]
+    );
+    $susunan_acara5 = mysqli_real_escape_string(
+        $conn,
+        $_POST["susunan_acara5"]
+    );
+    $susunan_acara6 = mysqli_real_escape_string(
+        $conn,
+        $_POST["susunan_acara6"]
+    );
+    $susunan_acara7 = mysqli_real_escape_string(
+        $conn,
+        $_POST["susunan_acara7"]
+    );
+    $susunan_acara8 = mysqli_real_escape_string(
+        $conn,
+        $_POST["susunan_acara8"]
+    );
+    $susunan_acara9 = mysqli_real_escape_string(
+        $conn,
+        $_POST["susunan_acara9"]
+    );
+    $susunan_acara10 = mysqli_real_escape_string(
+        $conn,
+        $_POST["susunan_acara10"]
+    );
+
+    $insert = "INSERT INTO `tb_ultah`(`id_ultah`, `id_tema`, `id_user`, `judul_acara`, `deskripsi_acara`, `hari`, `tanggal`, `jam`, `tempat`, `susunan_acara1`, `susunan_acara2`, `susunan_acara3`, `susunan_acara4`, `susunan_acara5`, `susunan_acara6`, `susunan_acara7`, `susunan_acara8`, `susunan_acara9`, `susunan_acara10`) VALUES ('', '{$row2["id_tema"]}', '{$row["id_user"]}','$judul_acara','$deskripsi_acara','$hari','$tanggal','$jam','$tempat','$susunan_acara1' ,'$susunan_acara2' ,'$susunan_acara3' ,'$susunan_acara4' ,'$susunan_acara5' ,'$susunan_acara6' ,'$susunan_acara7','$susunan_acara8','$susunan_acara9','$susunan_acara10')";
+
+    mysqli_query($conn, $insert);
+    echo "<script>alert('undangan berhasil dibuat');document.location.href='.././theme/undangan_table.php'</script>/n</script>";
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -78,7 +108,7 @@
 </head>
    <body style="background: #002939; color: #ffffff">
 
-    <?php @include 'header.php'; ?>
+    <?php @include "header.php"; ?>
 
     <br>
 
@@ -95,21 +125,22 @@
                      <h4 class="card-title mb-0">Buat Undangan</h4>
                   </div>
                   <div class="card-body">
-                     <?php
-                        echo $pesan;
-                        
-                        ?>
+                     <?php echo $pesan; ?>
                      <form action="" method="POST">
                      <div class="form-group row">
                            <label class="col-form-label col-md-2">Nama Tema</label>
                            <div class="col-md-10">
-                              <input class="form-control" type="text" value="<?php echo $row2['nama_tema'] ?>" name="id_tema" disabled>
+                              <input class="form-control" type="text" value="<?php echo $row2[
+                                  "nama_tema"
+                              ]; ?>" name="id_tema" disabled>
                            </div>
                         </div>
                         <div class="form-group row">
                            <label class="col-form-label col-md-2">ID Kamu</label>
                            <div class="col-md-10">
-                              <input class="form-control" type="text" placeholder="Username" name="id_user" required value="<?php echo $row['username'] ?>" disabled>
+                              <input class="form-control" type="text" placeholder="Username" name="id_user" required value="<?php echo $row[
+                                  "username"
+                              ]; ?>" disabled>
                            </div>
                         </div>
                         
@@ -261,6 +292,6 @@
     <hr>
 
 
-    <?php @include 'footer.php'; ?>
+    <?php @include "footer.php"; ?>
 </body>
 </html>

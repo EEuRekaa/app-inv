@@ -1,19 +1,22 @@
 <?php
-   session_start();
-   
-   if (!isset($_SESSION['SESSION_EMAIL'])) {
-      header("Location: ../A_admin_login/admin_login.php");
-      die();
-   }
-   
-   include '../../config/connect.php';
-   
-   $query = mysqli_query($conn, "SELECT * FROM admin_account WHERE email = '{$_SESSION['SESSION_EMAIL']}'");
-   
-   if (mysqli_num_rows($query) > 0) {
-      $row = mysqli_fetch_assoc($query);
-   }
-   ?>
+session_start();
+
+if (!isset($_SESSION["SESSION_EMAIL"])) {
+    header("Location: ../A_admin_login/admin_login.php");
+    die();
+}
+
+include "../../config/connect.php";
+
+$query = mysqli_query(
+    $conn,
+    "SELECT * FROM admin_account WHERE email = '{$_SESSION["SESSION_EMAIL"]}'"
+);
+
+if (mysqli_num_rows($query) > 0) {
+    $row = mysqli_fetch_assoc($query);
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
    <head>
@@ -64,7 +67,7 @@
                <li class="nav-item dropdown has-arrow main-drop">
                   <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
                   <span class="user-img"><img src="assets/img/user.jpg" alt=""></span>
-                  <span><?php echo $row['username'] ?></span>
+                  <span><?php echo $row["username"]; ?></span>
                   </a>
                   <div class="dropdown-menu">
                      <a class="dropdown-item" href="../admin/logout.php">Logout</a>
@@ -129,7 +132,7 @@
                   <div class="col-sm-12">
                      <div class="card mb-0">
                         <div class="card-header">
-                           <h4 class="card-title mb-0 text-right"><a href="./adduser.php" class="btn btn-info"><i class="la la-plus-circle"></i> Tambahkan Data User</a></h4>
+                           <h4 class="card-title mb-0">Data Undangan User</h4>
                         </div>
                         <div class="card-body">
                            <div class="table-responsive">
@@ -137,50 +140,44 @@
                                  <thead>
                                     <tr>
                                        <th>#</th>
-                                       <th>ID Tema</th>
-                                       <th>ID User</th>
-                                       <th>Judul Acara</th>
-                                       <th>Deskripsi Acara</th>
+                                       <th>Nama Tema</th>
+                                       <th>Undangan</th>
                                        <th>Hari</th>
                                        <th>Tanggal</th>
                                        <th>Jam</th>
                                        <th>Tempat</th>
+                                       <th>Susunan Acara</th>
                                        <th class="text-center">Event</th>
                                     </tr>
                                  </thead>
                                  <tbody>
                                     <?php
-                                       include "../../config/connect.php";
-                                       
-                                       $no="1";
-                                       $query = mysqli_query($conn, "SELECT * FROM tb_ultah ORDER BY id_ultah desc");
-                                       while ($data=mysqli_fetch_array($query)) {                 
-                                       
-                                          $query2 = mysqli_query($conn, "SELECT * FROM user_account");
-                                       
-                                          if (mysqli_num_rows($query2) > 0) {
-                                             $row2 = mysqli_fetch_assoc($query2);
-                                          }
-                                       
-                                          $query3 = mysqli_query($conn, "SELECT * FROM tema ");
-                                       
-                                          if (mysqli_num_rows($query3) > 0) {
-                                             $row3 = mysqli_fetch_assoc($query3);
-                                          }
-                                       
-                                       ?>
-                                    <tr>
-                                       <td><?php echo $no++;?></td>
-                                       <td><?php echo $row3['nama_tema']?></td>
-                                       <td><?php echo $row2['username']?></td>
-                                       <td><?php echo $data['judul_acara']?></td>
-                                       <td><?php echo $data['deskripsi_acara']?></td>
-                                       <td><?php echo $data['hari']?></td>
-                                       <td><?php echo $data['tanggal']?></td>
-                                       <td><?php echo $data['jam']?></td>
-                                       <td><?php echo $data['tempat']?></td>
+                                    include "../../config/connect.php";
+
+                                    $no = "1";
+                              // $query = mysqli_query($conn, "SELECT * FROM tb_ultah WHERE id_user='{$row['id_user']}'ORDER BY id_ultah DESC");
+                              $query = mysqli_query(
+                                  $conn,
+                                  "SELECT tb_ultah.* , tema.* FROM tb_ultah, tema WHERE tema.id_tema = tb_ultah.id_tema ORDER BY id_undangan DESC"
+                              );
+                              while ($data = mysqli_fetch_array($query)) { ?>
+                              <tr>
+                                 <td><?php echo $no++; ?></td>
+                                 <td><?php echo $data["nama_tema"]; ?></td>
+                                 <td><?php echo $data["judul_acara"]; ?></td>
+                                 <td><?php echo $data["hari"]; ?></td>
+                                 <td><?php echo $data["tanggal"]; ?></td>
+                                 <td><?php echo $data["jam"]; ?></td>
+                                 <td><?php echo $data["tempat"]; ?></td>
+                                 <td>
+                                    <a href="susunan_acara.php?id_udn=<?php echo $data['id_undangan']?>">
+                                       <button class="btn btn-outline-info">Susunan Acara</button>
+                                    </a>
+                                 </td>
                                        <td class="text-center">
-                                          <a href="undangan_edit.php?id_ultah=<?php echo $data['id_ultah'];?>">
+                                          <a href="undangan_edit.php?id_udn=<?php echo $data[
+                                              "id_undangan"
+                                          ]; ?>">
                                              <button class="btn btn-outline-warning">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
                                                    <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
@@ -188,39 +185,84 @@
                                                 </svg>
                                              </button>
                                           </a>
-                                          <!-- Modal -->
-                                          <button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#exampleModal">
+                                          <a href="undangan_delete.php?id_udn=<?php echo $data[
+                                              "id_undangan"
+                                          ]; ?>">
+                                             <button class="btn btn-outline-danger">
                                              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
                                                 <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"/>
                                              </svg>
-                                          </button>
-                                          <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                             <div class="modal-dialog">
-                                                <div class="modal-content">
-                                                   <div class="modal-header">
-                                                      <h4 class="modal-title" id="exampleModalLabel">Hapus Data Undangan</h4>
-                                                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                      <span aria-hidden="true">&times;</span>
-                                                      </button>
-                                                   </div>
-                                                   <div class="modal-body">
-                                                      <h4>Anda yakin ingin menghapus undangan ini?</h4>
-                                                   </div>
-                                                   <div class="modal-footer">
-                                                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-                                                      <a href="undangan_delete.php?id_ultah=<?php echo $data['id_ultah'];?>"><button type="button" class="btn btn-primary">Konfirmasi</button></a>
-                                                   </div>
-                                                </div>
-                                             </div>
-                                          </div>
-                                          <!-- MODAL -->
+                                             </button>
+                                          </a>
                                        </td>
                                     </tr>
-                                    <?php } ?>
+                                    <?php }
+                                    ?>
                                  </tbody>
                               </table>
                            </div>
                         </div>
+                        <!-- <div class="card-body">
+                           <div class="table-responsive">
+                              <table class="datatable table table-stripped mb-0">
+                                 <thead>
+                                    <tr>
+                                       <th>#</th>
+                                       <th>Nama Tema</th>
+                                       <th>Undangan</th>
+                                       <th>Hari</th>
+                                       <th>Tanggal</th>
+                                       <th>Jam</th>
+                                       <th>Tempat</th>
+                                       <th>Susunan Acara</th>
+                                       <th class="text-center">Event</th>
+                                    </tr>
+                                 </thead>
+                                 <tbody>
+                              <?php
+                              $no = "1";
+                              // $query = mysqli_query($conn, "SELECT * FROM tb_ultah WHERE id_user='{$row['id_user']}'ORDER BY id_ultah DESC");
+                              $query = mysqli_query(
+                                  $conn,
+                                  "SELECT tb_ultah.* , tema.* FROM tb_ultah, tema WHERE tema.id_tema = tb_ultah.id_tema ORDER BY id_undangan DESC"
+                              );
+                              while ($data = mysqli_fetch_array($query)) { ?>
+                              <tr>
+                                 <td><?php echo $no++; ?></td>
+                                 <td><?php echo $data["nama_tema"]; ?></td>
+                                 <td><?php echo $data["judul_acara"]; ?></td>
+                                 <td><?php echo $data["hari"]; ?></td>
+                                 <td><?php echo $data["tanggal"]; ?></td>
+                                 <td><?php echo $data["jam"]; ?></td>
+                                 <td><?php echo $data["tempat"]; ?></td>
+                                       <td class="text-center">
+                                          <a href="undangan_edit.php?id_ultah=<?php echo $data[
+                                              "id_undangan"
+                                          ]; ?>">
+                                             <button class="btn btn-outline-warning">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                                   <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                                                   <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+                                                </svg>
+                                             </button>
+                                          </a>
+                                          <a href="undangan_delete.php?id_udn=<?php echo $data[
+                                              "id_undangan"
+                                          ]; ?>">
+                                             <button class="btn btn-outline-danger">
+                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
+                                                <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"/>
+                                             </svg>
+                                             </button>
+                                          </a>
+                                       </td>
+                                    </tr>
+                                    <?php }
+                              ?>
+                                 </tbody>
+                              </table>
+                           </div>
+                        </div> -->
                      </div>
                   </div>
                </div>

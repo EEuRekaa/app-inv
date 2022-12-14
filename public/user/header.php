@@ -2,21 +2,21 @@
 
 session_start();
 
-   
-   if (!isset($_SESSION['SESSION_EMAIL'])) {
-      header("Location: ./user_login.php");
-      die();
-   }
-   
-   
-   require '../../config/connect.php';
+if (!isset($_SESSION["SESSION_EMAIL"])) {
+    header("Location: ./user_login.php");
+    die();
+}
 
-   $query = mysqli_query($conn, "SELECT * FROM user_account WHERE email = '{$_SESSION['SESSION_EMAIL']}'");
-   
-   if (mysqli_num_rows($query) > 0) {
-      $row = mysqli_fetch_assoc($query);
-   }
+require "../../config/connect.php";
 
+$query = mysqli_query(
+    $conn,
+    "SELECT * FROM user_account WHERE email = '{$_SESSION["SESSION_EMAIL"]}'"
+);
+
+if (mysqli_num_rows($query) > 0) {
+    $row = mysqli_fetch_assoc($query);
+}
 ?>
 
 
@@ -73,7 +73,9 @@ session_start();
                 </ul>
                 <form class="d-flex">
                 <div>
-                        <a href="" class="text-decoration-none px-3 mt-5" style="font-size: 20px; color: #ddc190; font-weight: bold;"> <span>Hi <?php echo $row['username'] ?></span></a>
+                        <a href="" class="text-decoration-none px-3 mt-5" style="font-size: 20px; color: #ddc190; font-weight: bold;"> <span>Hi <?php echo $row[
+                            "username"
+                        ]; ?></span></a>
                         <a href="../logout.php"><button type="button" class="btn"
                         style="background-color: #ddc190; color: #002939; font-weight: bold;">Logout</button></a>
                     </div>
@@ -88,7 +90,7 @@ session_start();
         <header class="d-flex justify-content-center py-2 pt-5">
             <ul class="nav nav-pills mb-5" style="font-size: 18px;">
                 <li class="nav-item mx-1">
-                    <a href="./home/home.php" class="nav-link" style="color: #ddc190;">Home</a>
+                    <a href="./index.php" class="nav-link" style="color: #ddc190;">Home</a>
                 </li>
                 <li class="nav-item mx-1">
                     <a href="./catalog/catalog.php" class="nav-link" style="color: #ddc190;">Catalog</a>
@@ -99,11 +101,17 @@ session_start();
             </ul>
         </header>
     </div>
-    <div class="fab">
-        <i class="fa fa-close fa-2x1 text-dark"></i>
+    <a href="./scan.php">
+    <div class="floating-parent">
+        <div class="right-button"></div>
+        <span class="widgetlabel">
+            Scan QR Code
+        </span>
     </div>
+    </a>
+    
 
-    <div class="box">
+    <!-- <div class="box">
         <a href="scan.php" class="item awok1"><i class="fa fa-qrcode fa-2xl text-white"></i></a>
         <a href="" class="item awok2"><i class="fa fa-qrcode"></i></a>
         <a href="" class="item awok3"><i class="fa fa-qrcode"></i></a>
@@ -115,7 +123,7 @@ session_start();
             document.querySelector('.box').classList.toggle('box-active')
             document.querySelector('.fab').classList.toggle('fab-active')
         })
-    </script>
+    </script> -->
     <script src="assets/js/jquery-3.5.1.min.js"></script>
       <script src="assets/js/popper.min.js"></script>
       <script src="assets/js/bootstrap.min.js"></script>

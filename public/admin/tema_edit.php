@@ -1,72 +1,74 @@
 <?php
 
-   session_start();
+session_start();
 
-   if (!isset($_SESSION['SESSION_EMAIL'])) {
-      header("Location: ../A_admin_login/admin_login.php");
-      die();
-   }
+if (!isset($_SESSION["SESSION_EMAIL"])) {
+    header("Location: ../A_admin_login/admin_login.php");
+    die();
+}
 
-   include '../../config/connect.php';
+include "../../config/connect.php";
 
-   $id_tema = $_GET['id_tema'];
+$id_tema = $_GET["id_tema"];
 
-   $query = mysqli_query($conn, "SELECT * FROM admin_account WHERE email = '{$_SESSION['SESSION_EMAIL']}'");
+$query = mysqli_query(
+    $conn,
+    "SELECT * FROM admin_account WHERE email = '{$_SESSION["SESSION_EMAIL"]}'"
+);
 
-   if (mysqli_num_rows($query) > 0) {
-      $row = mysqli_fetch_assoc($query);
-   }
+if (mysqli_num_rows($query) > 0) {
+    $row = mysqli_fetch_assoc($query);
+}
 
-
-
-   if(isset($_POST["submit"])){
+if (isset($_POST["submit"])) {
     $name = $_POST["nama_tema"];
-    if($_FILES["image"]["error"] == 4){
-      echo
-      "<script> alert('Tema belum di pilih'); </script>"
-      ;
-    }
-    else{
-      $fileName = $_FILES["image"]["name"];
-      $fileSize = $_FILES["image"]["size"];
-      $tmpName = $_FILES["image"]["tmp_name"];
-  
-      $validImageExtension = ['jpg', 'jpeg', 'png'];
-      $imageExtension = explode('.', $fileName);
-      $imageExtension = strtolower(end($imageExtension));
-      if ( !in_array($imageExtension, $validImageExtension) ){
-        echo
-        "
+    if ($_FILES["image"]["error"] == 4) {
+        echo "<script> alert('Tema belum di pilih'); </script>";
+    } else {
+        $fileName = $_FILES["image"]["name"];
+        $fileSize = $_FILES["image"]["size"];
+        $tmpName = $_FILES["image"]["tmp_name"];
+
+        $validImageExtension = ["jpg", "jpeg", "png"];
+        $imageExtension = explode(".", $fileName);
+        $imageExtension = strtolower(end($imageExtension));
+        if (!in_array($imageExtension, $validImageExtension)) {
+            echo "
         <script>
           alert('Invalid Image Extension');
         </script>
         ";
-      }
-      else if($fileSize > 1000000){
-        echo
-        "
+        } elseif ($fileSize > 1000000) {
+            echo "
         <script>
           alert('Image Size Is Too Large');
         </script>
         ";
-      }
-      else{
-        $newImageName = uniqid();
-        $newImageName .= '.' . $imageExtension;
-  
-        move_uploaded_file($tmpName, 'img/' . $newImageName);
-        $query = "UPDATE tema SET `id_tema`='".$id_tema."', `nama_tema`='".$name."', `image`='".$newImageName."' WHERE `id_tema`='".$id_tema."' ";
-        mysqli_query($conn, $query);
-        echo
-        "
+        } else {
+            $newImageName = uniqid();
+            $newImageName .= "." . $imageExtension;
+
+            move_uploaded_file($tmpName, "img/" . $newImageName);
+            $query =
+                "UPDATE tema SET `id_tema`='" .
+                $id_tema .
+                "', `nama_tema`='" .
+                $name .
+                "', `image`='" .
+                $newImageName .
+                "' WHERE `id_tema`='" .
+                $id_tema .
+                "' ";
+            mysqli_query($conn, $query);
+            echo "
         <script>
           alert('Tema berhasil ditambahkan');
           document.location.href = 'tabletema.php';
         </script>
         ";
-      }
+        }
     }
-  }
+}
 ?>
 
 <!DOCTYPE html>
@@ -116,7 +118,7 @@
                <li class="nav-item dropdown has-arrow main-drop">
                   <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
                   <span class="user-img"><img src="assets/img/user.jpg" alt=""></span>
-                  <span><?php echo $row['username'] ?></span>
+                  <span><?php echo $row["username"]; ?></span>
                   </a>
                   <div class="dropdown-menu">
                      <a class="dropdown-item" href="../admin/logout.php">Logout</a>
@@ -178,32 +180,30 @@
                         </div>
                         <div class="card-body">
                         <?php
-                     
-                        
-                     if (isset($_GET['id_tema'])) {
-                        $id_tema = $_GET['id_tema'];
+                        if (isset($_GET["id_tema"])) {
+                            $id_tema = $_GET["id_tema"];
 
-                        if (empty($id_tema)) {
-                           echo "ID tidak ada";
+                            if (empty($id_tema)) {
+                                echo "ID tidak ada";
+                            }
+                        } else {
+                            die("id tidak ada");
                         }
-                     }else {
-                        die("id tidak ada");
-                     }
 
-                     $query = "SELECT * FROM `tema` WHERE `id_tema`='$id_tema'";
-                     $sql = mysqli_query($conn, $query);
-                     while ($hasil = mysqli_fetch_array($sql)){
-                         
-                        $id_tema = $hasil['id_tema'];
-                        $image = $hasil['image'];
+                        $query = "SELECT * FROM `tema` WHERE `id_tema`='$id_tema'";
+                        $sql = mysqli_query($conn, $query);
+                        while ($hasil = mysqli_fetch_array($sql)) {
 
-                     
-                     ?>
+                            $id_tema = $hasil["id_tema"];
+                            $image = $hasil["image"];
+                            ?>
                            <form action="" method="POST" autocomplete="off" enctype="multipart/form-data">
                               <div class="form-group row">
                                  <label class="col-form-label col-md-2">Nama Tema</label>
                                  <div class="col-md-10">
-                                    <input type="text" name="nama_tema" value="<?php echo $hasil['nama_tema'];?>" class="form-control">
+                                    <input type="text" name="nama_tema" value="<?php echo $hasil[
+                                        "nama_tema"
+                                    ]; ?>" class="form-control">
                                  </div>
                               </div>
                               <div class="form-group row">
@@ -216,7 +216,9 @@
                                  <button class="btn btn-primary account-btn" type="submit" name="submit">Edit</button>
                               </div>
                            </form>
-                           <?php } ?>
+                           <?php
+                        }
+                        ?>
                         </div>
                      </div>
                   </div>

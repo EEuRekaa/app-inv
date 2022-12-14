@@ -1,32 +1,49 @@
-<?php 
+<?php
 
-    include '../../config/connect.php';
+include "../../config/connect.php";
 
-    $pesan = "";
+$pesan = "";
 
-    if (isset($_GET['reset'])) {
-        if (mysqli_num_rows(mysqli_query($conn, "SELECT * FROM admin_account WHERE v_code = '{$_GET['reset']}'")) > 0) {
-            if (isset($_POST['confirmpassword'])) {
-                $password = mysqli_real_escape_string($conn, md5($_POST['password']));
-                $confirmpassword = mysqli_real_escape_string($conn, md5($_POST['confirmpassword']));                                   
+if (isset($_GET["reset"])) {
+    if (
+        mysqli_num_rows(
+            mysqli_query(
+                $conn,
+                "SELECT * FROM admin_account WHERE v_code = '{$_GET["reset"]}'"
+            )
+        ) > 0
+    ) {
+        if (isset($_POST["confirmpassword"])) {
+            $password = mysqli_real_escape_string(
+                $conn,
+                md5($_POST["password"])
+            );
+            $confirmpassword = mysqli_real_escape_string(
+                $conn,
+                md5($_POST["confirmpassword"])
+            );
 
-                if ($password === $confirmpassword) {
-                    $query = mysqli_query($conn, "UPDATE admin_account SET password='{$password}', v_code='' WHERE v_code='{$_GET['reset']}'");
-    
-                    if ($query) {
-                        header("Location: admin_login.php");
-                    }
-                } else {
-                    $pesan = "<div class='alert alert-danger'>Password tidak sama.</div>";
+            if ($password === $confirmpassword) {
+                $query = mysqli_query(
+                    $conn,
+                    "UPDATE admin_account SET password='{$password}', v_code='' WHERE v_code='{$_GET["reset"]}'"
+                );
+
+                if ($query) {
+                    header("Location: admin_login.php");
                 }
+            } else {
+                $pesan =
+                    "<div class='alert alert-danger'>Password tidak sama.</div>";
             }
-        } else {
-            $pesan = "<div class='alert alert-danger'>Reset Link do not match.</div>";
         }
     } else {
-        header("Location: forgot_password.php");
+        $pesan =
+            "<div class='alert alert-danger'>Reset Link do not match.</div>";
     }
-
+} else {
+    header("Location: forgot_password.php");
+}
 ?>
 
 <!DOCTYPE html>

@@ -1,56 +1,68 @@
-<?php 
+<?php
 
-   use PHPMailer\PHPMailer\PHPMailer;
-   use PHPMailer\PHPMailer\SMTP;
-   use PHPMailer\PHPMailer\Exception;
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
 
-   if (isset($_SESSION['SESSION_EMAIL'])) {
-      header("Location: ../admin/index.php");
-      die();
-   }
+if (isset($_SESSION["SESSION_EMAIL"])) {
+    header("Location: ../admin/index.php");
+    die();
+}
 
-   require '../../vendor/autoload.php';
+require "../../vendor/autoload.php";
 
-   include '../../config/connect.php';
-   $pesan = "";
+include "../../config/connect.php";
+$pesan = "";
 
-   if (isset($_POST['submit'])) {
-      $username = mysqli_real_escape_string($conn, $_POST['username']);
-      $email = mysqli_real_escape_string($conn, $_POST['email']);
-      $password = mysqli_real_escape_string($conn,md5($_POST['password']));
-      $confrimpassword = mysqli_real_escape_string($conn, md5($_POST['confirmpassword']));
-      $v_code = mysqli_real_escape_string($conn, md5(rand()));
+if (isset($_POST["submit"])) {
+    $username = mysqli_real_escape_string($conn, $_POST["username"]);
+    $email = mysqli_real_escape_string($conn, $_POST["email"]);
+    $password = mysqli_real_escape_string($conn, md5($_POST["password"]));
+    $confrimpassword = mysqli_real_escape_string(
+        $conn,
+        md5($_POST["confirmpassword"])
+    );
+    $v_code = mysqli_real_escape_string($conn, md5(rand()));
 
-      if (mysqli_num_rows(mysqli_query($conn, "SELECT * FROM admin_account WHERE email='$email'"))) {
-         $pesan = "<div class='alert alert-danger'>$email Email ini sudah digunakan.</div>";
-      } else {
-         if ($password === $confrimpassword) {
+    if (
+        mysqli_num_rows(
+            mysqli_query(
+                $conn,
+                "SELECT * FROM admin_account WHERE email='$email'"
+            )
+        )
+    ) {
+        $pesan = "<div class='alert alert-danger'>$email Email ini sudah digunakan.</div>";
+    } else {
+        if ($password === $confrimpassword) {
             $sql = "INSERT INTO admin_account (username, email, password, v_code) VALUES ('$username', '$email', '$password', '$v_code')";
             $result = mysqli_query($conn, $sql);
 
             if ($result) {
-               echo "<div style='display: none;'>";
+                echo "<div style='display: none;'>";
 
-               $mail = new PHPMailer(true);
+                $mail = new PHPMailer(true);
 
-            try {
-               //Server settings
-               $mail->isSMTP();                                            //Send using SMTP
-               $mail->Host       = 'smtp-relay.sendinblue.com';                     //Set the SMTP server to send through
-               $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
-               $mail->Username   = 'rendering.fps88@gmail.com';                     //SMTP username
-      $mail->Password   = 'xsmtpsib-336c0255d8f4ee646dea2f8c0c02f943f0d8bf23228a4580a5ec8c28ef264efa-IN3DtZr6gwya0TPS';                               //SMTP password
-      $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            //Enable implicit TLS encryption
-      $mail->Port       = 465;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
-   
-      //Recipients
-      $mail->setFrom('INVATE@invate.my.id');
-               $mail->addAddress($email);
+                try {
+                    //Server settings
+                    $mail->isSMTP(); //Send using SMTP
+                    $mail->Host = "smtp-relay.sendinblue.com"; //Set the SMTP server to send through
+                    $mail->SMTPAuth = true; //Enable SMTP authentication
+                    $mail->Username = "rendering.fps88@gmail.com"; //SMTP username
+                    $mail->Password =
+                        "xsmtpsib-336c0255d8f4ee646dea2f8c0c02f943f0d8bf23228a4580a5ec8c28ef264efa-LKpq4bBskDFaT8Hx"; //SMTP password
+                    $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS; //Enable implicit TLS encryption
+                    $mail->Port = 465; //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
 
-               //Content
-               $mail->isHTML(true);                 
-                  $mail->Subject = 'VERIFICATION';
-               $mail->Body    = '
+                    //Recipients
+                    $mail->setFrom("INVATE@invate.my.id");
+                    $mail->addAddress($email);
+
+                    //Content
+                    $mail->isHTML(true);
+                    $mail->Subject = "VERIFICATION";
+                    $mail->Body =
+                        '
 
 
                   <body class="bg-light">
@@ -62,28 +74,33 @@
       </p>
     </div>
     <div class="text-muted text-center my-6">
-    <b style="text-align: center;><a style="text-align: center; text-decoration: italy;" <a href="http://localhost/app-inv/public/A_admin_login/admin_login.php?verification='.$v_code.'">  http://localhost/app-inv/public/A_admin_login/admin_login.php?verification='.$v_code.'</a></b>
+    <b style="text-align: center;><a style="text-align: center; text-decoration: italy;" <a href="http://localhost/app-inv/public/A_admin_login/admin_login.php?verification=' .
+                        $v_code .
+                        '">  http://localhost/app-inv/public/A_admin_login/admin_login.php?verification=' .
+                        $v_code .
+                        '</a></b>
     </div>
   </div>
 </body>
 ';
 
-               $mail->send();
-               echo 'Message has been sent';
-            } catch (Exception $e) {
-               echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
-            }
-               echo "</div>";
-               $pesan = "<div class='alert alert-info'>Cek email anda untuk verifikasi.</div>";
+                    $mail->send();
+                    echo "Message has been sent";
+                } catch (Exception $e) {
+                    echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+                }
+                echo "</div>";
+                $pesan =
+                    "<div class='alert alert-info'>Cek email anda untuk verifikasi.</div>";
             } else {
-               $pesan = "<div class='alert alert-danger'>Masalah</div>";
+                $pesan = "<div class='alert alert-danger'>Masalah</div>";
             }
-         } else {
-            $pesan = "<div class='alert alert-danger'>Password tidak sama!</div>";
-         }
-      }
-   }
-   
+        } else {
+            $pesan =
+                "<div class='alert alert-danger'>Password tidak sama!</div>";
+        }
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -100,9 +117,8 @@
       <link rel="stylesheet" href="../admin/assets/css/style.css">
 </head>
 <body>
-<div class="main-wrapper">
-         <div class="account-content">
-            
+    <div class="main-wrapper">
+        <div class="account-content">
             <div class="container">
                <div class="account-logo">
                   <img src="../admin/assets/img/logo.png" alt="Admin Dashboard">
@@ -112,20 +128,24 @@
                      <h3 class="account-title">ADMIN REGISTER</h3>
                      <p class="account-subtitle">INVATE</p>
 
-                     <?php
-                     
-                     echo $pesan;
-                     
-                     ?>
+                     <?php echo $pesan; ?>
 
                      <form action="" method="POST">
                         <div class="form-group">
                            <label>Username</label>
-                           <input class="form-control" type="text" placeholder="Username" name="username" required value="<?php if (isset($_POST['submit'])) { echo $username; }?>">
+                           <input class="form-control" type="text" placeholder="Username" name="username" required value="<?php if (
+                               isset($_POST["submit"])
+                           ) {
+                               echo $username;
+                           } ?>">
                         </div>
                         <div class="form-group">
                            <label>Email</label>
-                           <input class="form-control" type="email" placeholder="Email" name="email" required value="<?php if (isset($_POST['submit'])) { echo $email; }?>">
+                           <input class="form-control" type="email" placeholder="Email" name="email" required value="<?php if (
+                               isset($_POST["submit"])
+                           ) {
+                               echo $email;
+                           } ?>">
                         </div>
                         <div class="form-group">
                            <label>Password</label>

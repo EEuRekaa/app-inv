@@ -1,8 +1,8 @@
 <?php
 
-include '../../config/connect.php';
+include "../../config/connect.php";
 
-$id_admin = $_GET['id_admin'];
+$id_admin = $_GET["id_admin"];
 
 mysqli_query($conn, "DELETE FROM admin_account WHERE id_admin='$id_admin'");
 

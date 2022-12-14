@@ -1,43 +1,42 @@
 <?php
-   session_start();
+session_start();
 
-   
-   if (!isset($_SESSION['SESSION_EMAIL'])) {
-      header("Location: .php");
-      die();
-   }
-   
-   
-   require '../../config/connect.php';
+if (!isset($_SESSION["SESSION_EMAIL"])) {
+    header("Location: .php");
+    die();
+}
 
-   $query = mysqli_query($conn, "SELECT * FROM user_account WHERE email = '{$_SESSION['SESSION_EMAIL']}'");
-   
-   if (mysqli_num_rows($query) > 0) {
-      $row = mysqli_fetch_assoc($query);
-   }
-   
+require "../../config/connect.php";
 
-   $pesan = "";
-   
-   if (isset($_POST['submit'])) {  
-      $judul_acara = mysqli_real_escape_string($conn, $_POST['judul_acara']);        
-      $deskripsi_acara = mysqli_real_escape_string($conn, $_POST['deskripsi_acara']);        
-      $hari = mysqli_real_escape_string($conn, $_POST['hari']);        
-      $tanggal = mysqli_real_escape_string($conn, $_POST['tanggal']);        
-      $jam = mysqli_real_escape_string($conn, $_POST['jam']);        
-      $tempat = mysqli_real_escape_string($conn, $_POST['tempat']);        
-      $susunan_acara = mysqli_real_escape_string($conn, $_POST['susunan_acara']);        
-     
-      $insert = "INSERT INTO `udn_ultah`(`id_ultah`, `id_user`, `judul_acara`, `deskripsi_acara`, `hari`, `tanggal`, `jam`, `tempat`, `susunan_acara`) VALUES ('', '{$row['id_user']}','$judul_acara','$deskripsi_acara','$hari','$tanggal','$jam','$tempat','$susunan_acara')";
+$query = mysqli_query(
+    $conn,
+    "SELECT * FROM user_account WHERE email = '{$_SESSION["SESSION_EMAIL"]}'"
+);
 
-          mysqli_query($conn, $insert);
-          echo "<script>alert('Berhasil di tambahkan')</script>";
-         
-      }
-      
-   
-   
-   ?>
+if (mysqli_num_rows($query) > 0) {
+    $row = mysqli_fetch_assoc($query);
+}
+
+$pesan = "";
+
+if (isset($_POST["submit"])) {
+    $judul_acara = mysqli_real_escape_string($conn, $_POST["judul_acara"]);
+    $deskripsi_acara = mysqli_real_escape_string(
+        $conn,
+        $_POST["deskripsi_acara"]
+    );
+    $hari = mysqli_real_escape_string($conn, $_POST["hari"]);
+    $tanggal = mysqli_real_escape_string($conn, $_POST["tanggal"]);
+    $jam = mysqli_real_escape_string($conn, $_POST["jam"]);
+    $tempat = mysqli_real_escape_string($conn, $_POST["tempat"]);
+    $susunan_acara = mysqli_real_escape_string($conn, $_POST["susunan_acara"]);
+
+    $insert = "INSERT INTO `udn_ultah`(`id_ultah`, `id_user`, `judul_acara`, `deskripsi_acara`, `hari`, `tanggal`, `jam`, `tempat`, `susunan_acara`) VALUES ('', '{$row["id_user"]}','$judul_acara','$deskripsi_acara','$hari','$tanggal','$jam','$tempat','$susunan_acara')";
+
+    mysqli_query($conn, $insert);
+    echo "<script>alert('Berhasil di tambahkan')</script>";
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
    <head>
@@ -51,16 +50,15 @@
       <link rel="stylesheet" href="assets/css/style.css">
    </head>
    <body>
-      <h1>Welcome <?php echo $row['username'] ?></h1>
-      <?php
-         echo $pesan;
-         
-         ?>
+      <h1>Welcome <?php echo $row["username"]; ?></h1>
+      <?php echo $pesan; ?>
 
       <form action="" method="POST" autocomplete="off">
          <div class="form-group">
             <label for="">Id Anda</label>
-            <input type="text" class="form-control" id="" name="id_user" value="<?php echo $row['id_user'] ?>" disabled>            
+            <input type="text" class="form-control" id="" name="id_user" value="<?php echo $row[
+                "id_user"
+            ]; ?>" disabled>            
          </div>
          <div class="form-group">
             <label for="">Judul Acara</label>

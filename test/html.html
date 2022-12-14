@@ -1,35 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <link rel="stylesheet" href="node_modules/sweetalert2/dist/sweetalert2.min.css">
-    
-</head>
-<body>
-    <input type="text"><button type="submit" id="btnsweet">test</button>
+    <link
+      rel="stylesheet"
+      href="node_modules/sweetalert2/dist/sweetalert2.min.css"
+    />
+  </head>
+  <body>
+    <input type="text" /><button type="submit" id="btnsweet">test</button>
 
     <script src="node_modules/sweetalert2/dist/sweetalert2.all.min.js"></script>
     <script>
-        const btnsweet = document.getElementById('btnsweet');
-        btnsweet.addEventListener('click', function(){
-            Swal.fire({
-  title: 'Do you want to save the changes?',
-  showDenyButton: true,
-  showCancelButton: true,
-  confirmButtonText: 'Save',
-  denyButtonText: `Don't save`,
-}).then((result) => {
-  /* Read more about isConfirmed, isDenied below */
-  if (result.isConfirmed) {
-    Swal.fire('Saved!', '', 'success')
-  } else if (result.isDenied) {
-    Swal.fire('Changes are not saved', '', 'info')
-  }
-})
+      const btnsweet = document.getElementById("btnsweet");
+      btnsweet.addEventListener("click", function () {
+        Swal.fire({
+          title: "Do you want to save the changes?",
+          showDenyButton: true,
+          showCancelButton: true,
+          confirmButtonText: "Save",
+          denyButtonText: `Don't save`,
+        }).then((result) => {
+          /* Read more about isConfirmed, isDenied below */
+          if (result.isConfirmed) {
+            Swal.fire("Saved!", "", "success");
+          } else if (result.isDenied) {
+            Swal.fire("Changes are not saved", "", "info");
+          }
         });
+      });
     </script>
-</body>
+  </body>
 </html>

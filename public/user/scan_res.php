@@ -1,22 +1,23 @@
 <?php
-   session_start();
-   
-      
-      if (!isset($_SESSION['SESSION_EMAIL'])) {
-         header("Location: ./user_login.php");
-         die();
-      }
-      
-      
-      require '../../config/connect.php';
-   
-      $query = mysqli_query($conn, "SELECT * FROM user_account WHERE email = '{$_SESSION['SESSION_EMAIL']}'");
-      
-      if (mysqli_num_rows($query) > 0) {
-         $row = mysqli_fetch_assoc($query);
-      }
-      $text = $_GET['text'];
-   ?>
+session_start();
+
+if (!isset($_SESSION["SESSION_EMAIL"])) {
+    header("Location: ./user_login.php");
+    die();
+}
+
+require "../../config/connect.php";
+
+$query = mysqli_query(
+    $conn,
+    "SELECT * FROM user_account WHERE email = '{$_SESSION["SESSION_EMAIL"]}'"
+);
+
+if (mysqli_num_rows($query) > 0) {
+    $row = mysqli_fetch_assoc($query);
+}
+$text = $_GET["text"];
+?>
 <!DOCTYPE html>
 <html lang="en">
    <head>
@@ -36,7 +37,10 @@
       
    </head>
    <body>
-      <?php @include 'header.php'; ?>
+      <?php @include "header.php"; ?>
+      <div class="fab">
+        <i class="fa fa-close fa-2x1 text-dark"></i>
+    </div>
       <br>
       <div class="">
          <div class="container">
@@ -48,11 +52,11 @@
       <div class="container">
         <div class="row g-3">         
          <div class="">
-         <h2 class="display-6 text-center text-light"><?php echo $text ?></h2>                      
+         <h2 class="display-6 text-center text-light"><?php echo $text; ?></h2>                      
          </div><hr>
          <br><br>
          </div>
       </div>
-      <?php @include 'footer.php'; ?>
+      <?php @include "footer.php"; ?>
    </body>
 </html>

@@ -8,8 +8,8 @@ class ComposerAutoloaderInit34e3855fd0e82d754cc77a4ad0f96eef
 
     public static function loadClassLoader($class)
     {
-        if ('Composer\Autoload\ClassLoader' === $class) {
-            require __DIR__ . '/ClassLoader.php';
+        if ("Composer\Autoload\ClassLoader" === $class) {
+            require __DIR__ . "/ClassLoader.php";
         }
     }
 
@@ -22,14 +22,30 @@ class ComposerAutoloaderInit34e3855fd0e82d754cc77a4ad0f96eef
             return self::$loader;
         }
 
-        require __DIR__ . '/platform_check.php';
+        require __DIR__ . "/platform_check.php";
 
-        spl_autoload_register(array('ComposerAutoloaderInit34e3855fd0e82d754cc77a4ad0f96eef', 'loadClassLoader'), true, true);
-        self::$loader = $loader = new \Composer\Autoload\ClassLoader(\dirname(__DIR__));
-        spl_autoload_unregister(array('ComposerAutoloaderInit34e3855fd0e82d754cc77a4ad0f96eef', 'loadClassLoader'));
+        spl_autoload_register(
+            [
+                "ComposerAutoloaderInit34e3855fd0e82d754cc77a4ad0f96eef",
+                "loadClassLoader",
+            ],
+            true,
+            true
+        );
+        self::$loader = $loader = new \Composer\Autoload\ClassLoader(
+            \dirname(__DIR__)
+        );
+        spl_autoload_unregister([
+            "ComposerAutoloaderInit34e3855fd0e82d754cc77a4ad0f96eef",
+            "loadClassLoader",
+        ]);
 
-        require __DIR__ . '/autoload_static.php';
-        call_user_func(\Composer\Autoload\ComposerStaticInit34e3855fd0e82d754cc77a4ad0f96eef::getInitializer($loader));
+        require __DIR__ . "/autoload_static.php";
+        call_user_func(
+            \Composer\Autoload\ComposerStaticInit34e3855fd0e82d754cc77a4ad0f96eef::getInitializer(
+                $loader
+            )
+        );
 
         $loader->register(true);
 

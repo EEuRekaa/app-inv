@@ -1,21 +1,22 @@
 <?php
-   session_start();
-   
-   if (!isset($_SESSION['SESSION_EMAIL'])) {
-      header("Location: ../A_admin_login/admin_login.php");
-      die();
-   }
-   
-   
-   
-   include '../../config/connect.php';
-   
-   $query = mysqli_query($conn, "SELECT * FROM admin_account WHERE email = '{$_SESSION['SESSION_EMAIL']}'");
-   
-   if (mysqli_num_rows($query) > 0) {
-      $row = mysqli_fetch_assoc($query);
-   }
-   ?>
+session_start();
+
+if (!isset($_SESSION["SESSION_EMAIL"])) {
+    header("Location: ../A_admin_login/admin_login.php");
+    die();
+}
+
+include "../../config/connect.php";
+
+$query = mysqli_query(
+    $conn,
+    "SELECT * FROM admin_account WHERE email = '{$_SESSION["SESSION_EMAIL"]}'"
+);
+
+if (mysqli_num_rows($query) > 0) {
+    $row = mysqli_fetch_assoc($query);
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
    <head>
@@ -33,14 +34,7 @@
       <link rel="stylesheet" href="assets/css/style.css">
    </head>
    <body>
-      <?php 
-         $query = mysqli_query($conn, "SELECT * FROM admin_account WHERE email = '{$_SESSION['SESSION_EMAIL']}'");
-         
-         if (mysqli_num_rows($query) > 0) {
-            $row = mysqli_fetch_assoc($query);
-         }
-         
-         ?>
+      <?php  ?>
       <div class="main-wrapper">
          <div class="header">
             <div class="header-left">
@@ -67,7 +61,7 @@
                <li class="nav-item dropdown has-arrow main-drop">
                   <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
                   <span class="user-img"><img src="assets/img/user.jpg" alt=""></span>
-                  <span><?php echo $row['username'] ?></span>
+                  <span><?php echo $row["username"]; ?></span>
                   </a>
                   <div class="dropdown-menu">
                      <a class="dropdown-item" href="../admin/logout.php">Logout</a>
@@ -119,9 +113,9 @@
                <div class="page-header">
                   <div class="row">
                      <div class="col">
-                        <h3 class="page-title">Edit Data User</h3>
+                        <h3 class="page-title">Ubah Isi Undangan</h3>
                         <ul class="breadcrumb">
-                           <li class="breadcrumb-item"><a href="tablee.php">Data User</a></li>
+                           <li class="breadcrumb-item"><a href="tablee.php">Undangan</a></li>
                            <li class="breadcrumb-item active">Data Undangan</li>
                         </ul>
                      </div>
@@ -130,71 +124,77 @@
                <div class="row">
                   <div class="col-lg-12">
                      <div class="card">
-                        <div class="card-header">
-                           <h4 class="card-title mb-0">Edit Data Undangan</h4>
+                        <div class="card-header align-content-between">
+                           <h4 class="card-title mb-0">Ubah Isi Undangan</h4>
+                           <div class="text-right"><a href="data_undangan.php" class="text-primary py-2">Kembali</a></div>                           
                         </div>
                         <div class="card-body">
                            <?php
-                              if (isset($_GET['id_ultah'])) {
-                                 $id_ultah = $_GET['id_ultah'];
-                              
-                                 if (empty($id_ultah)) {
-                                    echo "ID tidak ada";
-                                 }
-                              }else {
-                                 die("id tidak ada");
-                              }
-                              
-                              $query = "SELECT * FROM `tb_ultah` WHERE `id_ultah`='$id_ultah'";
-                              $sql = mysqli_query($conn, $query);
-                              while ($hasil = mysqli_fetch_array($sql)){
-                                  
-                                 $id_ultah = $hasil['id_ultah'];
-                                 $judul_acara = $hasil['judul_acara'];
-                                 $deskripsi_acara = $hasil['deskripsi_acara'];
-                                 $hari = $hasil['hari'];
-                                 $tanggal = $hasil['tanggal'];
-                                 $jam = $hasil['jam'];
-                                 $tempat = $hasil['tempat'];
-                              
-                                  $query2 = mysqli_query($conn, "SELECT * FROM user_account");
-                              
-                                          if (mysqli_num_rows($query2) > 0) {
-                                             $row2 = mysqli_fetch_assoc($query2);
-                                          }
-                              
-                                  $query3 = mysqli_query($conn, "SELECT * FROM tema");
-                              
-                                          if (mysqli_num_rows($query3) > 0) {
-                                             $row3 = mysqli_fetch_assoc($query3);
-                                          }
-                              
-                              ?>
-                           <form action="undangan_update.php?id_ultah=<?php echo $id_ultah ?>" method="POST">
+                           if (isset($_GET["id_ultah"])) {
+                               $id_ultah = $_GET["id_ultah"];
+
+                               if (empty($id_ultah)) {
+                                   echo "ID tidak ada";
+                               }
+                           } else {
+                               die("id tidak ada");
+                           }
+
+                           $query = "SELECT * FROM `tb_ultah` WHERE `id_ultah`='$id_ultah'";
+                           $sql = mysqli_query($conn, $query);
+                           while ($hasil = mysqli_fetch_array($sql)) {
+
+                               $id_ultah = $hasil["id_ultah"];
+                               $judul_acara = $hasil["judul_acara"];
+                               $hari = $hasil["hari"];
+                               $tanggal = $hasil["tanggal"];
+                               $jam = $hasil["jam"];
+                               $tempat = $hasil["tempat"];
+
+                               $query2 = mysqli_query(
+                                   $conn,
+                                   "SELECT * FROM user_account"
+                               );
+
+                               if (mysqli_num_rows($query2) > 0) {
+                                   $row2 = mysqli_fetch_assoc($query2);
+                               }
+
+                               $query3 = mysqli_query(
+                                   $conn,
+                                   "SELECT * FROM tema"
+                               );
+
+                               if (mysqli_num_rows($query3) > 0) {
+                                   $row3 = mysqli_fetch_assoc($query3);
+                               }
+                               ?>
+                           <form action="undangan_update.php?id_ultah=<?php echo $id_ultah; ?>" method="POST">
                               <div class="form-group row">
                                  <label class="col-form-label col-md-2">Nama Tema</label>
                                  <div class="col-md-10">
-                                    <input class="form-control" type="text"  readonly value="<?php echo $row3['nama_tema'] ?>">
+                                    <input class="form-control" type="text" disabled value="<?php echo $row3[
+                                        "nama_tema"
+                                    ]; ?>">
                                  </div>
                               </div>
                               <div class="form-group row">
-                                 <label class="col-form-label col-md-2">Username</label>
+                                 <label class="col-form-label col-md-2">Pemilik</label>
                                  <div class="col-md-10">
-                                    <input class="form-control" type="text"  readonly value="<?php echo $row2['username'] ?>">
+                                    <input class="form-control" type="text" disabled value="<?php echo $row2[
+                                        "username"
+                                    ]; ?>">
                                  </div>
                               </div>
                               <div class="form-group row">
                                  <label class="col-form-label col-md-2">Judul Acara</label>
                                  <div class="col-md-10">
-                                    <input class="form-control" type="text" name="judul_acara" required value="<?php echo $hasil['judul_acara'] ?>">
+                                    <input class="form-control" type="text" name="judul_acara" required value="<?php echo $hasil[
+                                        "judul_acara"
+                                    ]; ?>">
                                  </div>
                               </div>
-                              <div class="form-group row">
-                                 <label class="col-form-label col-md-2">Deskripsi Acara</label>
-                                 <div class="col-md-10">
-                                    <input class="form-control" type="text" name="deskripsi_acara" required value="<?php echo $hasil['deskripsi_acara'] ?>">
-                                 </div>
-                              </div>
+                              
                               <div class="form-group row">
                                  <label class="col-form-label col-md-2">Hari</label>
                                  <div class="col-md-10">
@@ -212,19 +212,33 @@
                               <div class="form-group row">
                                  <label class="col-form-label col-md-2">Tanggal</label>
                                  <div class="col-md-10">
-                                    <input class="form-control" type="date" name="tanggal" required value="<?php echo $hasil['tanggal'] ?>">
+                                    <input class="form-control" type="date" name="tanggal" required value="<?php echo $hasil[
+                                        "tanggal"
+                                    ]; ?>">
                                  </div>
                               </div>
                               <div class="form-group row">
                                  <label class="col-form-label col-md-2">jam</label>
                                  <div class="col-md-10">
-                                    <input class="form-control" type="time" name="jam" required value="<?php echo $hasil['jam'] ?>">
+                                    <input class="form-control" type="time" name="jam" required value="<?php echo $hasil[
+                                        "jam"
+                                    ]; ?>">
                                  </div>
                               </div>
                               <div class="form-group row">
-                                 <label class="col-form-label col-md-2">Tempat</label>
+                                 <label class="col-form-label col-md-2">Lokasi</label>
                                  <div class="col-md-10">
-                                    <input class="form-control" type="text" name="tempat" required value="<?php echo $hasil['tempat'] ?>">
+                                    <input class="form-control" type="text" name="tempat" required value="<?php echo $hasil[
+                                        "tempat"
+                                    ]; ?>">
+                                 </div>
+                              </div>
+                              <div class="form-group row">
+                                 <label class="col-form-label col-md-2">Lokasi</label>
+                                 <div class="col-md-10">
+                                    <input class="form-control" type="text" name="detail_tempat" required value="<?php echo $hasil[
+                                        "detail_tempat"
+                                    ]; ?>">
                                  </div>
                               </div>
                               <div class="form-group text-center">
@@ -252,7 +266,9 @@
                                  <!-- MODAL -->
                               </div>
                            </form>
-                           <?php } ?>
+                           <?php
+                           }
+                           ?>
                         </div>
                      </div>
                   </div>
